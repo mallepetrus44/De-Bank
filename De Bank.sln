@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "De Bank", "De Bank\De Bank.csproj", "{ED52E4EC-F57E-42F5-BA9F-C8343C0DC156}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "De Bank", "De Bank\De Bank.csproj", "{ED52E4EC-F57E-42F5-BA9F-C8343C0DC156}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank Test", "Bank Test\Bank Test.csproj", "{1C4558EB-BB40-41A6-8280-5B8D2AF9112E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{ED52E4EC-F57E-42F5-BA9F-C8343C0DC156}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED52E4EC-F57E-42F5-BA9F-C8343C0DC156}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED52E4EC-F57E-42F5-BA9F-C8343C0DC156}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C4558EB-BB40-41A6-8280-5B8D2AF9112E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C4558EB-BB40-41A6-8280-5B8D2AF9112E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C4558EB-BB40-41A6-8280-5B8D2AF9112E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C4558EB-BB40-41A6-8280-5B8D2AF9112E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
