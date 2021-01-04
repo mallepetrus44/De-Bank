@@ -38,7 +38,7 @@ namespace De_Bank.Interfaces
         public void MultiUserSending();
 
         //          De transactie moet gecanceld en terug gedraaid worden als er te weinig saldo is.
-        public void ReTransact();
+        public void ReTransact(double amount);
     }
 
 

@@ -56,9 +56,13 @@ namespace De_Bank.Logic
 
 
         //          De transactie moet gecanceld en terug gedraaid worden als er te weinig saldo is.
-        public void ReTransact()
+        public void ReTransact(double amount)
         {
-            throw new NotImplementedException();
+            var account = new Account();
+            if (account.AccountBalance <= amount && account.AccountMinimum >= amount)
+            {
+
+            }
         }
 
 
