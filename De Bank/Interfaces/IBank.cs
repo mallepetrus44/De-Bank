@@ -1,4 +1,5 @@
-﻿using System;
+﻿using De_Bank.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,23 +14,22 @@ namespace De_Bank.Interfaces
 
 
         //De bank kan per account een overzicht geven van de transacties de afgelopen X seconden
-        public void GetTransactionBySeconds(int seconds, string account);
-
+        IEnumerable<Transaction> GetTransactionBySeconds(int seconds);
 
         //          De bank kan per account een overzicht geven van alleen de positieve/negative transacties(van X sec.)
-        public void GetDebetCreditBySeconds(int seconds, string account);
+        IEnumerable<Transaction> GetDebetCreditBySeconds(int seconds, string selectedAccount);
 
         //          De bank kan een overzicht opvragen van alle accounts gesorteerd op de voorkeur van de bank.
-        public void SortAccounts(string searchstring);
+        IEnumerable<Account> SortAccounts();
 
         //          De bank kan een selectie maken van alle saldo’s die onder een X bedrag staan.
-        public void GetAmountsByAmount(double amount);
+        Account GetAmountsByAmount(double amount);
 
         //          De bank kan automatische betalingen doen om de bijv. 30 sec.
-        public void DoAutoPayment();
+        Transaction DoAutoPayment();
 
         //          De bank Kan het geld van de ene user naar de andere sturen.
-        public void SendMoney(double amount, string AccountA, string AccountB);
+        public Transaction SendMoney();
 
         //          Deze transactie zal 5 seconden duren (gesimuleerd door een thread.sleep)
         public void Sleep();
@@ -38,7 +38,7 @@ namespace De_Bank.Interfaces
         public void MultiUserSending();
 
         //          De transactie moet gecanceld en terug gedraaid worden als er te weinig saldo is.
-        public void ReTransact(double amount);
+        Transaction ReTransact();
     }
 
 
