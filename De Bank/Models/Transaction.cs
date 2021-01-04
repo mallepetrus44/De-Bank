@@ -9,6 +9,7 @@ namespace De_Bank.Models
         public int Id { get; set; }
         public double TransactionAmount { get; set; } 
         public string TransactionDate { get; set; }
+        public bool AutoTransaction { get; set; }
         public virtual List<Account> Accounts { get; set; }
     }
 }

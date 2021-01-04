@@ -12,7 +12,6 @@ namespace De_Bank.Interfaces
         //          De unittest zal de automatische betaling zal moeten starten, 4 keer laten uitvoeren en dan weer stoppen.
 
 
-
         //De bank kan per account een overzicht geven van de transacties de afgelopen X seconden
         public void GetTransactionBySeconds(int seconds, string account);
 

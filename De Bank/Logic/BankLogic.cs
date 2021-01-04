@@ -1,4 +1,6 @@
-﻿using De_Bank.Interfaces;
+﻿using De_Bank.DAL;
+using De_Bank.Interfaces;
+using De_Bank.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +9,12 @@ namespace De_Bank.Logic
 {
     public class BankLogic : IBank
     {
+        private readonly BankDbContext db;
+
         //          De bank kan automatische betalingen doen om de bijv. 30 sec.
         public void DoAutoPayment()
         {
+            
             throw new NotImplementedException();
         }
 
@@ -17,7 +22,15 @@ namespace De_Bank.Logic
         //          De bank kan een selectie maken van alle saldo’s die onder een X bedrag staan.
         public void GetAmountsByAmount(double amount)
         {
-            throw new NotImplementedException();
+            List<Account> Accounts = new List<Account>();
+
+            foreach(var saldo in db.Accounts)
+            {
+               if (saldo.AccountBalance<=amount)
+                {
+                    Accounts.Add(saldo);
+                }
+            }
         }
 
 
