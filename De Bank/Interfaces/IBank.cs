@@ -26,16 +26,13 @@ namespace De_Bank.Interfaces
         Account GetAmountsByAmount(double amount);
 
         //          De bank kan automatische betalingen doen om de bijv. 30 sec.
-        Transaction DoAutoPayment();
+        Transaction DoAutoPayment(Account accountA, Account accountB, double amount, int seconds);
 
         //          De bank Kan het geld van de ene user naar de andere sturen.
-        public Transaction SendMoney();
+       Transaction SendMoney(Account accountA, Account accountB, double amount, int seconds);
 
         //          Deze transactie zal 5 seconden duren (gesimuleerd door een thread.sleep)
-        public void Sleep();
-
-        //          Er mogen meerdere users tegelijk van de zelfde rekening afschrijven. (Multi-Threading ).
-        public void MultiUserSending();
+        void Sleep();
 
         //          De transactie moet gecanceld en terug gedraaid worden als er te weinig saldo is.
         Transaction ReTransact();
