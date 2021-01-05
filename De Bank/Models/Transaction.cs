@@ -10,6 +10,10 @@ namespace De_Bank.Models
         public double TransactionAmount { get; set; } 
         public DateTime TransactionDate { get; set; }
         public bool AutoTransaction { get; set; }
-        public virtual List<Account> Accounts { get; set; }
+        public int AutoTransactionFrequentyDays { get; set; }
+        public Account Account1 { get; set; }
+        public bool MinusAccount1 { get; set; }
+        public Account Account2 { get; set; }
+        public bool PlusAccount2 { get; set; }
     }
 }
