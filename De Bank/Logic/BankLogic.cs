@@ -32,6 +32,7 @@ namespace De_Bank.Logic
         }
 
         
+        // Alle transacties ophalen voor account
         public List<Transaction> GetAllTransactionsFromAccount(Account account)
         {
             List<Transaction> AllTransactions = new List<Transaction>();
@@ -44,6 +45,8 @@ namespace De_Bank.Logic
             return AllTransactions;
         }
 
+
+        // Alle debit transacties ophalen van account
         public List<Transaction> GetAllDebitFromAccount(Account account)
         {
             List<Transaction> AllTransactionsDebet = new List<Transaction>();
@@ -57,6 +60,7 @@ namespace De_Bank.Logic
         }
 
 
+        // Alle credit transacties ophalen van account
         public List<Transaction> GetAllCreditFromAccount(Account account)
         {
             List<Transaction> AllTransactionsCredit = new List<Transaction>();
@@ -69,6 +73,7 @@ namespace De_Bank.Logic
             return AllTransactionsCredit;
         }
  
+        // Alle saldo's ophalen boven bedrag X
         public List<Account> GetAllBalancesAbove(int? value)
         {
             List<Account> AllBalancesAbove = new List<Account>();
@@ -81,7 +86,7 @@ namespace De_Bank.Logic
             return AllBalancesAbove;
         }
 
-
+        // Alle saldo's ophalen onder bedrag X
         public List<Account> GetAllBalancesBelow(int? value)
         {
             List<Account> AllBalancesBelow = new List<Account>();
@@ -94,6 +99,7 @@ namespace De_Bank.Logic
             return AllBalancesBelow;
         }
 
+        // Maak een transactie aan
         public Task<Transaction> CreateTransaction(Account account1, Account account2,bool auto, int frequenty, 
                                                                         double amount)
         {
@@ -125,25 +131,25 @@ namespace De_Bank.Logic
 
         }
 
+
+        // Controleer of er al een periodieke betaling bestaat
         private bool CheckAutoTransaction(Transaction transaction)
         {
             DateTime now = DateTime.Now;
 
             List<Transaction> transactions = new List<Transaction>();
 
+
+            //filter uit lijst op account 1, account 2, auto = true
             foreach(var item in db.Transactions.Where(a => a.Account1 == transaction.Account1).Where(t => t.Account2 == transaction.Account2).Where(f => f.AutoTransaction))
             {
-                if(item.TransactionDate >= now.AddDays(-item.AutoTransactionFrequentyDays))
+                // bepaal of er een kans bestaat op een dubbele periodieke boeking
+                if(now <= item.TransactionDate.AddDays(item.AutoTransactionFrequentyDays))
                 {
-                    transactions.Add(item);;
-                }
+                    return true;
+                }            
             }
-            if(transactions.Count >=0)
-            {
-                //er bestaat al een periodieke betaling
-                return false;
-            }
-            return true;
+            return false;
         }
 
         public Task<Transaction> TransactionModel()
