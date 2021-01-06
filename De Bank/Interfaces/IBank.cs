@@ -29,7 +29,7 @@ namespace De_Bank.Interfaces
         Transaction DoAutoPayment(Account accountA, Account accountB, double amount, int seconds);
 
         //          De bank Kan het geld van de ene user naar de andere sturen.
-       Transaction SendMoney(Account accountA, Account accountB, double amount, int seconds);
+        Transaction SendMoney(Account accountA, Account accountB, double amount, int seconds);
 
         //          Deze transactie zal 5 seconden duren (gesimuleerd door een thread.sleep)
         void Sleep();

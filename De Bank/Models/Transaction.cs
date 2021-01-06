@@ -22,6 +22,7 @@ namespace De_Bank.Models
 
         public double TransactionAmount { get; set; }
         public DateTime TransactionDate { get; set; }
+        public int TransactionId { get; set; }
 
         public bool AutoTransaction { get; set; }
         public int AutoTransactionFrequentyDays { get; set; }

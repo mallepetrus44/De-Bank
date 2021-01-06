@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace De_Bank.Logic
@@ -15,25 +16,28 @@ namespace De_Bank.Logic
         // db is DbContext
         private readonly BankDbContext db = new BankDbContext();
 
+
         //De bank kan per account een overzicht geven van de transacties de afgelopen X seconden
-        private List<Transaction> GetDataForSeconds(int seconds, Account account)
+        private async Task<List<Transaction>> GetDataForSeconds(int seconds, Account account)
         {
             //Tijdmarkering berekenen
             DateTime referenceDate = DateTime.Now.AddSeconds(-seconds);
-
-
             //verzamel alle transacties uit de db die dit account.id bevatten
-            var AllTransActions = GetAllTransactionsFromAccount(account)
-                                  .Where(a => a.TransactionDate >= referenceDate);
-
-
+            IEnumerable<Transaction> AllTransActions = await Task.Run(() => GetAccountTransactions(account)
+                                            .Where(a => a.TransactionDate >= referenceDate));
             //return voledige 'output'
             return AllTransActions.ToList();
         }
 
-        
+        private async Task GetAccount(Account account)
+        {
+            List<Transaction> AllTransactions = await Task.Run(() => GetAccountTransactions(account));
+            List<Transaction> AllTransactionsDebet = await Task.Run(() => GetAllDebetFromAccount(account));
+            List<Transaction> AllTransactionsCredit = await Task.Run(() => GetAllCreditFromAccount(account));
+        }
+
         // Alle transacties ophalen voor account
-        public List<Transaction> GetAllTransactionsFromAccount(Account account)
+        private List<Transaction> GetAccountTransactions(Account account)
         {
             List<Transaction> AllTransactions = new List<Transaction>();
 
@@ -47,7 +51,7 @@ namespace De_Bank.Logic
 
 
         // Alle debit transacties ophalen van account
-        public List<Transaction> GetAllDebitFromAccount(Account account)
+        private List<Transaction> GetAllDebetFromAccount(Account account)
         {
             List<Transaction> AllTransactionsDebet = new List<Transaction>();
 
@@ -61,7 +65,7 @@ namespace De_Bank.Logic
 
 
         // Alle credit transacties ophalen van account
-        public List<Transaction> GetAllCreditFromAccount(Account account)
+        private List<Transaction> GetAllCreditFromAccount(Account account)
         {
             List<Transaction> AllTransactionsCredit = new List<Transaction>();
 
@@ -73,8 +77,9 @@ namespace De_Bank.Logic
             return AllTransactionsCredit;
         }
  
+
         // Alle saldo's ophalen boven bedrag X
-        public List<Account> GetAllBalancesAbove(int? value)
+        private List<Account> GetAllBalancesAbove(int? value)
         {
             List<Account> AllBalancesAbove = new List<Account>();
 
@@ -86,8 +91,9 @@ namespace De_Bank.Logic
             return AllBalancesAbove;
         }
 
+
         // Alle saldo's ophalen onder bedrag X
-        public List<Account> GetAllBalancesBelow(int? value)
+        private List<Account> GetAllBalancesBelow(int? value)
         {
             List<Account> AllBalancesBelow = new List<Account>();
 
@@ -100,32 +106,26 @@ namespace De_Bank.Logic
         }
 
         // Maak een transactie aan
-        public Task<Transaction> CreateTransaction(Account account1, Account account2,bool auto, int frequenty, 
-                                                                        double amount)
+        private async Task<Transaction> CreateTransaction(Transaction transaction)
         {
-            Transaction transaction = new Transaction();
+            var result = await Task.Run(() => CheckAutoTransaction(transaction));
+            if (result)
             {
-                transaction.Account1 = account1;
-                transaction.AmountAccount1Before = account1.AccountBalance;
-                transaction.AmountAccount1After = account1.AccountBalance - amount;
-
-                transaction.Account2 = account2;
-                transaction.AmountAccount2Before = account2.AccountBalance;
-                transaction.AmountAccount2After = account2.AccountBalance + amount;
-
-                transaction.TransactionAmount = amount;
-                transaction.TransactionDate = DateTime.Now;
-
-                transaction.AutoTransaction = auto; //bool
-                transaction.AutoTransactionFrequentyDays = frequenty;
-                
-            }
-            var result = CheckAutoTransaction(transaction);
-            if(result)
-            {
+                //haal amount van account 1
+                transaction.Account1.AccountBalance = transaction.Account1.AccountBalance - transaction.TransactionAmount;
+                //wacht 2,5 seconden sync
+                Thread.Sleep(2500);
+                //stort amount op account 2
+                transaction.Account2.AccountBalance = transaction.Account2.AccountBalance + transaction.TransactionAmount;
+                //wacht 5 seconden async
+                await Task.Delay(5000);
+                //doorvoeren transactie
                 db.Transactions.Add(transaction);
-                db.SaveChanges();               
+                db.SaveChanges();
             }
+
+
+            // TODO: er bestaat al een perodieke transactie! ->> laat zien ->> vraag : toch uitvoeren?
             return null;
 
 
@@ -139,6 +139,7 @@ namespace De_Bank.Logic
 
             List<Transaction> transactions = new List<Transaction>();
 
+            int counter = 0;
 
             //filter uit lijst op account 1, account 2, auto = true
             foreach(var item in db.Transactions.Where(a => a.Account1 == transaction.Account1).Where(t => t.Account2 == transaction.Account2).Where(f => f.AutoTransaction))
@@ -146,15 +147,15 @@ namespace De_Bank.Logic
                 // bepaal of er een kans bestaat op een dubbele periodieke boeking
                 if(now <= item.TransactionDate.AddDays(item.AutoTransactionFrequentyDays))
                 {
-                    return true;
-                }            
+                    counter += 1;
+                }                   
+            }
+            if (counter>=0)
+            {
+                return true;
             }
             return false;
         }
-
-        public Task<Transaction> TransactionModel()
-        {
-            return null;
-        }
+       
     }
 }
