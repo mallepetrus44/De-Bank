@@ -44,23 +44,11 @@ namespace De_Bank.Logic
             return AllTransactions;
         }
 
-        public List<Transaction> GetAllCreditFromAccount(Account account)
-        {
-            List<Transaction> AllTransactionsCredit = new List<Transaction>();
-
-            foreach (var item in account.Transactions.Where(i => i.PlusAccount2 = true))
-            {
-                AllTransactionsCredit.Add(item);
-            }
-
-            return AllTransactionsCredit;
-        }
-
         public List<Transaction> GetAllDebitFromAccount(Account account)
         {
             List<Transaction> AllTransactionsDebet = new List<Transaction>();
 
-            foreach (var item in account.Transactions.Where(i => i.MinusAccount1 = true))
+            foreach (var item in account.Transactions.Where(i => i.Account1.Id == account.Id)) //debet
             {
                 AllTransactionsDebet.Add(item);
             }
@@ -69,6 +57,18 @@ namespace De_Bank.Logic
         }
 
 
+        public List<Transaction> GetAllCreditFromAccount(Account account)
+        {
+            List<Transaction> AllTransactionsCredit = new List<Transaction>();
+
+            foreach (var item in account.Transactions.Where(i => i.Account2.Id == account.Id)) //credit
+            {
+                AllTransactionsCredit.Add(item);               
+            }
+
+            return AllTransactionsCredit;
+        }
+ 
         public List<Account> GetAllBalancesAbove(int? value)
         {
             List<Account> AllBalancesAbove = new List<Account>();
@@ -92,6 +92,63 @@ namespace De_Bank.Logic
             }
 
             return AllBalancesBelow;
+        }
+
+        public Task<Transaction> CreateTransaction(Account account1, Account account2,bool auto, int frequenty, 
+                                                                        double amount)
+        {
+            Transaction transaction = new Transaction();
+            {
+                transaction.Account1 = account1;
+                transaction.AmountAccount1Before = account1.AccountBalance;
+                transaction.AmountAccount1After = account1.AccountBalance - amount;
+
+                transaction.Account2 = account2;
+                transaction.AmountAccount2Before = account2.AccountBalance;
+                transaction.AmountAccount2After = account2.AccountBalance + amount;
+
+                transaction.TransactionAmount = amount;
+                transaction.TransactionDate = DateTime.Now;
+
+                transaction.AutoTransaction = auto; //bool
+                transaction.AutoTransactionFrequentyDays = frequenty;
+                
+            }
+            var result = CheckAutoTransaction(transaction);
+            if(result)
+            {
+                db.Transactions.Add(transaction);
+                db.SaveChanges();               
+            }
+            return null;
+
+
+        }
+
+        private bool CheckAutoTransaction(Transaction transaction)
+        {
+            DateTime now = DateTime.Now;
+
+            List<Transaction> transactions = new List<Transaction>();
+
+            foreach(var item in db.Transactions.Where(a => a.Account1 == transaction.Account1).Where(t => t.Account2 == transaction.Account2).Where(f => f.AutoTransaction))
+            {
+                if(item.TransactionDate >= now.AddDays(-item.AutoTransactionFrequentyDays))
+                {
+                    transactions.Add(item);;
+                }
+            }
+            if(transactions.Count >=0)
+            {
+                //er bestaat al een periodieke betaling
+                return false;
+            }
+            return true;
+        }
+
+        public Task<Transaction> TransactionModel()
+        {
+            return null;
         }
     }
 }
