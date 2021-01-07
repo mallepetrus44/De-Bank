@@ -1,4 +1,5 @@
-﻿using De_Bank.Models;
+﻿using De_Bank.Logic;
+using De_Bank.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bank_Test
@@ -6,45 +7,42 @@ namespace Bank_Test
     [TestClass]
     public class AccountShould
     {
+        Account account1;
+        Account account2;
+        Transaction transaction;
+        AccountHolder accountHolder1;
+        AccountHolder accountHolder2;
+        BankLogic bankLogic;
 
-         [TestInitialize]
+        [TestInitialize]
+
         public void TestInitialize()
         {
-            Account account1 = new Account
-            {
-                Id = 1,
-                AccountBalance = 1000.00,
-                AccountMinimum = 0.00,
-
-            };
-            Account account2 = new Account
-            {
-                Id = 2,
-                AccountBalance = 1000.00,
-                AccountMinimum = 0.00,
-            };
-
-            AccountHolder accountHolder = new AccountHolder
-            {
-                Id = 1,
-                AccountHolderName = "John Wilder",
-            };
-
-            Transaction transaction = new Transaction
-            {
-                TransactionAmount = 2
-            };
+            account1 = new Account();
+            account2 = new Account();
+            transaction = new Transaction();
+            accountHolder1 = new AccountHolder();
+            accountHolder2 = new AccountHolder();
+            bankLogic = new BankLogic();
         }
+
 
         [TestMethod]
+        [TestCategory("Account")]
         public void StartAmountMustBeZero()
         {
-            var account = new Account();
-
-            Assert.AreEqual(0, account.AccountBalance);
+            Assert.AreEqual(0, account1.AccountBalance);
         }
 
-      
+
+        [TestMethod]
+        [TestCategory("Transaction")]
+        public void MakeTransactionTest()
+        {
+            
+        }
 
     }
+
+
 }
