@@ -16,6 +16,55 @@ namespace De_Bank.Logic
         private readonly BankDbContext db = new BankDbContext();
 
 
+        //standaard data
+        private string GetVar()
+        {
+            var prefix = "NL71" + "LYMB";
+            return prefix;
+        }
+
+
+        //Een account aanmaken
+        private async Task<Account> CreateAccountAsync(AccountHolder accountHolder)
+        {
+            Account NewAccount = new Account();
+            NewAccount.AccountBalance = 0;
+            NewAccount.AccountHolder = accountHolder;
+            NewAccount.AccountNumber = await Task.Run(() => GetNextAccountNumber());
+            db.Accounts.Add(NewAccount);
+            db.SaveChanges();
+            return NewAccount;
+        }
+
+
+        // een random bankrekeningnummer maken
+        private Task<AccountHolder> CreateAccountHolder(string input)
+        {
+            if (input != "" || input != null)
+            {
+                AccountHolder NewAccountHolder = new AccountHolder();
+                NewAccountHolder.AccountHolderName = input;
+                db.AccountHolders.Add(NewAccountHolder);
+                db.SaveChanges();
+                return null;
+            }
+
+            return null;
+
+        }
+
+        //volgende accountnummer ophalen
+        private async Task<string> GetNextAccountNumber()
+        {
+            var prefix = await Task.Run(() => GetVar());
+            var i = await Task.Run(() => db.Accounts.Count()+1);
+            var NewAccountNumber = prefix + i.ToString().PadLeft(9, '0');
+           
+            return NewAccountNumber;
+        }
+
+
+
         //De bank kan per account een overzicht geven van de transacties de afgelopen X seconden
         private async Task<List<Transaction>> GetDataForSeconds(int seconds, Account account)
         {
@@ -129,9 +178,6 @@ namespace De_Bank.Logic
             }
                 // TODO: er bestaat al een perodieke transactie! ->> laat zien ->> vraag : toch uitvoeren?
                     return null;
-
-
-
         }
 
 
