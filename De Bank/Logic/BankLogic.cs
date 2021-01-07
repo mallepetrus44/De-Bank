@@ -107,25 +107,29 @@ namespace De_Bank.Logic
         // Maak een transactie aan
         private async Task<Transaction> CreateTransaction(Transaction transaction)
         {
-            var result = await Task.Run(() => CheckAutoTransaction(transaction));
-            if (result)
+            //bedrag van overboeking mag niet onder 0 zijn
+            if (transaction.TransactionAmount >= 0)
             {
-                //haal amount van account 1
-                transaction.Account1.AccountBalance = transaction.Account1.AccountBalance - transaction.TransactionAmount;
-                //wacht 2,5 seconden sync
-                Thread.Sleep(2500);
-                //stort amount op account 2
-                transaction.Account2.AccountBalance = transaction.Account2.AccountBalance + transaction.TransactionAmount;
-                //wacht 5 seconden async
-                await Task.Delay(5000);
-                //doorvoeren transactie
-                db.Transactions.Add(transaction);
-                db.SaveChanges();
+                var result = await Task.Run(() => CheckAutoTransaction(transaction));
+                if (result)
+                {
+                    //haal amount van account 1
+                    transaction.Account1.AccountBalance = transaction.Account1.AccountBalance - transaction.TransactionAmount;
+                    //wacht 2,5 seconden sync
+                    Thread.Sleep(2500);
+                    //stort amount op account 2
+                    transaction.Account2.AccountBalance = transaction.Account2.AccountBalance + transaction.TransactionAmount;
+                    //wacht 5 seconden async
+                    await Task.Delay(5000);
+                    //doorvoeren transactie
+                    db.Transactions.Add(transaction);
+                    db.SaveChanges();
+                }
+
             }
+                // TODO: er bestaat al een perodieke transactie! ->> laat zien ->> vraag : toch uitvoeren?
+                    return null;
 
-
-            // TODO: er bestaat al een perodieke transactie! ->> laat zien ->> vraag : toch uitvoeren?
-            return null;
 
 
         }
