@@ -24,7 +24,7 @@ namespace De_Bank.Logic
             DateTime referenceDate = DateTime.Now.AddSeconds(-seconds);
             //verzamel alle transacties uit de db die dit account.id bevatten
             IEnumerable<Transaction> AllTransActions = await Task.Run(() => GetAccountTransactions(account)
-                                            .Where(a => a.TransactionDate >= referenceDate));
+                                                                 .Where(a => a.TransactionDate >= referenceDate));
             //return voledige 'output'
             return AllTransActions.ToList();
         }
