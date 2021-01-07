@@ -17,7 +17,7 @@ namespace De_Bank.Logic
 
 
         //standaard data
-        private string GetVar()
+        public string GetVar()
         {
             var prefix = "NL71" + "LYMB";
             return prefix;
@@ -25,7 +25,7 @@ namespace De_Bank.Logic
 
 
         //Een account aanmaken
-        private async Task<Account> CreateAccountAsync(AccountHolder accountHolder)
+        public async Task<Account> CreateAccountAsync(AccountHolder accountHolder)
         {
             Account NewAccount = new Account();
             NewAccount.AccountBalance = 0;
@@ -38,7 +38,7 @@ namespace De_Bank.Logic
 
 
         // een random bankrekeningnummer maken
-        private Task<AccountHolder> CreateAccountHolder(string input)
+        public Task<AccountHolder> CreateAccountHolder(string input)
         {
             if (input != "" || input != null)
             {
@@ -54,7 +54,7 @@ namespace De_Bank.Logic
         }
 
         //volgende accountnummer ophalen
-        private async Task<string> GetNextAccountNumber()
+        public async Task<string> GetNextAccountNumber()
         {
             var prefix = await Task.Run(() => GetVar());
             var i = await Task.Run(() => db.Accounts.Count()+1);
@@ -66,7 +66,7 @@ namespace De_Bank.Logic
 
 
         //De bank kan per account een overzicht geven van de transacties de afgelopen X seconden
-        private async Task<List<Transaction>> GetDataForSeconds(int seconds, Account account)
+        public async Task<List<Transaction>> GetDataForSeconds(int seconds, Account account)
         {
             //Tijdmarkering berekenen
             DateTime referenceDate = DateTime.Now.AddSeconds(-seconds);
@@ -78,7 +78,7 @@ namespace De_Bank.Logic
             return AllTransActions.ToList();
         }
 
-        private async Task GetAccountAsync(Account account)
+        public async Task GetAccountAsync(Account account)
         {
             List<Transaction> AllTransactions = await Task.Run(() => GetAccountTransactions(account));
             List<Transaction> AllTransactionsDebet = await Task.Run(() => GetAllDebetFromAccount(account));
@@ -86,7 +86,7 @@ namespace De_Bank.Logic
         }
 
         // Alle transacties ophalen voor account
-        private List<Transaction> GetAccountTransactions(Account account)
+        public List<Transaction> GetAccountTransactions(Account account)
         {
             List<Transaction> AllTransactions = new List<Transaction>();
 
@@ -99,7 +99,7 @@ namespace De_Bank.Logic
 
 
         // Alle debit transacties ophalen van account
-        private List<Transaction> GetAllDebetFromAccount(Account account)
+        public List<Transaction> GetAllDebetFromAccount(Account account)
         {
             List<Transaction> AllTransactionsDebet = new List<Transaction>();
 
@@ -113,7 +113,7 @@ namespace De_Bank.Logic
 
 
         // Alle credit transacties ophalen van account
-        private List<Transaction> GetAllCreditFromAccount(Account account)
+        public List<Transaction> GetAllCreditFromAccount(Account account)
         {
             List<Transaction> AllTransactionsCredit = new List<Transaction>();
 
@@ -124,10 +124,10 @@ namespace De_Bank.Logic
 
             return AllTransactionsCredit;
         }
- 
+
 
         // Alle saldo's ophalen boven bedrag X
-        private List<Account> GetAllBalancesAbove(int? value)
+        public List<Account> GetAllBalancesAbove(int? value)
         {
             List<Account> AllBalancesAbove = new List<Account>();
 
@@ -141,7 +141,7 @@ namespace De_Bank.Logic
 
 
         // Alle saldo's ophalen onder bedrag X
-        private List<Account> GetAllBalancesBelow(int? value)
+        public List<Account> GetAllBalancesBelow(int? value)
         {
             List<Account> AllBalancesBelow = new List<Account>();
 
@@ -154,7 +154,7 @@ namespace De_Bank.Logic
         }
 
         // Maak een transactie aan
-        private async Task<Transaction> CreateTransaction(Transaction transaction)
+        public async Task<Transaction> CreateTransaction(Transaction transaction)
         {
             //bedrag van overboeking mag niet onder 0 zijn
             if (transaction.TransactionAmount >= 0)
@@ -182,7 +182,7 @@ namespace De_Bank.Logic
 
 
         // Controleer of er al een periodieke betaling bestaat
-        private bool CheckAutoTransaction(Transaction transaction)
+        public bool CheckAutoTransaction(Transaction transaction)
         {
             DateTime now = DateTime.Now;
 
