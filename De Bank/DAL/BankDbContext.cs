@@ -11,6 +11,5 @@ namespace De_Bank.DAL
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<AccountHolder> AccountHolders { get; set; }
-        public DbSet<Bank> Bank { get; set; }
     }
 }
