@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Bank_Test
 {
     [TestClass]
-    public class BankLogicTest
+    public class DataTesting
     {
         Account account;
         AccountHolder accountHolder;
