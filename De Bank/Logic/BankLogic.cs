@@ -1,5 +1,4 @@
 ﻿using De_Bank.DAL;
-using De_Bank.Interfaces;
 using De_Bank.Models;
 using System;
 using System.Collections.Generic;
@@ -22,6 +21,7 @@ namespace De_Bank.Logic
         {
             //Tijdmarkering berekenen
             DateTime referenceDate = DateTime.Now.AddSeconds(-seconds);
+
             //verzamel alle transacties uit de db die dit account.id bevatten
             IEnumerable<Transaction> AllTransActions = await Task.Run(() => GetAccountTransactions(account)
                                                                  .Where(a => a.TransactionDate >= referenceDate));
@@ -29,7 +29,7 @@ namespace De_Bank.Logic
             return AllTransActions.ToList();
         }
 
-        private async Task GetAccount(Account account)
+        private async Task GetAccountAsync(Account account)
         {
             List<Transaction> AllTransactions = await Task.Run(() => GetAccountTransactions(account));
             List<Transaction> AllTransactionsDebet = await Task.Run(() => GetAllDebetFromAccount(account));
@@ -45,7 +45,6 @@ namespace De_Bank.Logic
             {
                 AllTransactions.Add(item);
             }
-
             return AllTransactions;
         }
 
@@ -152,9 +151,9 @@ namespace De_Bank.Logic
             }
             if (counter>=0)
             {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
        
     }
