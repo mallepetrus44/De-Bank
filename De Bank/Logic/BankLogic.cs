@@ -1,5 +1,4 @@
-﻿using De_Bank.DAL;
-using De_Bank.Models;
+﻿using De_Bank.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +10,6 @@ namespace De_Bank.Logic
 {
     public class BankLogic
     {
-
-        // db is DbContext
-        private readonly BankDbContext db = new BankDbContext();
-
         //private object accountlock = new object();
 
         //standaard data account 1 = NL71LYMB000000001
@@ -34,8 +29,8 @@ namespace De_Bank.Logic
             NewAccount.AccountHolder.MiddleName = accountHolder.MiddleName;
             NewAccount.AccountHolder.LastName = accountHolder.LastName;
             NewAccount.AccountNumber = await Task.Run(() => GetNextAccountNumber(NewAccount));
-            db.Accounts.Add(NewAccount);
-            db.SaveChanges();
+            //db.Accounts.Add(NewAccount);
+            //db.SaveChanges();
             return NewAccount;
         }
 
@@ -54,8 +49,8 @@ namespace De_Bank.Logic
                 NewAccountHolder.FirstName = firstname;
                 NewAccountHolder.MiddleName = middlename;
                 NewAccountHolder.LastName = lastname;
-                db.AccountHolders.Add(NewAccountHolder);
-                db.SaveChanges();
+                //db.AccountHolders.Add(NewAccountHolder);
+                //db.SaveChanges();
                 return true;
             }
             return false;
@@ -118,18 +113,18 @@ namespace De_Bank.Logic
         }
 
         // Alle saldo's ophalen boven bedrag X
-        public List<Account> GetAllBalancesAbove(int value)
-        {
-            List<Account> AllBalancesAbove = new List<Account>(db.Accounts.Where(i => i.AccountBalance >= value));
-            return AllBalancesAbove;
-        }
+        //public List<Account> GetAllBalancesAbove(int value)
+        //{
+        //    List<Account> AllBalancesAbove = new List<Account>(db.Accounts.Where(i => i.AccountBalance >= value));
+        //    return AllBalancesAbove;
+        //}
 
-        // Alle saldo's ophalen onder bedrag X
-        public List<Account> GetAllBalancesBelow(int value)
-        {
-            List<Account> AllBalancesBelow = new List<Account>(db.Accounts.Where(i => i.AccountBalance <= value));
-            return AllBalancesBelow;
-        }
+        //// Alle saldo's ophalen onder bedrag X
+        //public List<Account> GetAllBalancesBelow(int value)
+        //{
+        //    List<Account> AllBalancesBelow = new List<Account>(db.Accounts.Where(i => i.AccountBalance <= value));
+        //    return AllBalancesBelow;
+        //}
 
         // Maak een transactie aan
         public async Task<Transaction> CreateTransactionAsync(Account account, Transaction transaction)
@@ -163,8 +158,9 @@ namespace De_Bank.Logic
                         //wacht 5 seconden async
                         await Task.Delay(5000);
                         //doorvoeren transactie
-                        db.Transactions.Add(transaction);
-                        db.SaveChanges();
+
+                        //db.Transactions.Add(transaction);
+                        //db.SaveChanges();
                     }
                     // TODO: er bestaat al een perodieke transactie! ->> laat zien ->> vraag : toch uitvoeren?
                 }
