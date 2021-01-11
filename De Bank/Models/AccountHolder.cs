@@ -8,6 +8,6 @@ namespace De_Bank.Models
     {
         public int Id { get; set; }
         public string AccountHolderName { get; set; }
-        public virtual List<Account> Accounts { get; set; }
+        public List<Account> Accounts { get; set; }
     }
 }

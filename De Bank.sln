@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "De Bank", "De Bank\De Bank.csproj", "{ED52E4EC-F57E-42F5-BA9F-C8343C0DC156}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank Test", "Bank Test\Bank Test.csproj", "{1C4558EB-BB40-41A6-8280-5B8D2AF9112E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bank Test", "Bank Test\Bank Test.csproj", "{1C4558EB-BB40-41A6-8280-5B8D2AF9112E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank.FrontEnd", "Bank.FrontEnd\Bank.FrontEnd.csproj", "{5601A0BC-6A7E-4161-B8A2-DD01C772C32D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{1C4558EB-BB40-41A6-8280-5B8D2AF9112E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C4558EB-BB40-41A6-8280-5B8D2AF9112E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C4558EB-BB40-41A6-8280-5B8D2AF9112E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5601A0BC-6A7E-4161-B8A2-DD01C772C32D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5601A0BC-6A7E-4161-B8A2-DD01C772C32D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5601A0BC-6A7E-4161-B8A2-DD01C772C32D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5601A0BC-6A7E-4161-B8A2-DD01C772C32D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
