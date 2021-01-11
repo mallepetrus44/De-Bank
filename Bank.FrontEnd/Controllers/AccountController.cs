@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bank.FrontEnd.Data;
 using De_Bank.Models;
+using De_Bank.Logic;
 
 namespace Bank.FrontEnd.Controllers
 {
     public class AccountController : Controller
     {
+        //BankLogic bl = new BankLogic();
         private readonly ApplicationDbContext _context;
 
         public AccountController(ApplicationDbContext context)
@@ -54,8 +56,9 @@ namespace Bank.FrontEnd.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AccountNumber,AccountLock,AccountBalance,AccountMinimum")] Account account)
+        public async Task<IActionResult> Create([Bind("Id,AccountNumber,AccountLock,AccountBalance,AccountMinimum")] Account account/*, AccountHolder accountHolder*/)
         {
+            //var x = await Task.Run(() => bl.CreateAccountAsync(accountHolder));
             if (ModelState.IsValid)
             {
                 _context.Add(account);
