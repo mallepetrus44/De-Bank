@@ -15,6 +15,7 @@ namespace De_Bank.Logic
         // db is DbContext
         private readonly BankDbContext db = new BankDbContext();
 
+        //private object accountlock = new object();
 
         //standaard data account 1 = NL71LYMB000000001
         public string GetVar()
@@ -29,8 +30,10 @@ namespace De_Bank.Logic
         {
             Account NewAccount = new Account();
             NewAccount.AccountBalance = 0;
-            NewAccount.AccountHolder = accountHolder;
-            NewAccount.AccountNumber = await Task.Run(() => GetNextAccountNumber());
+            NewAccount.AccountHolder.FirstName = accountHolder.FirstName;
+            NewAccount.AccountHolder.MiddleName = accountHolder.MiddleName;
+            NewAccount.AccountHolder.LastName = accountHolder.LastName;
+            NewAccount.AccountNumber = await Task.Run(() => GetNextAccountNumber(NewAccount));
             db.Accounts.Add(NewAccount);
             db.SaveChanges();
             return NewAccount;
@@ -38,25 +41,32 @@ namespace De_Bank.Logic
 
 
         // een random bankrekeningnummer maken
-        public Task<AccountHolder> CreateAccountHolder(string input)
+        public bool CreateAccountHolder(string firstname, string middlename, string lastname)
         {
-            if (input != "" || input != null)
+            if(middlename ==null)
+            {
+                middlename = "";
+            }
+
+            if (firstname != "" || lastname != "" || firstname != null || lastname !=null)
             {
                 AccountHolder NewAccountHolder = new AccountHolder();
-                NewAccountHolder.AccountHolderName = input;
+                NewAccountHolder.FirstName = firstname;
+                NewAccountHolder.MiddleName = middlename;
+                NewAccountHolder.LastName = lastname;
                 db.AccountHolders.Add(NewAccountHolder);
                 db.SaveChanges();
-                return null;
+                return true;
             }
-            return null;
-
+            return false;
         }
+       
 
         //volgende accountnummer ophalen
-        public async Task<string> GetNextAccountNumber()
+        public async Task<string> GetNextAccountNumber(Account account)
         {
             var prefix = await Task.Run(() => GetVar());
-            var i = await Task.Run(() => db.Accounts.Count()+1);
+            var i = account.Id;
             var NewAccountNumber = prefix + i.ToString().PadLeft(9, '0');
            
             return NewAccountNumber;
@@ -77,17 +87,18 @@ namespace De_Bank.Logic
             return AllTransActions.ToList();
         }
 
-        public async Task GetAccountAsync(Account account)
-        {
-            List<Transaction> AllTransactions = await Task.Run(() => GetAccountTransactions(account));
-            List<Transaction> AllTransactionsDebet = await Task.Run(() => GetAllDebetFromAccount(account));
-            List<Transaction> AllTransactionsCredit = await Task.Run(() => GetAllCreditFromAccount(account));
-        }
+        //public async Task GetAccountAsync(Account account)
+        //{
+        //    List<Transaction> AllTransactions = await Task.Run(() => GetAccountTransactions(account));
+        //    List<Transaction> AllTransactionsDebet = await Task.Run(() => GetAllDebetFromAccount(account));
+        //    List<Transaction> AllTransactionsCredit = await Task.Run(() => GetAllCreditFromAccount(account));
+        //}
+
 
         // Alle transacties ophalen voor account
         public List<Transaction> GetAccountTransactions(Account account)
         {
-            List<Transaction> Alltransactions = new List<Transaction>(db.Transactions.Where(t => t.AccountFrom.Id == account.Id && t.AccountTo.Id == account.Id));
+            List<Transaction> Alltransactions = new List<Transaction>(account.transactions);
             return Alltransactions;
         }
 
@@ -95,18 +106,16 @@ namespace De_Bank.Logic
         // Alle debit transacties ophalen van account
         public List<Transaction> GetAllDebetFromAccount(Account account)
         {
-            List<Transaction> AllTransactionsDebet = new List<Transaction>(db.Transactions.Where(i => i.AccountFrom.Id == account.Id));
+            List<Transaction> AllTransactionsDebet = new List<Transaction>(account.transactions.Where(t => t.AccountTo.Id != account.Id));
             return AllTransactionsDebet;
         }
-
 
         // Alle credit transacties ophalen van account
         public List<Transaction> GetAllCreditFromAccount(Account account)
         {
-            List<Transaction> AllTransactionsCredit = new List<Transaction>(db.Transactions.Where(i => i.AccountTo.Id == account.Id));
+            List<Transaction> AllTransactionsCredit = new List<Transaction>(account.transactions.Where(t => t.AccountTo.Id == account.Id));
             return AllTransactionsCredit;
         }
-
 
         // Alle saldo's ophalen boven bedrag X
         public List<Account> GetAllBalancesAbove(int value)
@@ -115,7 +124,6 @@ namespace De_Bank.Logic
             return AllBalancesAbove;
         }
 
-
         // Alle saldo's ophalen onder bedrag X
         public List<Account> GetAllBalancesBelow(int value)
         {
@@ -123,32 +131,33 @@ namespace De_Bank.Logic
             return AllBalancesBelow;
         }
 
-
         // Maak een transactie aan
-        public async Task<Transaction> CreateTransactionAsync(Transaction transaction)
-        {
+        public async Task<Transaction> CreateTransactionAsync(Account account, Transaction transaction)
+        {           
+            //blz 250 lock doornemen
+
             //bedrag van overboeking mag niet onder 0 zijn
-            if (transaction.TransactionAmount >= 0 && transaction.AccountFrom.AccountLock == false && transaction.AccountTo.AccountLock == false)
+            if (transaction.TransactionAmount >= 0 && account.AccountLock == false && transaction.AccountTo.AccountLock == false)
             {
                 if (transaction.PeriodicPayment == true)
                 {
-                    var result = await Task.Run(() => CheckAutoTransaction(transaction));
+                    var result = await Task.Run(() => CheckAutoTransaction(transaction, account));
                     if (result)
                     {
 
                         //accounts lock
-                        transaction.AccountFrom.AccountLock = true;
+                        account.AccountLock = true;
                         transaction.AccountTo.AccountLock = true;
 
                         //haal amount van account 1
-                        transaction.AccountFrom.AccountBalance = transaction.AccountFrom.AccountBalance - transaction.TransactionAmount;
+                        account.AccountBalance = account.AccountBalance - transaction.TransactionAmount;
                         //wacht 2,5 seconden sync
                         Thread.Sleep(2500);
                         //stort amount op account 2
                         transaction.AccountTo.AccountBalance = transaction.AccountTo.AccountBalance + transaction.TransactionAmount;
 
                         //account unlock
-                        transaction.AccountFrom.AccountLock = false;
+                        account.AccountLock = false;
                         transaction.AccountTo.AccountLock = false;
 
                         //wacht 5 seconden async
@@ -168,7 +177,7 @@ namespace De_Bank.Logic
 
 
         // Controleer of er al een periodieke betaling bestaat
-        public bool CheckAutoTransaction(Transaction transaction)
+        public bool CheckAutoTransaction(Transaction transaction, Account account)
         {
             DateTime now = DateTime.Now;
 
@@ -177,7 +186,8 @@ namespace De_Bank.Logic
             int counter = 0;
 
             //filter uit lijst op account 1, account 2, auto = true
-            foreach(var item in db.Transactions.Where(a => a.AccountFrom == transaction.AccountFrom).Where(t => t.AccountTo == transaction.AccountTo).Where(f => f.PeriodicPayment))
+
+            foreach (var item in account.transactions.Where(f => f.PeriodicPayment).Where(a => a.AccountTo.Id == transaction.AccountTo.Id))
             {               
                     counter += 1;                  
             }
