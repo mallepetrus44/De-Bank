@@ -10,9 +10,11 @@ namespace De_Bank.Logic
 {
     public class BankLogic
     {
-        //private object accountlock = new object();
-
-        //standaard data account 1 = NL71LYMB000000001
+        /// <summary>
+        ///                     Variabellen van het bankrekeningnummer
+        /// </summary>
+        /// <returns>           account met als voorloper "NL71LYMB"         </returns>
+        /// 
         public string GetVar()
         {
             var prefix = "NL71" + "LYMB";
@@ -20,7 +22,11 @@ namespace De_Bank.Logic
         }
 
 
-        //Een account aanmaken
+        /// <summary>
+        ///                                 Het aanmaken van een account
+        /// </summary>
+        /// <param name="accountHolder">    Op basis van een aangemaakte AccountHolder     </param>
+        /// <returns>                       De nieuw aangemaakte account                    </returns>
         public async Task<Account> CreateAccountAsync(AccountHolder accountHolder)
         {
             Account NewAccount = new Account();
@@ -29,13 +35,17 @@ namespace De_Bank.Logic
             NewAccount.AccountHolder.MiddleName = accountHolder.MiddleName;
             NewAccount.AccountHolder.LastName = accountHolder.LastName;
             NewAccount.AccountNumber = await Task.Run(() => GetNextAccountNumber(NewAccount));
-            //db.Accounts.Add(NewAccount);
-            //db.SaveChanges();
             return NewAccount;
         }
 
 
-        // een random bankrekeningnummer maken
+        /// <summary>
+        ///                             Een AccountHolder aanmaken
+        /// </summary>
+        /// <param name="firstname">    de voornaam van de nieuw aan te maken client / accountholder                    </param>
+        /// <param name="middlename">   de EVENTUELE tussenvoegsels van de nieuw aan te maken client / accountholder    </param>
+        /// <param name="lastname">     de achternaam van de nieuw aan te maken client / accountholder                  </param>
+        /// <returns>                   een true of false  => op basis van een controle                                 </returns>
         public bool CreateAccountHolder(string firstname, string middlename, string lastname)
         {
             if(middlename ==null)
@@ -55,9 +65,13 @@ namespace De_Bank.Logic
             }
             return false;
         }
-       
 
-        //volgende accountnummer ophalen
+
+        /// <summary>
+        ///                             volgende accountnummer ophalen
+        /// </summary>
+        /// <param name="account">      creëerd een uniek rekeningnummer voor een nieuwe account    </param>
+        /// <returns>                   Het nieuwe unieke rekeningnummer                            </returns>
         public async Task<string> GetNextAccountNumber(Account account)
         {
             var prefix = await Task.Run(() => GetVar());
@@ -69,7 +83,12 @@ namespace De_Bank.Logic
 
 
 
-        //De bank kan per account een overzicht geven van de transacties de afgelopen X seconden
+        /// <summary>
+        ///                             De bank kan per account een overzicht geven van de transacties de afgelopen X seconden
+        /// </summary>
+        /// <param name="seconds">      Het aantal secondes waarop de bank/client wil zoeken                                    </param>
+        /// <param name="account">      Het account waarop gezocht moet worden                                                  </param>
+        /// <returns>                   Een lijst van transacties die voldoen aan de zoek voorwaarde(s)                         </returns>
         public async Task<List<Transaction>> GetDataForSeconds(int seconds, Account account)
         {
             //Tijdmarkering berekenen
@@ -82,15 +101,38 @@ namespace De_Bank.Logic
             return AllTransActions.ToList();
         }
 
-        //public async Task GetAccountAsync(Account account)
-        //{
-        //    List<Transaction> AllTransactions = await Task.Run(() => GetAccountTransactions(account));
-        //    List<Transaction> AllTransactionsDebet = await Task.Run(() => GetAllDebetFromAccount(account));
-        //    List<Transaction> AllTransactionsCredit = await Task.Run(() => GetAllCreditFromAccount(account));
-        //}
+
+        /// <summary>
+        ///                                             Probeerseltje!!!
+        /// </summary>
+        /// <param name="account">      Het account waarop gezocht moet worden  </param>
+        /// <param name="All">          Checkbox/Radiobutton in frontend        </param>
+        /// <param name="AllDebet">     Checkbox/Radiobutton in frontend        </param>
+        /// <param name="AllCredit">    Checkbox/Radiobutton in frontend        </param>
+        /// <returns>                   Lijst van gevraagde transacties         </returns>
+        public async Task GetAccountAsync(Account account, bool All, bool AllDebet, bool AllCredit) //radiobutton results
+        {
+          if(All)
+            {
+                List<Transaction> AllTransactions = await Task.Run(() => GetAccountTransactions(account));
+            }
+          if(AllDebet)
+            {
+                List<Transaction> AllTransactionsDebet = await Task.Run(() => GetAllDebetFromAccount(account));
+            }
+          if(AllCredit)
+            {
+                List<Transaction> AllTransactionsCredit = await Task.Run(() => GetAllCreditFromAccount(account));
+            }      
+            
+        }
 
 
-        // Alle transacties ophalen voor account
+        /// <summary>
+        ///                             Alle transacties ophalen voor account
+        /// </summary>
+        /// <param name="account">      Het account waarop gezocht moet worden           </param>
+        /// <returns>                   Lijst ALLE van transacties van het account       </returns>
         public List<Transaction> GetAccountTransactions(Account account)
         {
             List<Transaction> Alltransactions = new List<Transaction>(account.transactions);
@@ -98,35 +140,57 @@ namespace De_Bank.Logic
         }
 
 
-        // Alle debit transacties ophalen van account
+        /// <summary>
+        ///                             Alle debit transacties ophalen van account
+        /// </summary>
+        /// <param name="account">      Het account waarop gezocht moet worden           </param>
+        /// <returns>                   Lijst ALLE DEBET transacties van het account     </returns>
         public List<Transaction> GetAllDebetFromAccount(Account account)
         {
             List<Transaction> AllTransactionsDebet = new List<Transaction>(account.transactions.Where(t => t.AccountTo.Id != account.Id));
             return AllTransactionsDebet;
         }
 
-        // Alle credit transacties ophalen van account
+        /// <summary>
+        ///                             Alle credit transacties ophalen van account
+        /// </summary>
+        /// <param name="account">      Het account waarop gezocht moet worden           </param>
+        /// <returns>                   Lijst ALLE CREDIT transacties van het account    </returns>
         public List<Transaction> GetAllCreditFromAccount(Account account)
         {
             List<Transaction> AllTransactionsCredit = new List<Transaction>(account.transactions.Where(t => t.AccountTo.Id == account.Id));
             return AllTransactionsCredit;
         }
 
-        // Alle saldo's ophalen boven bedrag X
-        //public List<Account> GetAllBalancesAbove(int value)
-        //{
-        //    List<Account> AllBalancesAbove = new List<Account>(db.Accounts.Where(i => i.AccountBalance >= value));
-        //    return AllBalancesAbove;
-        //}
 
-        //// Alle saldo's ophalen onder bedrag X
-        //public List<Account> GetAllBalancesBelow(int value)
-        //{
-        //    List<Account> AllBalancesBelow = new List<Account>(db.Accounts.Where(i => i.AccountBalance <= value));
-        //    return AllBalancesBelow;
-        //}
+        /// <summary>
+        ///                             Alle saldo's ophalen boven bedrag X
+        /// </summary>
+        /// <param name="account">      List van alle accounts                                             </param>
+        /// <returns>                   Lijst van alle saldo's die boven een bepaalde waarden zijn         </returns>
+        public List<Account> GetAllBalancesAbove(List<Account> ListOfAllAccounts, int value)
+        {
+            List<Account> AllBalancesAbove = new List<Account>(ListOfAllAccounts.Where(i => i.AccountBalance >= value));
+            return AllBalancesAbove;
+        }
 
-        // Maak een transactie aan
+        /// <summary>
+        ///                             Alle saldo's ophalen onder bedrag X
+        /// </summary>
+        /// <param name="account">      List van alle accounts                                             </param>
+        /// <returns>                   Lijst van alle saldo's die onder een bepaalde waarden zijn         </returns>
+        public List<Account> GetAllBalancesBelow(List<Account> ListOfAllAccounts, int value)
+        {
+            List<Account> AllBalancesBelow = new List<Account>(ListOfAllAccounts.Where(i => i.AccountBalance <= value));
+            return AllBalancesBelow;
+        }
+
+        /// <summary>
+        ///                             Maak een transactie aan
+        /// </summary>
+        /// <param name="account">      Het account waar vanuit de transactie plaats moet vinden        </param>
+        /// <param name="transaction">  De transactie die uitgevoerd dient te worden                    </param>
+        /// <returns>                   NOG HELEMAAL NIKS!!!!                                           </returns>
         public async Task<Transaction> CreateTransactionAsync(Account account, Transaction transaction)
         {           
             //blz 250 lock doornemen
@@ -172,7 +236,13 @@ namespace De_Bank.Logic
         }
 
 
-        // Controleer of er al een periodieke betaling bestaat
+        /// <summary>
+        ///                                 Controleer of er al een periodieke betaling bestaat
+        /// </summary>
+        /// <param name="transaction">      Ingevoerde transactie                                                           </param>
+        /// <param name="account">          Betreffende de gebruikte account                                                </param>
+        /// <returns>                       true or false => geeft aan of de transactie plaats kan vinden zonder melding 
+        ///                                 voor een dubbele periodieke boeking                                             </returns>
         public bool CheckAutoTransaction(Transaction transaction, Account account)
         {
             DateTime now = DateTime.Now;
@@ -180,8 +250,6 @@ namespace De_Bank.Logic
             List<Transaction> transactions = new List<Transaction>();
 
             int counter = 0;
-
-            //filter uit lijst op account 1, account 2, auto = true
 
             foreach (var item in account.transactions.Where(f => f.PeriodicPayment).Where(a => a.AccountTo.Id == transaction.AccountTo.Id))
             {               
