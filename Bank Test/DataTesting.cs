@@ -12,30 +12,30 @@ namespace Bank_Test
         Transaction transaction;
 
         [TestInitialize]
-        public void TestInitialize()
-        {
-            account = new Account
-            {
-                Id = 1,
-                AccountNumber = "102030",
-                AccountBalance = 1000.00,
-                AccountMinimum = 0.00,
-                //AccountHolder =   
-                //Transactions = 
-            };
+        //public void TestInitialize()
+        //{
+        //    account = new Account
+        //    {
+        //        Id = 1,
+        //        AccountNumber = "102030",
+        //        AccountBalance = 1000.00,
+        //        AccountMinimum = 0.00,
+        //        //AccountHolder =   
+        //        //Transactions = 
+        //    };
 
-            accountHolder = new AccountHolder
-            {
-                Id = 1,
-                //AccountHolderName = "John Wilder",
-                //Accounts =
-            };
+        //    accountHolder = new AccountHolder
+        //    {
+        //        Id = 1,
+        //        //AccountHolderName = "John Wilder",
+        //        //Accounts =
+        //    };
 
-            transaction = new Transaction
-            {
+        //    transaction = new Transaction
+        //    {
 
-            };
-        }
+        //    };
+        //}
 
 
         [TestMethod]

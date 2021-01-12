@@ -83,7 +83,6 @@ namespace De_Bank.Logic
         }
 
 
-
         /// <summary>
         ///                             De bank kan per account een overzicht geven van de transacties de afgelopen X seconden
         /// </summary>
@@ -152,6 +151,7 @@ namespace De_Bank.Logic
             return Transactions;
         }
 
+
         /// <summary>
         ///                             Alle credit transacties ophalen van account
         /// </summary>
@@ -175,6 +175,7 @@ namespace De_Bank.Logic
             return AllBalancesAbove;
         }
 
+
         /// <summary>
         ///                             Alle saldo's ophalen onder bedrag X
         /// </summary>
@@ -185,6 +186,7 @@ namespace De_Bank.Logic
             List<Account> AllBalancesBelow = new List<Account>(ListOfAllAccounts.Where(i => i.AccountBalance <= value));
             return AllBalancesBelow;
         }
+
 
         /// <summary>
         ///                             Maak een transactie aan
