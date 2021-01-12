@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Bank.FrontEnd.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Holder>
+    public class ApplicationDbContext : IdentityDbContext<IdentityHolder>
     {
         protected override void OnModelCreating(ModelBuilder builder)
         {

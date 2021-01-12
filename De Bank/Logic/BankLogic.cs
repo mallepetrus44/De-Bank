@@ -10,6 +10,7 @@ namespace De_Bank.Logic
 {
     public class BankLogic
     {
+        public List<Transaction> Transactions { get; set; }
         /// <summary>
         ///                     Variabellen van het bankrekeningnummer
         /// </summary>
@@ -135,8 +136,8 @@ namespace De_Bank.Logic
         /// <returns>                   Lijst ALLE van transacties van het account       </returns>
         public List<Transaction> GetAccountTransactions(Account account)
         {
-            List<Transaction> Alltransactions = new List<Transaction>(account.transactions);
-            return Alltransactions;
+            Transactions = new List<Transaction>(account.transactions);
+            return Transactions;
         }
 
 
@@ -147,8 +148,8 @@ namespace De_Bank.Logic
         /// <returns>                   Lijst ALLE DEBET transacties van het account     </returns>
         public List<Transaction> GetAllDebetFromAccount(Account account)
         {
-            List<Transaction> AllTransactionsDebet = new List<Transaction>(account.transactions.Where(t => t.AccountTo.Id != account.Id));
-            return AllTransactionsDebet;
+            Transactions = new List<Transaction>(account.transactions.Where(t => t.AccountTo.Id != account.Id));
+            return Transactions;
         }
 
         /// <summary>
@@ -158,8 +159,8 @@ namespace De_Bank.Logic
         /// <returns>                   Lijst ALLE CREDIT transacties van het account    </returns>
         public List<Transaction> GetAllCreditFromAccount(Account account)
         {
-            List<Transaction> AllTransactionsCredit = new List<Transaction>(account.transactions.Where(t => t.AccountTo.Id == account.Id));
-            return AllTransactionsCredit;
+            Transactions = new List<Transaction>(account.transactions.Where(t => t.AccountTo.Id == account.Id));
+            return Transactions;
         }
 
 
@@ -247,11 +248,11 @@ namespace De_Bank.Logic
         {
             DateTime now = DateTime.Now;
 
-            List<Transaction> transactions = new List<Transaction>();
+            Transactions = new List<Transaction>(account.transactions.Where(f => f.PeriodicPayment).Where(a => a.AccountTo.Id == transaction.AccountTo.Id));
 
             int counter = 0;
 
-            foreach (var item in account.transactions.Where(f => f.PeriodicPayment).Where(a => a.AccountTo.Id == transaction.AccountTo.Id))
+            foreach (var item in Transactions)
             {               
                     counter += 1;                  
             }

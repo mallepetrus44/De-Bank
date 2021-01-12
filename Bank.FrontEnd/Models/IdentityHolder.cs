@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bank.FrontEnd.Models
 {
-    public class Holder : IdentityUser
+    public class IdentityHolder : IdentityUser
     {
         public int HolderId { get; set; }
         public string FirstName { get; set; }
