@@ -11,6 +11,8 @@ namespace De_Bank.Logic
     public class BankLogic
     {
         public List<Transaction> Transactions { get; set; }
+
+
         /// <summary>
         ///                     Variabellen van het bankrekeningnummer
         /// </summary>
