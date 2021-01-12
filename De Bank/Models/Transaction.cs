@@ -8,7 +8,7 @@ namespace De_Bank.Models
     {
         public int Id { get; set; }
         public Account AccountTo { get; set; }
-        public double TransactionAmount { get; set; }
+        public decimal TransactionAmount { get; set; }
         public DateTime TransactionDate { get; set; }
         public bool PeriodicPayment { get; set; }
         public int PeriodicTransactionFrequentyDays { get; set; }
