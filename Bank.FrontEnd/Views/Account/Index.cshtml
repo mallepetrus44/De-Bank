@@ -13,13 +13,13 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.IdentityHolder.FullName)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.AccountNumber)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AccountLock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AccountBalance)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AccountMinimum)
@@ -33,6 +33,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentityHolder.FullName)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AccountNumber)
             </td>

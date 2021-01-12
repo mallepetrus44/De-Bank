@@ -1,5 +1,4 @@
 ﻿@model Bank.DAL.Models.Account
-@using Bank.DAL.Models
 @{
     ViewData["Title"] = "Edit";
 }
@@ -13,6 +12,11 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="IdentityHolder.FullName" class="control-label"></label>
+                <input asp-for="IdentityHolder.FullName" class="form-control" />
+                <span asp-validation-for="IdentityHolder.FullName" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="AccountNumber" class="control-label"></label>
                 <input asp-for="AccountNumber" class="form-control" />

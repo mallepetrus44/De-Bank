@@ -29,17 +29,17 @@ namespace Bank.FrontEnd.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityHolder appUser = new IdentityHolder
+                IdentityHolder idUser = new IdentityHolder
                 {
                     FirstName = user.FirstName,
                     MiddleName = user.MiddleName,
                     LastName = user.LastName,                  
                     Email = user.Email,
-                    PasswordHash = user.PasswordHash
+                    Password = user.Password
 
                 };
 
-                IdentityResult result = await userManager.CreateAsync(appUser, user.PasswordHash);
+                IdentityResult result = await userManager.CreateAsync(idUser, user.Password);
 
                 if (result.Succeeded)
                     return RedirectToAction("Index");

@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace Bank.DAL.Models
 {
-    public class IdentityHolder : IdentityUser
+    public class User
     {
+
         [Required]
         public string FirstName { get; set; }
 
@@ -26,6 +25,5 @@ namespace Bank.DAL.Models
 
         [Required]
         public string Password { get; set; }
-        public List<Account> Accounts { get; set; }
-    }
+        }
 }
