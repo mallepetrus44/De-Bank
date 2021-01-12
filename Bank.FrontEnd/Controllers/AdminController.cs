@@ -19,7 +19,7 @@ namespace Bank.FrontEnd.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(userManager.Users);
         }
 
         public ViewResult Create() => View();
