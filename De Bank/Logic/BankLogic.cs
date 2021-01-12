@@ -111,7 +111,7 @@ namespace De_Bank.Logic
         /// <param name="AllDebet">     Checkbox/Radiobutton in frontend        </param>
         /// <param name="AllCredit">    Checkbox/Radiobutton in frontend        </param>
         /// <returns>                   Lijst van gevraagde transacties         </returns>
-        public async Task GetAccountAsync(Account account, bool All, bool AllDebet, bool AllCredit) //radiobutton results
+        public async Task GetAccountAsync(Account account, bool All, bool AllDebet, bool AllCredit) //radiobutton results => of checkboxes
         {
           if(All)
             {
@@ -241,7 +241,7 @@ namespace De_Bank.Logic
         ///                                 Controleer of er al een periodieke betaling bestaat
         /// </summary>
         /// <param name="transaction">      Ingevoerde transactie                                                           </param>
-        /// <param name="account">          Betreffende de gebruikte account                                                </param>
+        /// <param name="account">          Betreffende het account                                                         </param>
         /// <returns>                       true or false => geeft aan of de transactie plaats kan vinden zonder melding 
         ///                                 voor een dubbele periodieke boeking                                             </returns>
         public bool CheckAutoTransaction(Transaction transaction, Account account)
