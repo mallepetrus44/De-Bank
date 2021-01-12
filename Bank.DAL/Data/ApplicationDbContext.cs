@@ -1,5 +1,4 @@
-﻿using Bank.FrontEnd.Models;
-using De_Bank.Models;
+﻿using Bank.DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bank.FrontEnd.Data
+namespace Bank.DAL.Data
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityHolder>
     {

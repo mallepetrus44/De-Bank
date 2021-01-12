@@ -1,4 +1,4 @@
-﻿using Bank.FrontEnd.Models;
+﻿using Bank.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

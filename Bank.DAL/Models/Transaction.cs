@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bank.FrontEnd.Models
+namespace Bank.DAL.Models
 {
     public class Transaction
     {

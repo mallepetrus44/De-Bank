@@ -1,10 +1,10 @@
-﻿using Bank.FrontEnd.Models;
+﻿using Bank.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace De_Bank.Models.ViewModels
+namespace Bank.DAL.ViewModels
 {
     public class AccountVM
     {

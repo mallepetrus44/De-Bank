@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Bank.FrontEnd.Data;
-using Bank.FrontEnd.Models;
+using Bank.DAL.Data;
+using Bank.DAL.Models;
 
 namespace Bank.FrontEnd.Controllers
 {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Bank.FrontEnd.Models
+namespace Bank.DAL.Models
 {
     public class ErrorViewModel
     {

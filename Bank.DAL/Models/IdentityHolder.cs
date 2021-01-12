@@ -1,11 +1,10 @@
-﻿using De_Bank.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bank.FrontEnd.Models
+namespace Bank.DAL.Models
 {
     public class IdentityHolder : IdentityUser
     {

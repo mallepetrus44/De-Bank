@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bank.FrontEnd\Bank.FrontEnd.csproj" />
+    <ProjectReference Include="..\Bank.DAL\Bank.DAL.csproj" />
   </ItemGroup>
 
 </Project>

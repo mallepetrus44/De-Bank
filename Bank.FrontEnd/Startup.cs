@@ -1,4 +1,4 @@
-using Bank.FrontEnd.Data;
+using Bank.DAL.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -71,7 +71,7 @@ namespace Bank.FrontEnd
         }
 
         //      Seed data
-        private string[] roles = new[] { "User", "Manager", "Administrator" };
+        private readonly string[] roles = new[] { "User", "Manager", "Administrator" };
         private async Task InitializeRoles(RoleManager<IdentityRole> roleManager)
         {
             foreach (var role in roles)

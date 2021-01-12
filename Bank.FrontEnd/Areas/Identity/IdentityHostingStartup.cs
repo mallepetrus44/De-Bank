@@ -1,5 +1,5 @@
 ﻿using System;
-using Bank.FrontEnd.Data;
+using Bank.DAL.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
