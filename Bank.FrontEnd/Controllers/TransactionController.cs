@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bank.DAL.Data;
 using Bank.DAL.Models;
+using De_Bank.Logic;
 
 namespace Bank.FrontEnd.Controllers
 {
@@ -22,7 +23,21 @@ namespace Bank.FrontEnd.Controllers
         // GET: Transaction
         public async Task<IActionResult> Index()
         {
+
             return View(await _context.Transactions.ToListAsync());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(int SearchValue, Account account)
+        {
+
+            int seconds = SearchValue;
+
+            BankLogic bankLogic = new BankLogic();
+
+
+            return View(await bankLogic.GetDataForSeconds(seconds, account));
         }
 
         // GET: Transaction/Details/5
