@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bank.FrontEnd.Data;
-using De_Bank.Models;
+using Bank.FrontEnd.Models;
 
 namespace Bank.FrontEnd.Controllers
 {

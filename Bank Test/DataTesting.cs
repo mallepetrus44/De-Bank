@@ -1,5 +1,5 @@
+using Bank.FrontEnd.Models;
 using De_Bank.Logic;
-using De_Bank.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bank_Test
@@ -7,9 +7,9 @@ namespace Bank_Test
     [TestClass]
     public class BankLogicTest
     {
-        Account account;
-        AccountHolder accountHolder;
-        Transaction transaction;
+        //Account account;
+        //AccountHolder accountHolder;
+        //Transaction transaction;
 
         [TestInitialize]
         //public void TestInitialize()

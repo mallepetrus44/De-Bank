@@ -5,4 +5,8 @@
     <RootNamespace>De_Bank</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Bank.FrontEnd\Bank.FrontEnd.csproj" />
+  </ItemGroup>
+
 </Project>

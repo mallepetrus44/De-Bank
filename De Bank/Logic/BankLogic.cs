@@ -1,4 +1,4 @@
-﻿using De_Bank.Models;
+﻿using Bank.FrontEnd.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,7 @@ namespace De_Bank.Logic
 {
     public class BankLogic
     {
+        private readonly object balanceLock = new object();
         public List<Transaction> Transactions { get; set; }
 
 
@@ -30,13 +31,13 @@ namespace De_Bank.Logic
         /// </summary>
         /// <param name="accountHolder">    Op basis van een aangemaakte AccountHolder     </param>
         /// <returns>                       De nieuw aangemaakte account                    </returns>
-        public async Task<Account> CreateAccountAsync(AccountHolder accountHolder)
+        public async Task<Account> CreateAccountAsync(IdentityHolder user)
         {
-            Account NewAccount = new Account();
-            NewAccount.AccountBalance = 0;
-            NewAccount.AccountHolder.FirstName = accountHolder.FirstName;
-            NewAccount.AccountHolder.MiddleName = accountHolder.MiddleName;
-            NewAccount.AccountHolder.LastName = accountHolder.LastName;
+            Account NewAccount = new Account
+            {
+                AccountBalance = 0,
+                IdentityHolder = user,
+            };                    
             NewAccount.AccountNumber = await Task.Run(() => GetNextAccountNumber(NewAccount));
             return NewAccount;
         }
@@ -49,25 +50,24 @@ namespace De_Bank.Logic
         /// <param name="middlename">   de EVENTUELE tussenvoegsels van de nieuw aan te maken client / accountholder    </param>
         /// <param name="lastname">     de achternaam van de nieuw aan te maken client / accountholder                  </param>
         /// <returns>                   een true of false  => op basis van een controle                                 </returns>
-        public bool CreateAccountHolder(string firstname, string middlename, string lastname)
-        {
-            if(middlename ==null)
-            {
-                middlename = "";
-            }
-
-            if (firstname != "" || lastname != "" || firstname != null || lastname !=null)
-            {
-                AccountHolder NewAccountHolder = new AccountHolder();
-                NewAccountHolder.FirstName = firstname;
-                NewAccountHolder.MiddleName = middlename;
-                NewAccountHolder.LastName = lastname;
-                //db.AccountHolders.Add(NewAccountHolder);
-                //db.SaveChanges();
-                return true;
-            }
-            return false;
-        }
+//        public bool CreateAccountHolder(string firstname, string middlename, string lastname) /// TODO checken nog niet goed! en niet meer nodig
+//        {
+//            if (!string.IsNullOrEmpty(middlename)
+//)
+//            {
+//                if (firstname != "" || lastname != "" || firstname != null || lastname != null)
+//                {
+//                    IdentityHolder NewAccountHolder = new IdentityHolder
+//                    {
+//                        FirstName = firstname,
+//                        MiddleName = middlename,
+//                        LastName = lastname
+//                    };
+//                    return true;
+//                }             
+//            }
+//            return false;
+//        }
 
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace De_Bank.Logic
         /// <returns>                   Lijst ALLE van transacties van het account       </returns>
         public List<Transaction> GetAccountTransactions(Account account)
         {
-            Transactions = new List<Transaction>(account.transactions);
+            Transactions = new List<Transaction>(account.Transactions);
             return Transactions;
         }
 
@@ -149,7 +149,7 @@ namespace De_Bank.Logic
         /// <returns>                   Lijst ALLE DEBET transacties van het account     </returns>
         public List<Transaction> GetAllDebetFromAccount(Account account)
         {
-            Transactions = new List<Transaction>(account.transactions.Where(t => t.AccountTo.Id != account.Id));
+            Transactions = new List<Transaction>(account.Transactions.Where(t => t.AccountTo.Id != account.Id));
             return Transactions;
         }
 
@@ -161,7 +161,7 @@ namespace De_Bank.Logic
         /// <returns>                   Lijst ALLE CREDIT transacties van het account    </returns>
         public List<Transaction> GetAllCreditFromAccount(Account account)
         {
-            Transactions = new List<Transaction>(account.transactions.Where(t => t.AccountTo.Id == account.Id));
+            Transactions = new List<Transaction>(account.Transactions.Where(t => t.AccountTo.Id == account.Id));
             return Transactions;
         }
 
@@ -197,48 +197,46 @@ namespace De_Bank.Logic
         /// <param name="transaction">  De transactie die uitgevoerd dient te worden                    </param>
         /// <returns>                   NOG HELEMAAL NIKS!!!!                                           </returns>
         public async Task<Transaction> CreateTransactionAsync(Account account, Transaction transaction)
-        {           
-            //blz 250 lock doornemen
+        {
 
-            //bedrag van overboeking mag niet onder 0 zijn
-            if (transaction.TransactionAmount >= 0 && account.AccountLock == false && transaction.AccountTo.AccountLock == false)
-            {
-                if (transaction.PeriodicPayment == true)
+                var result = await Task.Run(() => CheckAutoTransaction(transaction, account));
+                if (result)
                 {
-                    var result = await Task.Run(() => CheckAutoTransaction(transaction, account));
-                    if (result)
+
+                    //haal amount van account 1
+                    if (transaction.TransactionAmount < 0)
                     {
-
-                        //accounts lock
-                        account.AccountLock = true;
-                        transaction.AccountTo.AccountLock = true;
-
-                        //haal amount van account 1
-                        account.AccountBalance = account.AccountBalance - transaction.TransactionAmount;
-                        //wacht 2,5 seconden sync
-                        Thread.Sleep(2500);
-                        //stort amount op account 2
-                        transaction.AccountTo.AccountBalance = transaction.AccountTo.AccountBalance + transaction.TransactionAmount;
-
-                        //account unlock
-                        account.AccountLock = false;
-                        transaction.AccountTo.AccountLock = false;
-
-                        //wacht 5 seconden async
-                        await Task.Delay(5000);
-                        //doorvoeren transactie
-
-                        //db.Transactions.Add(transaction);
-                        //db.SaveChanges();
+                        throw new ArgumentOutOfRangeException(nameof(transaction.TransactionAmount), "Het bedrag dient hoger dan 0 te zijn.");
                     }
-                    // TODO: er bestaat al een perodieke transactie! ->> laat zien ->> vraag : toch uitvoeren?
+
+                    decimal appliedAmount = 0;
+
+                    lock (balanceLock)
+                    {
+                        if (account.AccountBalance >= transaction.TransactionAmount)
+                        {
+                            account.AccountBalance -= transaction.TransactionAmount;
+                            appliedAmount = transaction.TransactionAmount;
+                        }
+                    }
+                    
+                    //stort amount op account 2
+                    if (transaction.TransactionAmount < 0)
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(transaction.TransactionAmount), "Het bedrag dient hoger dan 0 te zijn.");
+                    }
+
+                    lock (balanceLock)
+                    {
+                        transaction.AccountTo.AccountBalance += transaction.TransactionAmount;
+                    }
+
+                    return transaction;
                 }
 
-            }
-            // TODO:amount = 0 of accounts zijn gelocked
-
-            return null;
-        }
+                // TODO: er bestaat al een perodieke transactie! ->> laat zien ->> vraag : toch uitvoeren?
+                return transaction; // <======== TODO nog niet goed          
+        }          
 
 
         /// <summary>
@@ -252,7 +250,7 @@ namespace De_Bank.Logic
         {
             DateTime now = DateTime.Now;
 
-            Transactions = new List<Transaction>(account.transactions.Where(f => f.PeriodicPayment).Where(a => a.AccountTo.Id == transaction.AccountTo.Id));
+            Transactions = new List<Transaction>(account.Transactions.Where(f => f.PeriodicPayment).Where(a => a.AccountTo.Id == transaction.AccountTo.Id));
 
             int counter = 0;
 

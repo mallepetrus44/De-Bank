@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace De_Bank.Models
+namespace Bank.FrontEnd.Models
 {
     public enum AccountType
     {

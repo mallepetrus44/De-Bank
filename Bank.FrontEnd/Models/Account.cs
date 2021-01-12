@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace De_Bank.Models
+namespace Bank.FrontEnd.Models
 {
     public class Account
     {
@@ -13,8 +13,8 @@ namespace De_Bank.Models
         public decimal AccountBalance { get; set; }
         public decimal AccountMinimum { get; set; }
         public AccountType AccountType { get;set; }
-        public AccountHolder AccountHolder { get; set; }
-        public List<Transaction> transactions { get; set; }
+        public IdentityHolder IdentityHolder { get; set; }
+        public List<Transaction> Transactions { get; set; }
 
     }
 }

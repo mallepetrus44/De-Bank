@@ -9,11 +9,10 @@ namespace Bank.FrontEnd.Models
 {
     public class IdentityHolder : IdentityUser
     {
-        public int HolderId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public string FullName { get { return string.Format("{0} {1} {2}", FirstName, MiddleName, LastName); } }
+        public string FullName => MiddleName == null ? $"{FirstName} {LastName}" : $"{FirstName} {MiddleName} {LastName}";
         public List<Account> Accounts { get; set; }
     }
 }
