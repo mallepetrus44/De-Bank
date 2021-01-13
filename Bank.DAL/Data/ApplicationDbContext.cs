@@ -46,6 +46,7 @@ namespace Bank.DAL.Data
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<IdentityUser> IdentityUsers { get; set; }
+        public DbSet<IdentityHolder> IdentityHolder { get; set; }       
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

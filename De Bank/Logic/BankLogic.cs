@@ -32,12 +32,12 @@ namespace De_Bank.Logic
         /// </summary>
         /// <param name="accountHolder">    Op basis van een aangemaakte AccountHolder     </param>
         /// <returns>                       De nieuw aangemaakte account                    </returns>
-        public async Task<Account> CreateAccountAsync(IdentityUser user)
+        public async Task<Account> CreateAccountAsync(IdentityHolder user)
         {
             Account NewAccount = new Account
             {
                 AccountBalance = 0,
-                IdentityUser = user,
+                IdentityHolder = user,
             };                    
             NewAccount.AccountNumber = await Task.Run(() => GetNextAccountNumber(NewAccount));
             return NewAccount;

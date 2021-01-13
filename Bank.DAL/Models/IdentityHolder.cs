@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Bank.DAL.Models
 {
-    public class IdentityHolder_test : IdentityUser
-    {
+    public class IdentityHolder : IdentityUser
+    {       
         [Required]
         public string FirstName { get; set; }
 
@@ -22,7 +22,8 @@ namespace Bank.DAL.Models
 
         [Required]
         [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail is not valid")]
-        public string Email { get; set; }
+        
+        public override string Email { get; set; }
 
         [Required]
         public string Password { get; set; }
