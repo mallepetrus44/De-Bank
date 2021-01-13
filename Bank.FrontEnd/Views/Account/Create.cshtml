@@ -68,11 +68,11 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="IdentityHolder.FirstName" class="control-label"></label>
-                <input asp-for="IdentityHolder.FirstName" class="form-control" />
-                <span asp-validation-for="IdentityHolder.FirstName" class="text-danger"></span>
+                <label asp-for="IdentityUser.UserName" class="control-label"></label>
+                <input asp-for="IdentityUser.UserName" class="form-control" />
+                <span asp-validation-for="IdentityUser.UserName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="IdentityHolder.MiddleName" class="control-label"></label>
                 <input asp-for="IdentityHolder.MiddleName" class="form-control" />
                 <span asp-validation-for="IdentityHolder.MiddleName" class="text-danger"></span>
@@ -81,7 +81,7 @@
                 <label asp-for="IdentityHolder.LastName" class="control-label"></label>
                 <input asp-for="IdentityHolder.LastName" class="form-control" />
                 <span asp-validation-for="IdentityHolder.LastName" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="Account.AccountNumber" class="control-label"></label>
                 <input asp-for="Account.AccountNumber" class="form-control" />

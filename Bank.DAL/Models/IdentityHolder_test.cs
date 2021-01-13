@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bank.DAL.Models
 {
-    public class IdentityHolder : IdentityUser
+    public class IdentityHolder_test : IdentityUser
     {
         [Required]
         public string FirstName { get; set; }

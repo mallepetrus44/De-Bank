@@ -1,4 +1,5 @@
 ﻿using Bank.DAL.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,12 +32,12 @@ namespace De_Bank.Logic
         /// </summary>
         /// <param name="accountHolder">    Op basis van een aangemaakte AccountHolder     </param>
         /// <returns>                       De nieuw aangemaakte account                    </returns>
-        public async Task<Account> CreateAccountAsync(IdentityHolder user)
+        public async Task<Account> CreateAccountAsync(IdentityUser user)
         {
             Account NewAccount = new Account
             {
                 AccountBalance = 0,
-                IdentityHolder = user,
+                IdentityUser = user,
             };                    
             NewAccount.AccountNumber = await Task.Run(() => GetNextAccountNumber(NewAccount));
             return NewAccount;

@@ -26,7 +26,7 @@ namespace Bank.DAL.Models
 
         [Required]
         public AccountType AccountType { get;set; }
-        public IdentityHolder IdentityHolder { get; set; }
+        public IdentityUser IdentityUser { get; set; }
         public IEnumerable<Transaction> Transactions { get; set; }
 
     }

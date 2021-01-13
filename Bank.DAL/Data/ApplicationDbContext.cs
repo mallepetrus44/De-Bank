@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Bank.DAL.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityHolder>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -45,7 +45,7 @@ namespace Bank.DAL.Data
         }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<IdentityHolder> IdentityHolders { get; set; }
+        public DbSet<IdentityUser> IdentityUsers { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

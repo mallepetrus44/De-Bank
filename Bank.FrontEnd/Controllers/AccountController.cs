@@ -7,12 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bank.DAL.Data;
 using Bank.DAL.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Bank.FrontEnd.Controllers
 {
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _context;
+
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public AccountController(UserManager<IdentityUser> userManager)
+        {
+            _userManager = userManager;
+        }
+
 
         public AccountController(ApplicationDbContext context)
         {
@@ -54,10 +63,12 @@ namespace Bank.FrontEnd.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AccountNumber,AccountLock,AccountBalance,AccountMinimum,AccountType")] Account account)
+        public async Task<IActionResult> Create([Bind("Id,AccountNumber,AccountLock,AccountBalance,AccountMinimum,AccountType,Username")] Account account)
         {
+            
             if (ModelState.IsValid)
             {
+                account.IdentityUser.UserName = await _userManager.GetUserName.ToString();;
                 _context.Add(account);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

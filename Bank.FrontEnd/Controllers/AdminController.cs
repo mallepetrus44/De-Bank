@@ -10,9 +10,9 @@ namespace Bank.FrontEnd.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly UserManager<IdentityHolder> userManager;
+        private readonly UserManager<IdentityUser> userManager;
 
-        public AdminController(UserManager<IdentityHolder> usrMgr)
+        public AdminController(UserManager<IdentityUser> usrMgr)
         {
             userManager = usrMgr;
         }
@@ -25,21 +25,18 @@ namespace Bank.FrontEnd.Controllers
         public ViewResult Create() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Create(IdentityHolder user)
+        public async Task<IActionResult> Create(IdentityUser user)
         {
             if (ModelState.IsValid)
             {
-                IdentityHolder idUser = new IdentityHolder
-                {
-                    FirstName = user.FirstName,
-                    MiddleName = user.MiddleName,
-                    LastName = user.LastName,                  
+                IdentityUser idUser = new IdentityUser
+                {                  
                     Email = user.Email,
-                    Password = user.Password
+                    PasswordHash = user.PasswordHash
 
                 };
 
-                IdentityResult result = await userManager.CreateAsync(idUser, user.Password);
+                IdentityResult result = await userManager.CreateAsync(idUser, user.PasswordHash);
 
                 if (result.Succeeded)
                     return RedirectToAction("Index");

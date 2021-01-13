@@ -1,4 +1,5 @@
 ﻿using Bank.DAL.Models;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Bank.FrontEnd.ViewModels
 
         public Account Account { get; set; }
 
-        public IdentityHolder IdentityHolder { get; set; }
+        public IdentityUser IdentityUser { get; set; }
         
         public Transaction Transaction { get; set; }
     }
