@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Bank.DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,12 +12,12 @@ namespace Bank.FrontEnd.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityHolder> _userManager;
+        private readonly SignInManager<IdentityHolder> _signInManager;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<IdentityHolder> userManager,
+            SignInManager<IdentityHolder> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -32,21 +33,26 @@ namespace Bank.FrontEnd.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
+            [Display(Name="Voornaam")]
+            public string FirstName { get; set; }
+            [Display(Name = "Tussenvoegsels")]
+            public string MiddleName { get; set; }
+            [Display(Name = "Achternaam")]
+            public string LastName { get; set; }
+            
         }
 
-        private async Task LoadAsync(IdentityUser user)
+        private async Task LoadAsync(IdentityHolder user)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var userName = await _userManager.GetUserNameAsync(user);           
 
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                FirstName = user.FirstName,
+                MiddleName = user.MiddleName,
+                LastName=user.LastName,
             };
         }
 
@@ -74,19 +80,7 @@ namespace Bank.FrontEnd.Areas.Identity.Pages.Account.Manage
             {
                 await LoadAsync(user);
                 return Page();
-            }
-
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
-            {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
-                }
-            }
-
+            }       
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();

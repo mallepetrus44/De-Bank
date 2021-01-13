@@ -14,7 +14,7 @@ namespace Bank.DAL.Data
         {
             base.OnModelCreating(builder);
             builder.HasDefaultSchema("Identity");
-            builder.Entity<IdentityUser>(entity =>
+            builder.Entity<IdentityHolder>(entity =>
             {
                 entity.ToTable(name: "User");
             });

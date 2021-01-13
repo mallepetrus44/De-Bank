@@ -1,4 +1,5 @@
 using Bank.DAL.Data;
+using Bank.DAL.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,13 +34,18 @@ namespace Bank.FrontEnd
             //services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseSqlServer(
             //        Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityHolder>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+        //    services.AddIdentity<IdentityHolder, IdentityRole>()
+        //.AddEntityFrameworkStores<ApplicationDbContext>()
+        //.AddDefaultUI()
+        //.AddDefaultTokenProviders();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

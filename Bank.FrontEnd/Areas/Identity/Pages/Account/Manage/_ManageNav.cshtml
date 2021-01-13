@@ -1,4 +1,5 @@
-﻿@inject SignInManager<IdentityUser> SignInManager
+﻿@inject SignInManager<IdentityHolder> SignInManager
+@using Bank.DAL.Models 
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

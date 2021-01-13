@@ -17,11 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Bank.DAL\Bank.DAL.csproj" />
     <ProjectReference Include="..\De Bank\De Bank.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
