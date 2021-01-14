@@ -61,25 +61,34 @@ namespace Bank.FrontEnd.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AccountMinimum,AccountType")] Account account)
+        public async Task<IActionResult> Create([Bind("Id,AccountMinimum,AccountType,AccountLimiet")] Account account)
         {
            
-                var id = _context.Accounts.Count();
-                
+            var id = _context.Accounts.Count();
 
-            Account x = new Account
+            if(account.AccountLimiet == AccountLimiet.Actief)
+            {
+                if (account.AccountMinimum <= 0.00M)
                 {
-                    AccountBalance = 0.00M,
-                    AccountType = account.AccountType,
-                    AccountNumber = account.AccountNumber = await Task.Run(() => bl.GetNextAccountNumber(id)),
-                    IdentityHolder = _context.Users.FirstOrDefault(u => u.Email == User.Identity.Name),
-                    AccountMinimum = account.AccountMinimum,
+                    account.AccountMinimum = 0.00M;
+                }
+            }   
+
+            Account NewAccount = new Account
+            {
+                AccountBalance = 0.00M,
+                AccountType = account.AccountType,
+                AccountNumber = account.AccountNumber = await Task.Run(() => bl.GetNextAccountNumber(id)),
+                AccountLimiet = account.AccountLimiet,
+                AccountMinimum = 0 - account.AccountMinimum,
+                IdentityHolder = _context.Users.FirstOrDefault(u => u.Email == User.Identity.Name),
+                    
                     AccountLock = false,
                 };
 
             if (ModelState.IsValid)
             {
-                _context.Add(x);
+                _context.Add(NewAccount);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

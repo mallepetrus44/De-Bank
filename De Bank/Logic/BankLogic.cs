@@ -85,7 +85,7 @@ namespace De_Bank.Logic
         public async Task<string> GetNextAccountNumber(int id)
         {
             var prefix = await Task.Run(() => GetVar());
-            var i = id;
+            var i = id +1;
             var NewAccountNumber = prefix + i.ToString().PadLeft(9, '0');
            
             return NewAccountNumber;
