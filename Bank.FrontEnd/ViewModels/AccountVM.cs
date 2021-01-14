@@ -11,7 +11,7 @@ namespace Bank.FrontEnd.ViewModels
     {
         public AccountType Accounttype { get; set; }
 
-        public Account Account { get; set; }
+        public List<Account> Accounts { get; set; }
         public int AccountID { get; set; }
 
         public List<Transaction> Transactions { get; set; }

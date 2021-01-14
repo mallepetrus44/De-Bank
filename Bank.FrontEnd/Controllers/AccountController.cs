@@ -16,7 +16,7 @@ namespace Bank.FrontEnd.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public BankLogic bl = new BankLogic();
+        public BankLogic _banklogic = new BankLogic();
         public AccountController(ApplicationDbContext context)
         {
             _context = context;
@@ -66,21 +66,13 @@ namespace Bank.FrontEnd.Controllers
            
             var id = _context.Accounts.Count();
 
-            if(account.AccountLimiet == AccountLimiet.Actief)
-            {
-                if (account.AccountMinimum <= 0.00M)
-                {
-                    account.AccountMinimum = 0.00M;
-                }
-            }   
-
             Account NewAccount = new Account
             {
                 AccountBalance = 0.00M,
                 AccountType = account.AccountType,
-                AccountNumber = account.AccountNumber = await Task.Run(() => bl.GetNextAccountNumber(id)),
+                AccountNumber = account.AccountNumber = await Task.Run(() => _banklogic.GetNextAccountNumber(id)),
                 AccountLimiet = account.AccountLimiet,
-                AccountMinimum = 0 - account.AccountMinimum,
+                AccountMinimum = 0.00M - account.AccountMinimum,
                 IdentityHolder = _context.Users.FirstOrDefault(u => u.Email == User.Identity.Name),
                     
                     AccountLock = false,
