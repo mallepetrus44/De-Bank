@@ -6,16 +6,35 @@
 
 <h1>Index</h1>
 
-<form action="" method="post">
+@*<form action="" method="post">
         <p>
             <input type="text" name="SearchValue">
             <input type="submit" value="Filter" />
+
+            <input type="submit" formmethod="post" name="Debit" formaction="Debit" value="Debit" />
+            <input type="submit" formmethod="post" name="Credit" formaction="Credit" value="Credit" />
         </p>
-    </form>
-<a asp-action="Debit">Alle Debit Transacties</a>
-<p></p>
-<a asp-action="Credit">Alle Credit Transacties</a>
-<p></p>
+    </form>*@
+
+@*<div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+
+            <input type="text" name="SearchValue">
+            <input type="submit" name="Filter" value="Filter" formaction="/Home/Index" class="btn btn-default" />
+
+            <input type="submit" name="Debit" formaction="/Home/Index" value="Show All Debit Transactions" class="btn btn-default" />
+            <input type="submit" name="Credit" formaction="/Home/Index" value="Show All Credit Transactions" class="btn btn-default" />
+        </div>
+    </div>*@
+
+@Html.BeginForm()
+{
+<input type="text" name="SearchValue">
+<input type="submit" value="Filter" />
+<input type="submit" name="Debit" value="Debit" />
+<input type="submit" name="Credit" value="Credit" />
+}
+
 
 
 <p>

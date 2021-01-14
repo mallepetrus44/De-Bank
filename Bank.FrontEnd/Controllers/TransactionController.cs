@@ -32,13 +32,28 @@ namespace Bank.FrontEnd.Controllers
         public async Task<IActionResult> Index(int SearchValue, Account account)
         {
 
-            int seconds = SearchValue;
+                int seconds = SearchValue;
 
+                BankLogic bankLogic = new BankLogic();
+
+
+                return View(await bankLogic.GetDataForSeconds(seconds, account));
+           
+        }
+        public async Task<IActionResult> Debit(Account account)
+        {
             BankLogic bankLogic = new BankLogic();
 
-
-            return View(await bankLogic.GetDataForSeconds(seconds, account));
+            return View(bankLogic.GetAllDebetFromAccount(account));
         }
+
+        public async Task<IActionResult> Credit(Account account)
+        {
+            BankLogic bankLogic = new BankLogic();
+
+            return View(bankLogic.GetAllCreditFromAccount(account));
+        }
+
 
         // GET: Transaction/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Bank.DAL.Models.Account>
-
+@using Bank.FrontEnd.ViewModels
 @{
     ViewData["Title"] = "Index";
 }
@@ -12,6 +12,9 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentityHolder.UserName)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.AccountNumber)
             </th>
@@ -33,6 +36,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentityHolder.UserName)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AccountNumber)
             </td>
