@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bank.FrontEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210112195321_after rebuild")]
-    partial class afterrebuild
+    [Migration("20210114180233_addon AccountLimiet")]
+    partial class addonAccountLimiet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,13 +30,16 @@ namespace Bank.FrontEnd.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("AccountBalance")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("AccountLimiet")
+                        .HasColumnType("int");
 
                     b.Property<bool>("AccountLock")
                         .HasColumnType("bit");
 
                     b.Property<decimal>("AccountMinimum")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("AccountNumber")
                         .HasColumnType("nvarchar(max)");
@@ -74,9 +77,11 @@ namespace Bank.FrontEnd.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -125,7 +130,7 @@ namespace Bank.FrontEnd.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Bank.DAL.Models.Transaction", b =>
@@ -135,7 +140,7 @@ namespace Bank.FrontEnd.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AccountToId")
+                    b.Property<int>("AccountToId")
                         .HasColumnType("int");
 
                     b.Property<bool>("PeriodicPayment")
@@ -145,7 +150,7 @@ namespace Bank.FrontEnd.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("TransactionAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime2");
@@ -206,58 +211,6 @@ namespace Bank.FrontEnd.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("RoleClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -355,7 +308,9 @@ namespace Bank.FrontEnd.Migrations
                 {
                     b.HasOne("Bank.DAL.Models.Account", "AccountTo")
                         .WithMany("Transactions")
-                        .HasForeignKey("AccountToId");
+                        .HasForeignKey("AccountToId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

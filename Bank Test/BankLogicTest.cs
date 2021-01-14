@@ -40,21 +40,27 @@ namespace Bank_Test
         }
 
 
+        // door aanpassingen veranderd. nu op basis van een int (zie accountcontroller => Create voor meer details)
+
         [TestMethod]
         public async Task AccountNummerCheck()
         {
-            account.AccountNumber = await GetNextAccountNumber(account);
+            account.AccountNumber = await GetNextAccountNumber(11);
 
             Assert.AreEqual("NL71LYMB000000012", account.AccountNumber);
         }
 
-        [TestMethod]
-        public async Task CreateAccountCheck() 
-        {
-            var result = await CreateAccountAsync(identityHolder);
 
-            Assert.AreEqual("John David Wilder", result.IdentityHolder.FullName);
-            Assert.AreEqual("NL71LYMB000000001", result.AccountNumber);
-        }
+        // door aanpassingen veranderd. CreateAccountAsync is vervallen (zie accountcontroller => Create voor meer details)
+
+
+        //[TestMethod]
+        //public async Task CreateAccountCheck()
+        //{
+        //    var result = await CreateAccountAsync();
+
+        //    Assert.AreEqual("John David Wilder", result.IdentityHolder.FullName);
+        //    Assert.AreEqual("NL71LYMB000000001", result.AccountNumber);
+        //}
     }
 }

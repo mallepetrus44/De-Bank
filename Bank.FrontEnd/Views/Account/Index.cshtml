@@ -1,23 +1,22 @@
 ﻿@model IEnumerable<Bank.DAL.Models.Account>
-@using Bank.FrontEnd.ViewModels
+@*@using Bank.FrontEnd.ViewModels*@
 @{
     ViewData["Title"] = "Index";
 }
 
 
-<h1>Index</h1>
-
+<h1>Index</h1> 
 
 @if (User.Identity.IsAuthenticated)
 {
     <p>
-        <button type="button" class="btn btn-success"><a asp-action="Create">Maak een nieuwe account aan</a></button>
+        <button type="button" class="btn btn-success" asp-action="Create">Maak een nieuwe account aan></button>
     </p>
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.IdentityHolder.FullName)
+                    @Html.DisplayNameFor(model => model.IdentityHolder.Email)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.AccountNumber)
@@ -42,7 +41,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.IdentityHolder.UserName)
+                        @Html.DisplayFor(modelItem => item.IdentityHolder.Email)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.AccountNumber)

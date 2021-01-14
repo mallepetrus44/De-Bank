@@ -32,19 +32,22 @@ namespace De_Bank.Logic
         /// </summary>
         /// <param name="accountHolder">    Op basis van een aangemaakte AccountHolder     </param>
         /// <returns>                       De nieuw aangemaakte account                    </returns>
-        public async Task<Account> CreateAccountAsync(IdentityHolder user, AccountType accountType, int limiet, int id)
-        {
-            Account NewAccount = new Account
-            {
-                AccountMinimum = limiet,
-                AccountType = accountType,
-                AccountBalance = 0,
-                AccountLock = false,
-                IdentityHolder = user,
-            };                    
-            NewAccount.AccountNumber = await Task.Run(() => GetNextAccountNumber(id));
-            return NewAccount;
-        }
+
+        //OVERBODIG
+
+        //public async Task<Account> CreateAccountAsync(IdentityHolder user, AccountType accountType, int limiet, int id)
+        //{
+        //    Account NewAccount = new Account
+        //    {
+        //        AccountMinimum = limiet,
+        //        AccountType = accountType,
+        //        AccountBalance = 0,
+        //        AccountLock = false,
+        //        IdentityHolder = user,
+        //    };                    
+        //    NewAccount.AccountNumber = await Task.Run(() => GetNextAccountNumber(id));
+        //    return NewAccount;
+        //}
 
 
         /// <summary>
@@ -54,24 +57,24 @@ namespace De_Bank.Logic
         /// <param name="middlename">   de EVENTUELE tussenvoegsels van de nieuw aan te maken client / accountholder    </param>
         /// <param name="lastname">     de achternaam van de nieuw aan te maken client / accountholder                  </param>
         /// <returns>                   een true of false  => op basis van een controle                                 </returns>
-//        public bool CreateAccountHolder(string firstname, string middlename, string lastname) /// TODO checken nog niet goed! en niet meer nodig
-//        {
-//            if (!string.IsNullOrEmpty(middlename)
-//)
-//            {
-//                if (firstname != "" || lastname != "" || firstname != null || lastname != null)
-//                {
-//                    IdentityHolder NewAccountHolder = new IdentityHolder
-//                    {
-//                        FirstName = firstname,
-//                        MiddleName = middlename,
-//                        LastName = lastname
-//                    };
-//                    return true;
-//                }             
-//            }
-//            return false;
-//        }
+        //        public bool CreateAccountHolder(string firstname, string middlename, string lastname) /// TODO checken nog niet goed! en niet meer nodig
+        //        {
+        //            if (!string.IsNullOrEmpty(middlename)
+        //)
+        //            {
+        //                if (firstname != "" || lastname != "" || firstname != null || lastname != null)
+        //                {
+        //                    IdentityHolder NewAccountHolder = new IdentityHolder
+        //                    {
+        //                        FirstName = firstname,
+        //                        MiddleName = middlename,
+        //                        LastName = lastname
+        //                    };
+        //                    return true;
+        //                }             
+        //            }
+        //            return false;
+        //        }
 
 
         /// <summary>

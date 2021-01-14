@@ -30,6 +30,9 @@ namespace Bank.FrontEnd.Migrations
                     b.Property<decimal>("AccountBalance")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<int>("AccountLimiet")
+                        .HasColumnType("int");
+
                     b.Property<bool>("AccountLock")
                         .HasColumnType("bit");
 
@@ -37,7 +40,6 @@ namespace Bank.FrontEnd.Migrations
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("AccountNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("AccountType")
@@ -73,9 +75,11 @@ namespace Bank.FrontEnd.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -294,7 +298,7 @@ namespace Bank.FrontEnd.Migrations
             modelBuilder.Entity("Bank.DAL.Models.Account", b =>
                 {
                     b.HasOne("Bank.DAL.Models.IdentityHolder", "IdentityHolder")
-                        .WithMany()
+                        .WithMany("Accounts")
                         .HasForeignKey("IdentityHolderId");
                 });
 

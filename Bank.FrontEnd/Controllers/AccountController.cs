@@ -27,8 +27,8 @@ namespace Bank.FrontEnd.Controllers
         {
 
 
-            //return View(await _context.Accounts.Where(u => u.IdentityHolder.UserName == User.Identity.Name).ToListAsync());  // CODE ALLE ACCOUNTS VAN GEBRUIKER (INGELOGD)
-            return View(await _context.Accounts.ToListAsync()); // ALLE ACCOUNTS laten zien
+            return View(await _context.Accounts.Where(u => u.IdentityHolder.UserName == User.Identity.Name).ToListAsync());  // CODE ALLE ACCOUNTS VAN GEBRUIKER (INGELOGD)
+            //return View(await _context.Accounts.ToListAsync()); // ALLE ACCOUNTS laten zien
         }
 
         // GET: Account/Details/5
@@ -69,7 +69,7 @@ namespace Bank.FrontEnd.Controllers
 
             Account x = new Account
                 {
-                    AccountBalance = 0,
+                    AccountBalance = 0.00M,
                     AccountType = account.AccountType,
                     AccountNumber = account.AccountNumber = await Task.Run(() => bl.GetNextAccountNumber(id)),
                     IdentityHolder = _context.Users.FirstOrDefault(u => u.Email == User.Identity.Name),
@@ -180,5 +180,15 @@ namespace Bank.FrontEnd.Controllers
         {
             return _context.Accounts.Any(e => e.Id == id);
         }
+
+
+        //public string onSelectedIndexChanged(int value)
+        //{
+        //    var textValue = value.options[value.selectedIndex].text;
+        //    document.getElementById('Period').value = textValue;
+
+        //    // if you want to submit the form, uncomment this line below
+        //    // document.getElementById('yourformId').submit();
+        //}
     }
 }
