@@ -23,7 +23,8 @@ namespace Bank.FrontEnd.Controllers
         // GET: Account
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Accounts.ToListAsync());
+            //return View(await _context.Accounts.Where(u => u.IdentityHolder.UserName == User.Identity.Name).ToListAsync());  // CODE ALLE ACCOUNTS VAN GEBRUIKER (INGELOGD)
+            return View(await _context.Accounts.ToListAsync()); // ALLE ACCOUNTS laten zien
         }
 
         // GET: Account/Details/5
@@ -60,8 +61,6 @@ namespace Bank.FrontEnd.Controllers
         {
             if (ModelState.IsValid)
             {
-                var IdentityHolders = _context.Users.ToList();
-
                 account.IdentityHolder = _context.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
                 _context.Add(account);
                 await _context.SaveChangesAsync();
