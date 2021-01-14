@@ -14,6 +14,7 @@ namespace Bank.FrontEnd.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        
         public AccountController(ApplicationDbContext context)
         {
             _context = context;
@@ -46,6 +47,7 @@ namespace Bank.FrontEnd.Controllers
         // GET: Account/Create
         public IActionResult Create()
         {
+            
             return View();
         }
 
@@ -58,6 +60,9 @@ namespace Bank.FrontEnd.Controllers
         {
             if (ModelState.IsValid)
             {
+                var IdentityHolders = _context.Users.ToList();
+
+                account.IdentityHolder = _context.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
                 _context.Add(account);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
