@@ -20,6 +20,5 @@ namespace Bank.DAL.Models
 
         public string FullName => MiddleName == null ? $"{FirstName} {LastName}" : $"{FirstName} {MiddleName} {LastName}";
 
-        public List<Account> Accounts { get; set; }
     }
 }

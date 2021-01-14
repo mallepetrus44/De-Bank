@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bank.DAL.Data;
 using Bank.DAL.Models;
+using Bank.FrontEnd.ViewModels;
 
 namespace Bank.FrontEnd.Controllers
 {
@@ -23,6 +24,8 @@ namespace Bank.FrontEnd.Controllers
         // GET: Account
         public async Task<IActionResult> Index()
         {
+
+
             //return View(await _context.Accounts.Where(u => u.IdentityHolder.UserName == User.Identity.Name).ToListAsync());  // CODE ALLE ACCOUNTS VAN GEBRUIKER (INGELOGD)
             return View(await _context.Accounts.ToListAsync()); // ALLE ACCOUNTS laten zien
         }
