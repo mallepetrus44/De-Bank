@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Bank.DAL.Data;
 using Bank.DAL.Models;
 using Bank.FrontEnd.ViewModels;
+using De_Bank.Logic;
 
 namespace Bank.FrontEnd.Controllers
 {
@@ -15,7 +16,7 @@ namespace Bank.FrontEnd.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        
+        public BankLogic bl = new BankLogic();
         public AccountController(ApplicationDbContext context)
         {
             _context = context;
@@ -51,7 +52,7 @@ namespace Bank.FrontEnd.Controllers
         // GET: Account/Create
         public IActionResult Create()
         {
-            
+
             return View();
         }
 
@@ -60,17 +61,40 @@ namespace Bank.FrontEnd.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AccountNumber,AccountLock,AccountBalance,AccountMinimum,AccountType")] Account account)
+        public async Task<IActionResult> Create([Bind("Id,AccountMinimum,AccountType")] Account account)
         {
+           
+                var id = _context.Accounts.Count();
+                
+
+            Account x = new Account
+                {
+                    AccountBalance = 0,
+                    AccountType = account.AccountType,
+                    AccountNumber = account.AccountNumber = await Task.Run(() => bl.GetNextAccountNumber(id)),
+                    IdentityHolder = _context.Users.FirstOrDefault(u => u.Email == User.Identity.Name),
+                    AccountMinimum = account.AccountMinimum,
+                    AccountLock = false,
+                };
+
             if (ModelState.IsValid)
             {
-                account.IdentityHolder = _context.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
-                _context.Add(account);
+                _context.Add(x);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(account);
         }
+        
+
+        //int i = _context.Accounts.Count();
+        //    if (ModelState.IsValid)
+        //    {
+        //        account.AccountNumber = await Task.Run(()=> bl.GetNextAccountNumber(account, i));
+        //account.IdentityHolder = _context.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
+        //        _context.Add(account);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
 
         // GET: Account/Edit/5
         public async Task<IActionResult> Edit(int? id)

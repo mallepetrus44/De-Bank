@@ -32,14 +32,17 @@ namespace De_Bank.Logic
         /// </summary>
         /// <param name="accountHolder">    Op basis van een aangemaakte AccountHolder     </param>
         /// <returns>                       De nieuw aangemaakte account                    </returns>
-        public async Task<Account> CreateAccountAsync(IdentityHolder user)
+        public async Task<Account> CreateAccountAsync(IdentityHolder user, AccountType accountType, int limiet, int id)
         {
             Account NewAccount = new Account
             {
+                AccountMinimum = limiet,
+                AccountType = accountType,
                 AccountBalance = 0,
+                AccountLock = false,
                 IdentityHolder = user,
             };                    
-            NewAccount.AccountNumber = await Task.Run(() => GetNextAccountNumber(NewAccount));
+            NewAccount.AccountNumber = await Task.Run(() => GetNextAccountNumber(id));
             return NewAccount;
         }
 
@@ -76,10 +79,10 @@ namespace De_Bank.Logic
         /// </summary>
         /// <param name="account">      creëerd een uniek rekeningnummer voor een nieuwe account    </param>
         /// <returns>                   Het nieuwe unieke rekeningnummer                            </returns>
-        public async Task<string> GetNextAccountNumber(Account account)
+        public async Task<string> GetNextAccountNumber(int id)
         {
             var prefix = await Task.Run(() => GetVar());
-            var i = account.Id + 1;
+            var i = id;
             var NewAccountNumber = prefix + i.ToString().PadLeft(9, '0');
            
             return NewAccountNumber;

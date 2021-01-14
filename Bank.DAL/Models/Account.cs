@@ -11,16 +11,13 @@ namespace Bank.DAL.Models
     {
         public int Id { get; set; }
 
-        [Required]
         public string AccountNumber { get; set; }
 
         public bool AccountLock { get; set; }
 
-        [Required]
         [Column(TypeName = "decimal(18, 2)")] //max = 999999999999999999,99
         public decimal AccountBalance { get; set; }
 
-        [Required]
         [Column(TypeName = "decimal(18, 2)")] //max = 999999999999999999,99
         public decimal AccountMinimum { get; set; }
 
