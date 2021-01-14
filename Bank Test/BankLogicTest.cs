@@ -45,15 +45,16 @@ namespace Bank_Test
         {
             account.AccountNumber = await GetNextAccountNumber(account);
 
-            Assert.AreEqual("NL71LYMB000000011", account.AccountNumber);
+            Assert.AreEqual("NL71LYMB000000012", account.AccountNumber);
         }
 
         [TestMethod]
-        public async Task CreateAccountCheck() //Deze test werkt nog niet
+        public async Task CreateAccountCheck() 
         {
             var result = await CreateAccountAsync(identityHolder);
 
-            Assert.AreEqual("John", result.IdentityHolder.FirstName);
+            Assert.AreEqual("John David Wilder", result.IdentityHolder.FullName);
+            Assert.AreEqual("NL71LYMB000000001", result.AccountNumber);
         }
     }
 }
