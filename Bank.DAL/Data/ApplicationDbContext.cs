@@ -8,13 +8,13 @@ using System.Text;
 
 namespace Bank.DAL.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<IdentityHolder>
     {
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.HasDefaultSchema("Identity");
-            builder.Entity<IdentityUser>(entity =>
+            builder.Entity<IdentityHolder>(entity =>
             {
                 entity.ToTable(name: "User");
             });
@@ -45,8 +45,7 @@ namespace Bank.DAL.Data
         }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<IdentityUser> IdentityUsers { get; set; }
-        public DbSet<IdentityHolder> IdentityHolder { get; set; }       
+        //public DbSet<IdentityHolder> User { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

@@ -9,24 +9,17 @@ namespace Bank.DAL.Models
 {
     public class IdentityHolder : IdentityUser
     {       
-        [Required]
+        //[Required]
         public string FirstName { get; set; }
 
-        [Required]
+        //[Required]
         public string MiddleName { get; set; }
 
-        [Required]
+        //[Required]
         public string LastName { get; set; }
 
         public string FullName => MiddleName == null ? $"{FirstName} {LastName}" : $"{FirstName} {MiddleName} {LastName}";
 
-        [Required]
-        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail is not valid")]
-        
-        public override string Email { get; set; }
-
-        [Required]
-        public string Password { get; set; }
         public List<Account> Accounts { get; set; }
     }
 }
