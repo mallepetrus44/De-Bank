@@ -1,7 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model IEnumerable<Bank.DAL.Models.IdentityHolder>
+@model Bank.FrontEnd.ViewModels.IdentityAccountDetailsViewModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -15,29 +15,30 @@
         <thead>
             <tr>      
                 <th>
-                    @Html.DisplayNameFor(model => model.FullName)
+                    @Html.DisplayNameFor(model => model.account.Id)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Email)
+                    @Html.DisplayNameFor(model => model.account.AccountNumber)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                    @Html.DisplayNameFor(model => model.account.AccountBalance)
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+             
+            @foreach (var item in Model.Accounts)
             {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
+                    @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
+                    @Html.DisplayFor(modelItem => item.AccountNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    @Html.DisplayFor(modelItem => item.AccountBalance)
                 </td>            
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

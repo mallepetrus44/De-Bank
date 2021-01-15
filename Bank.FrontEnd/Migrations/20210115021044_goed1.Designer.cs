@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bank.FrontEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210115000955_init1")]
-    partial class init1
+    [Migration("20210115021044_goed1")]
+    partial class goed1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -312,7 +312,7 @@ namespace Bank.FrontEnd.Migrations
             modelBuilder.Entity("Bank.DAL.Models.Account", b =>
                 {
                     b.HasOne("Bank.DAL.Models.IdentityHolder", "IdentityHolder")
-                        .WithMany("Accounts")
+                        .WithMany("Account")
                         .HasForeignKey("IdentityHolderId");
                 });
 

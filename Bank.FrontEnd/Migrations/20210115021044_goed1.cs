@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bank.FrontEnd.Migrations
 {
-    public partial class init1 : Migration
+    public partial class goed1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

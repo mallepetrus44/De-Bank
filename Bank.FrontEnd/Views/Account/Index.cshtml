@@ -1,23 +1,21 @@
 ﻿@model IEnumerable<Bank.DAL.Models.Account>
-@*@using Bank.FrontEnd.ViewModels.AccountVM*@
+@*@using Bank.FrontEnd.ViewModels.AccountVM @*Bank.DAL.Models.Account* @*@
+
 @{
     ViewData["Title"] = "Index";
 }
 
 
-<h1>Index</h1> 
+<h1>Index</h1>
 
 @if (User.Identity.IsAuthenticated)
 {
-<p>
-    <a asp-action="Create">Maak een nieuwe account aan</a>
-</p>
+    <p>
+        <a asp-action="Create">Maak een nieuwe account aan</a>
+    </p>
     <table class="table">
         <thead>
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.IdentityHolder.FullName)
-                </th>
                 <th>
                     @Html.DisplayNameFor(model => model.AccountNumber)
                 </th>
@@ -40,9 +38,6 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IdentityHolder.FullName)
-                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.AccountNumber)
                     </td>

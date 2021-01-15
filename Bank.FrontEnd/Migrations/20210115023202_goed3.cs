@@ -2,7 +2,7 @@
 
 namespace Bank.FrontEnd.Migrations
 {
-    public partial class init2 : Migration
+    public partial class goed3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
