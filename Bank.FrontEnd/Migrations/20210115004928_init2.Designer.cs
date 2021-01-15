@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bank.FrontEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210114180233_addon AccountLimiet")]
-    partial class addonAccountLimiet
+    [Migration("20210115004928_init2")]
+    partial class init2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -130,7 +130,7 @@ namespace Bank.FrontEnd.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("User");
+                    b.ToTable("IdentityHolder");
                 });
 
             modelBuilder.Entity("Bank.DAL.Models.Transaction", b =>
@@ -143,8 +143,18 @@ namespace Bank.FrontEnd.Migrations
                     b.Property<int>("AccountToId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("PeriodicPayment")
+                    b.Property<int>("Frequenty")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IdentityHolderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsPeriodic")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("NextPayment")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("PeriodicTransactionFrequentyDays")
                         .HasColumnType("int");
@@ -158,6 +168,8 @@ namespace Bank.FrontEnd.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AccountToId");
+
+                    b.HasIndex("IdentityHolderId");
 
                     b.ToTable("Transactions");
                 });
@@ -300,7 +312,7 @@ namespace Bank.FrontEnd.Migrations
             modelBuilder.Entity("Bank.DAL.Models.Account", b =>
                 {
                     b.HasOne("Bank.DAL.Models.IdentityHolder", "IdentityHolder")
-                        .WithMany("Accounts")
+                        .WithMany("Account")
                         .HasForeignKey("IdentityHolderId");
                 });
 
@@ -309,6 +321,12 @@ namespace Bank.FrontEnd.Migrations
                     b.HasOne("Bank.DAL.Models.Account", "AccountTo")
                         .WithMany("Transactions")
                         .HasForeignKey("AccountToId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bank.DAL.Models.IdentityHolder", "IdentityHolder")
+                        .WithMany()
+                        .HasForeignKey("IdentityHolderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

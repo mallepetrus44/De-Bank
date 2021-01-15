@@ -6,18 +6,6 @@
 
 <h1>Index</h1>
 
-<form action="" method="post">
-        <p>
-            <input type="text" name="SearchValue">
-            <input type="submit" value="Filter" />
-        </p>
-    </form>
-<a asp-action="Debit">Alle Debit Transacties</a>
-<p></p>
-<a asp-action="Credit">Alle Credit Transacties</a>
-<p></p>
-
-
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -31,36 +19,47 @@
                 @Html.DisplayNameFor(model => model.TransactionDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PeriodicPayment)
+                @Html.DisplayNameFor(model => model.IsPeriodic)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PeriodicTransactionFrequentyDays)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Frequenty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NextPayment)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TransactionAmount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TransactionDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PeriodicPayment)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PeriodicTransactionFrequentyDays)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPeriodic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PeriodicTransactionFrequentyDays)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Frequenty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NextPayment)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>

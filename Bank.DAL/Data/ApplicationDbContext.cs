@@ -16,7 +16,7 @@ namespace Bank.DAL.Data
             builder.HasDefaultSchema("Identity");
             builder.Entity<IdentityHolder>(entity =>
             {
-                entity.ToTable(name: "User");
+                entity.ToTable(name: "IdentityHolder");
             });
             builder.Entity<IdentityRole>(entity =>
             {
@@ -46,6 +46,7 @@ namespace Bank.DAL.Data
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
+        public DbSet<IdentityHolder> IdentityHolders { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

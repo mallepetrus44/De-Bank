@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Bank.DAL.Models
 {
-    public enum AccountLimiet
+    public enum Choice
     {
         Geen,
         Actief  

@@ -32,7 +32,7 @@ namespace Bank.FrontEnd
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
                                     x => x.MigrationsAssembly("Bank.FrontEnd")));
-            //services.AddDbContext<ApplicationDbContext>(options =>
+            //services.AddDbContext<BankFrontEndContext>(options =>
             //    options.UseSqlServer(
             //        Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityHolder>(options => options.SignIn.RequireConfirmedAccount = true)

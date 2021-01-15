@@ -3,50 +3,91 @@
 @{
     ViewData["Title"] = "Create";
 }
+@if (User.Identity.IsAuthenticated)
+{
+    <script>
+        function showhide() {
+            var div = document.getElementById("PeriodicView");
+            if (div.style.display !== "none") {
+                div.style.display = "none";
+            }
+            else {
+                div.style.display = "block";
+            }
+        }
+    </script>
+    <h1>Create</h1>
 
-<h1>Create</h1>
-
-<h4>Transaction</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TransactionAmount" class="control-label"></label>
-                <input asp-for="TransactionAmount" class="form-control" />
-                <span asp-validation-for="TransactionAmount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AccountTo" class="control-label"></label>
-                <Select asp-for="AccountTo" class="form-control" />
-                <span asp-validation-for="AccountTo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TransactionDate" class="control-label"></label>
-                <input asp-for="TransactionDate" class="form-control" />
-                <span asp-validation-for="TransactionDate" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="PeriodicPayment" /> @Html.DisplayNameFor(model => model.PeriodicPayment)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="PeriodicTransactionFrequentyDays" class="control-label"></label>
-                <input asp-for="PeriodicTransactionFrequentyDays" class="form-control" />
-                <span asp-validation-for="PeriodicTransactionFrequentyDays" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <h4>Transaction</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="AccountTo.AccountNumber" class="control-label"></label>
+                    <input asp-for="AccountTo.AccountNumber" class="form-control" />
+                    <span asp-validation-for="AccountTo.AccountNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TransactionAmount" class="control-label"></label>
+                    <input asp-for="TransactionAmount" class="form-control" />
+                    <span asp-validation-for="TransactionAmount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TransactionDate" class="control-label"></label>
+                    <input asp-for="TransactionDate" class="form-control" />
+                    <span asp-validation-for="TransactionDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IsPeriodic" class="control-label"></label>
+                    <select asp-for="IsPeriodic" asp-items="Html.GetEnumSelectList<Choice>()" class="form-control" onchange="showhide()"></select>
+                    <span asp-validation-for="IsPeriodic" class="text-danger"></span>
+                </div>
+                @*<div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="IsPeriodic" /> @Html.DisplayNameFor(model => model.IsPeriodic)
+            </label>
+        </div>*@
+                <div id="PeriodicView">
+                    <div class="form-group">
+                        <label asp-for="PeriodicTransactionFrequentyDays" class="control-label"></label>
+                        <input asp-for="PeriodicTransactionFrequentyDays" class="form-control" />
+                        <span asp-validation-for="PeriodicTransactionFrequentyDays" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Frequenty" class="control-label"></label>
+                        <input asp-for="Frequenty" class="form-control" />
+                        <span asp-validation-for="Frequenty" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NextPayment" class="control-label"></label>
+                        <input asp-for="NextPayment" class="form-control" />
+                        <span asp-validation-for="NextPayment" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+@if (!User.Identity.IsAuthenticated)
+{
+    <h2>U dient in te loggen om een transactie aan te maken. </h2>
+    <br />
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

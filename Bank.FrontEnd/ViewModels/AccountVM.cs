@@ -17,7 +17,7 @@ namespace Bank.FrontEnd.ViewModels
         public List<Transaction> Transactions { get; set; }
         public int TransactionID { get; set; }
 
-        public List<IdentityHolder> IdentityHolder { get; set; }
+        public List<IdentityHolder> IdentityHolders { get; set; }
         public int IdentityHolderID { get; set; }
 
     }

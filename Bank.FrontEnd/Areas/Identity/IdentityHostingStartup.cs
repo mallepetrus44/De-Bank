@@ -1,5 +1,6 @@
 ﻿using System;
 using Bank.DAL.Data;
+using Bank.DAL.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;

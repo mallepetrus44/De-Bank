@@ -21,10 +21,10 @@ namespace Bank.DAL.Models
         [Column(TypeName = "decimal(18, 2)")] //max = 999999999999999999,99
         public decimal AccountMinimum { get; set; }
         [Required]
-        public AccountLimiet AccountLimiet { get; set; }
+        public Choice AccountLimiet { get; set; }
 
         [Required]
-        public AccountType AccountType { get;set; }
+        public AccountType AccountType { get; set; }
 
         public IdentityHolder IdentityHolder { get; set; }
         public IEnumerable<Transaction> Transactions { get; set; }

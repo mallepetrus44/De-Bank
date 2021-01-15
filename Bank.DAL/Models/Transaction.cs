@@ -8,7 +8,11 @@ namespace Bank.DAL.Models
 {
     public class Transaction
     {
+        [Key]
         public int Id { get; set; }
+
+        [Required]
+        public IdentityHolder IdentityHolder { get; set; }
 
         [Required]
         public Account AccountTo { get; set; }
@@ -21,10 +25,11 @@ namespace Bank.DAL.Models
 
         [Required]
         [DataType(DataType.DateTime)]
-        public DateTime TransactionDate { get; set; }
-
-
-        public bool PeriodicPayment { get; set; }
+        public DateTime TransactionDate { get; set; }    
+        [Required]
+        public bool IsPeriodic { get; set; }
         public int PeriodicTransactionFrequentyDays { get; set; }
+        public int Frequenty { get; set; }
+        public DateTime NextPayment { get; set; }
     }
 }

@@ -43,7 +43,7 @@
 
                 <div class="form-group">
                     <label asp-for="AccountLimiet" class="control-label"></label>
-                    <select asp-for="AccountLimiet" asp-items="Html.GetEnumSelectList<AccountLimiet>()" class="form-control" onchange="showhide()"></select>
+                    <select asp-for="AccountLimiet" asp-items="Html.GetEnumSelectList<Choice>()" class="form-control" onchange="showhide()"></select>
                     <span asp-validation-for="AccountLimiet" class="text-danger"></span>
                 </div>
                 <div id="HoeveelheidLimiet" style="display:none" >

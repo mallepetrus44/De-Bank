@@ -257,7 +257,7 @@ namespace De_Bank.Logic
         {
             DateTime now = DateTime.Now;
 
-            Transactions = new List<Transaction>(account.Transactions.Where(f => f.PeriodicPayment).Where(a => a.AccountTo.Id == transaction.AccountTo.Id));
+            Transactions = new List<Transaction>(account.Transactions.Where(f => f.IsPeriodic).Where(a => a.AccountTo.Id == transaction.AccountTo.Id));
 
             int counter = 0;
 
@@ -271,6 +271,7 @@ namespace De_Bank.Logic
             }
             return true;
         }
+
        
     }
 }

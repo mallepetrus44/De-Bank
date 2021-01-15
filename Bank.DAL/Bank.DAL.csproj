@@ -5,6 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas - Copy\**" />
+    <Compile Remove="Areas2\**" />
+    <EmbeddedResource Remove="Areas - Copy\**" />
+    <EmbeddedResource Remove="Areas2\**" />
+    <None Remove="Areas - Copy\**" />
+    <None Remove="Areas2\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.10">
       <PrivateAssets>all</PrivateAssets>

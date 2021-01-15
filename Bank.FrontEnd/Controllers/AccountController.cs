@@ -81,6 +81,7 @@ namespace Bank.FrontEnd.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(NewAccount);
+                _context.Accounts.Add(NewAccount);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
