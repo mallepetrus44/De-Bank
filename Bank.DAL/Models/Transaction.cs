@@ -19,8 +19,8 @@ namespace Bank.DAL.Models
 
 
         [Required]
-        [Column(TypeName = "decimal(18, 2)")] //max = 999999999999999999,99
-        public decimal TransactionAmount { get; set; }
+        [DataType(DataType.Currency)]
+        public float? TransactionAmount { get; set; }
 
 
         [Required]

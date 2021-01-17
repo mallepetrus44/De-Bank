@@ -19,8 +19,8 @@ namespace Bank_Test
             account = new Account
             {
                 Id = 11,
-                AccountBalance = 1000.00M,
-                AccountMinimum = 0.00M
+                AccountBalance = 1000,
+                AccountMinimum = 0
             };
 
             identityHolder = new IdentityHolder

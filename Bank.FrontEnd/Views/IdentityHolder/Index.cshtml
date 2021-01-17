@@ -23,6 +23,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Email)
                 </th>
+                <th>                    
+                    @Html.DisplayNameFor(model => model.Accounts)
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -39,6 +42,24 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Email)
+                </td>               
+                <td>
+                    @foreach (var account in item.Accounts)
+                    {
+                        @if (account.AccountLock == true)
+                        {
+                            <p class="text-danger">
+                                >@Html.DisplayFor(modelItem => account.AccountNumber)<br />
+                            </p>
+                        }
+                        else
+                        {
+                            <p>
+                                >@Html.DisplayFor(modelItem => account.AccountNumber)
+                            </p>
+                        }
+                    }
+                    
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -47,7 +68,6 @@
                 </td>
             </tr>
             }
-
         </tbody>
     </table>
 }

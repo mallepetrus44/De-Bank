@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bank.FrontEnd.Migrations
 {
-    public partial class goed1 : Migration
+    public partial class init1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -63,8 +63,8 @@ namespace Bank.FrontEnd.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AccountNumber = table.Column<string>(nullable: true),
                     AccountLock = table.Column<bool>(nullable: false),
-                    AccountBalance = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    AccountMinimum = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    AccountBalance = table.Column<float>(nullable: true),
+                    AccountMinimum = table.Column<float>(nullable: true),
                     AccountLimiet = table.Column<int>(nullable: false),
                     AccountType = table.Column<int>(nullable: false),
                     IdentityHolderId = table.Column<string>(nullable: true)
@@ -74,6 +74,28 @@ namespace Bank.FrontEnd.Migrations
                     table.PrimaryKey("PK_Accounts", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Accounts_IdentityHolder_IdentityHolderId",
+                        column: x => x.IdentityHolderId,
+                        principalSchema: "Identity",
+                        principalTable: "IdentityHolder",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SavedAccounts",
+                schema: "Identity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BankAccount = table.Column<string>(nullable: true),
+                    IdentityHolderId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SavedAccounts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SavedAccounts_IdentityHolder_IdentityHolderId",
                         column: x => x.IdentityHolderId,
                         principalSchema: "Identity",
                         principalTable: "IdentityHolder",
@@ -207,7 +229,7 @@ namespace Bank.FrontEnd.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdentityHolderId = table.Column<string>(nullable: false),
                     AccountToId = table.Column<int>(nullable: false),
-                    TransactionAmount = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    TransactionAmount = table.Column<float>(nullable: false),
                     TransactionDate = table.Column<DateTime>(nullable: false),
                     IsPeriodic = table.Column<bool>(nullable: false),
                     PeriodicTransactionFrequentyDays = table.Column<int>(nullable: false),
@@ -268,6 +290,12 @@ namespace Bank.FrontEnd.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SavedAccounts_IdentityHolderId",
+                schema: "Identity",
+                table: "SavedAccounts",
+                column: "IdentityHolderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Transactions_AccountToId",
                 schema: "Identity",
                 table: "Transactions",
@@ -302,6 +330,10 @@ namespace Bank.FrontEnd.Migrations
         {
             migrationBuilder.DropTable(
                 name: "RoleClaims",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "SavedAccounts",
                 schema: "Identity");
 
             migrationBuilder.DropTable(

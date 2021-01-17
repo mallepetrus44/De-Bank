@@ -6,57 +6,49 @@
 
 <h1>Details</h1>
 
-@if (User.Identity.IsAuthenticated)
-{
-    <div>
-        <h4>Account</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.AccountNumber)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.AccountNumber)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.AccountLock)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.AccountLock)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.AccountBalance)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.AccountBalance)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.AccountMinimum)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.AccountMinimum)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.AccountType)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.AccountType)
-            </dd>
-        </dl>
-    </div>
-    <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-        <a asp-action="Index">Back to List</a>
-    </div>
-}
-@if (!User.Identity.IsAuthenticated)
-{
-    <h2>U dient in te loggen om de details van een account te kunnen bekijken. </h2>
-    <br />
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+<div>
+    <h4>Account</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AccountNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AccountNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AccountLock)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AccountLock)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AccountBalance)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AccountBalance)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AccountMinimum)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AccountMinimum)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AccountLimiet)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AccountLimiet)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AccountType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AccountType)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

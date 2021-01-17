@@ -15,11 +15,11 @@ namespace Bank.DAL.Models
 
         public bool AccountLock { get; set; }
 
-        [Column(TypeName = "decimal(18, 2)")] //max = 999999999999999999,99
-        public decimal AccountBalance { get; set; }
+        [DataType(DataType.Currency)]
+        public float? AccountBalance { get; set; }
 
-        [Column(TypeName = "decimal(18, 2)")] //max = 999999999999999999,99
-        public decimal AccountMinimum { get; set; }
+        [DataType(DataType.Currency)]
+        public float? AccountMinimum { get; set; }
         [Required]
         public Choice AccountLimiet { get; set; }
 

@@ -47,18 +47,15 @@ namespace Bank.FrontEnd.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [Display(Name = "Voornaam")]
             public string FirstName { get; set; }
 
-            [Display(Name = "Tussenvoegsel")]
+            //[Required]
             public string MiddleName { get; set; }
 
             [Required]
-            [Display(Name = "Achternaam")]
             public string LastName { get; set; }
 
-            //public string FullName => MiddleName == null ? $"{FirstName} {LastName}" : $"{FirstName} {MiddleName} {LastName}";
-
+            public string FullName => MiddleName == null ? $"{FirstName} {LastName}" : $"{FirstName} {MiddleName} {LastName}";
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]

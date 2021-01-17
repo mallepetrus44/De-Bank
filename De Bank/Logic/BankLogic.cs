@@ -216,7 +216,7 @@ namespace De_Bank.Logic
                         throw new ArgumentOutOfRangeException(nameof(transaction.TransactionAmount), "Het bedrag dient hoger dan 0 te zijn.");
                     }
 
-                    decimal appliedAmount = 0;
+                    float? appliedAmount = 0;
 
                     lock (balanceLock)
                     {

@@ -22,7 +22,9 @@ namespace Bank.FrontEnd.Controllers
         // GET: Transaction
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Transactions.ToListAsync());
+            var result = await _context.Transactions.Where(u => u.IdentityHolder.Email == User.Identity.Name).ToListAsync();
+
+            return View(result);
         }
 
         // GET: Transaction/Details/5

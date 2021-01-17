@@ -22,6 +22,7 @@ namespace Bank.FrontEnd.Controllers
             _context = context;
         }
 
+        
         //public ViewResult AltIndex()
         //{
         //    IdentityAccountDetailsViewModel identityDetailsViewModel = new IdentityAccountDetailsViewModel()
@@ -36,9 +37,11 @@ namespace Bank.FrontEnd.Controllers
         // GET: Account
         public async Task<IActionResult> Index()
         {
-            var result = await _context.IdentityHolders.ToListAsync();
 
-         
+            var result = await _context.IdentityHolders.Include(i => i.Accounts).ToListAsync();
+            //var result = await _context.IdentityHolders.ToListAsync();
+
+
             return View(result);
             //return View(await _context.Accounts.Where(u => u.IdentityHolder.UserName == User.Identity.Name).ToListAsync());  // CODE ALLE ACCOUNTS VAN GEBRUIKER (INGELOGD)
             //return View(await _context.Accounts.ToListAsync()); // ALLE ACCOUNTS laten zien

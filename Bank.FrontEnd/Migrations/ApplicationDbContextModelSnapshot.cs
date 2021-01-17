@@ -27,8 +27,8 @@ namespace Bank.FrontEnd.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("AccountBalance")
-                        .HasColumnType("decimal(18, 2)");
+                    b.Property<float?>("AccountBalance")
+                        .HasColumnType("real");
 
                     b.Property<int>("AccountLimiet")
                         .HasColumnType("int");
@@ -36,8 +36,8 @@ namespace Bank.FrontEnd.Migrations
                     b.Property<bool>("AccountLock")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("AccountMinimum")
-                        .HasColumnType("decimal(18, 2)");
+                    b.Property<float?>("AccountMinimum")
+                        .HasColumnType("real");
 
                     b.Property<string>("AccountNumber")
                         .HasColumnType("nvarchar(max)");
@@ -131,6 +131,26 @@ namespace Bank.FrontEnd.Migrations
                     b.ToTable("IdentityHolder");
                 });
 
+            modelBuilder.Entity("Bank.DAL.Models.SavedAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BankAccount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdentityHolderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdentityHolderId");
+
+                    b.ToTable("SavedAccounts");
+                });
+
             modelBuilder.Entity("Bank.DAL.Models.Transaction", b =>
                 {
                     b.Property<int>("Id")
@@ -157,8 +177,9 @@ namespace Bank.FrontEnd.Migrations
                     b.Property<int>("PeriodicTransactionFrequentyDays")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TransactionAmount")
-                        .HasColumnType("decimal(18, 2)");
+                    b.Property<float?>("TransactionAmount")
+                        .IsRequired()
+                        .HasColumnType("real");
 
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime2");
@@ -310,7 +331,14 @@ namespace Bank.FrontEnd.Migrations
             modelBuilder.Entity("Bank.DAL.Models.Account", b =>
                 {
                     b.HasOne("Bank.DAL.Models.IdentityHolder", "IdentityHolder")
-                        .WithMany("Account")
+                        .WithMany("Accounts")
+                        .HasForeignKey("IdentityHolderId");
+                });
+
+            modelBuilder.Entity("Bank.DAL.Models.SavedAccount", b =>
+                {
+                    b.HasOne("Bank.DAL.Models.IdentityHolder", null)
+                        .WithMany("SavedAccounts")
                         .HasForeignKey("IdentityHolderId");
                 });
 
@@ -323,7 +351,7 @@ namespace Bank.FrontEnd.Migrations
                         .IsRequired();
 
                     b.HasOne("Bank.DAL.Models.IdentityHolder", "IdentityHolder")
-                        .WithMany()
+                        .WithMany("Transactions")
                         .HasForeignKey("IdentityHolderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

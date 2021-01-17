@@ -9,7 +9,7 @@ namespace Bank.FrontEnd.ViewModels
     public class IdentityAccountDetailsViewModel
     {
         public IEnumerable<Account> Accounts { get; set; }
-        public Account account { get; set; }
+        public Account Account { get; set; }
 
         public IEnumerable<IdentityHolder> IdentityHolders { get; set; }
 
