@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Bank.DAL.Models.Transaction>
+
+@{
+    ViewData["Title"] = "DashboardTransactie";
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TransactionAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransactionDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsPeriodic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PeriodicTransactionFrequentyDays)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Frequenty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NextPayment)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPeriodic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PeriodicTransactionFrequentyDays)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Frequenty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NextPayment)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

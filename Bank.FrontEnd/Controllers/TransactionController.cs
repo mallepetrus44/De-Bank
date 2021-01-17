@@ -7,12 +7,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bank.DAL.Data;
 using Bank.DAL.Models;
+using System.Security.Claims;
+using Bank.FrontEnd.ViewModels;
+using De_Bank.Logic;
 
 namespace Bank.FrontEnd.Controllers
 {
     public class TransactionController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly BankLogic _banklogic = new BankLogic();
+
 
         public TransactionController(ApplicationDbContext context)
         {
@@ -22,6 +27,7 @@ namespace Bank.FrontEnd.Controllers
         // GET: Transaction
         public async Task<IActionResult> Index()
         {
+
             var result = await _context.Transactions.Where(u => u.IdentityHolder.Email == User.Identity.Name).ToListAsync();
 
             return View(result);
@@ -58,6 +64,19 @@ namespace Bank.FrontEnd.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,TransactionAmount,TransactionDate,IsPeriodic,PeriodicTransactionFrequentyDays,Frequenty,NextPayment")] Transaction transaction)
         {
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            IdentityHolder identityHolder = _context.IdentityHolders.Where(i => i.Id == currentUserID).FirstOrDefault();
+
+            var accounts = _context.Accounts.Where(u => u.IdentityHolder.Id == currentUserID);
+            var transactions = _banklogic.GetAccountTransactions();
+            var UserTo = await Task.Run(() => GetUserIDByBankAccount(transaction.AccountTo));
+
+            if (UserTo !="NotFound")
+            {
+                transaction.AccountTo = UserTo;
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(transaction);
@@ -65,8 +84,8 @@ namespace Bank.FrontEnd.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(transaction);
-        }
 
+        }
         // GET: Transaction/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -150,6 +169,46 @@ namespace Bank.FrontEnd.Controllers
         private bool TransactionExists(int id)
         {
             return _context.Transactions.Any(e => e.Id == id);
+        }
+
+        public async Task<string> GetUserIDByBankAccount(string accountNumber)
+        {
+            var AllAccounts = await Task.Run(() => GetAllAccounts());
+            var TryFindUser = await Task.Run(()=> GetAccountID(AllAccounts, accountNumber));
+            var AccountID = TryFindUser;
+            if (AccountID != "NotFound")
+            {
+                return AccountID;
+            }
+            return "NotFound";
+        }
+
+        public string GetAccountID(List<Account> accounts, string accountNumber)
+        {
+            var AllUsers = _context.IdentityHolders.ToList();
+            string id = "";
+            int count = 0;
+
+            foreach (Account account in accounts)
+            {
+                if (account.AccountNumber == accountNumber)
+                {
+                    id = account.IdentityHolder.Id;
+                }
+                return "NotFound";
+            }
+            return "NotFound";
+        }
+        public List<Account> GetAllAccounts()
+        {
+            var AllAccounts = new List<Account>();
+
+            foreach (var item in _context.Accounts)
+            {
+                AllAccounts.Add(item);
+            }
+
+            return AllAccounts.ToList();
         }
     }
 }
