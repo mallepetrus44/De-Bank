@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bank.FrontEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210115151014_init1")]
-    partial class init1
+    [Migration("20210118000436_init2")]
+    partial class init2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -160,8 +160,12 @@ namespace Bank.FrontEnd.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountToId")
+                    b.Property<int?>("AccountId")
                         .HasColumnType("int");
+
+                    b.Property<string>("AccountTo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Frequenty")
                         .HasColumnType("int");
@@ -188,7 +192,7 @@ namespace Bank.FrontEnd.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountToId");
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("IdentityHolderId");
 
@@ -346,11 +350,9 @@ namespace Bank.FrontEnd.Migrations
 
             modelBuilder.Entity("Bank.DAL.Models.Transaction", b =>
                 {
-                    b.HasOne("Bank.DAL.Models.Account", "AccountTo")
+                    b.HasOne("Bank.DAL.Models.Account", null)
                         .WithMany("Transactions")
-                        .HasForeignKey("AccountToId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AccountId");
 
                     b.HasOne("Bank.DAL.Models.IdentityHolder", "IdentityHolder")
                         .WithMany("Transactions")

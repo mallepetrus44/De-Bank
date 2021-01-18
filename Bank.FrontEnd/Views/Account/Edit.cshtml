@@ -35,11 +35,6 @@
                     <span asp-validation-for="AccountMinimum" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="AccountLimiet" class="control-label"></label>
-                    <select asp-for="AccountLimiet" asp-items="@Html.GetEnumSelectList<Choice>();" class="form-control"></select>
-                    <span asp-validation-for="AccountLimiet" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="AccountType" class="control-label"></label>
                     <select asp-for="AccountType" asp-items="@Html.GetEnumSelectList<AccountType>();" class="form-control"></select>
                     <span asp-validation-for="AccountType" class="text-danger"></span>

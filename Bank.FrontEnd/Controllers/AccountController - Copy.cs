@@ -61,7 +61,7 @@ namespace Bank.FrontEnd.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AccountMinimum,AccountType,AccountLimiet")] Account account)
+        public async Task<IActionResult> Create([Bind("Id,AccountMinimum,AccountType")] Account account)
         {
            
             var id = _context.Accounts.Count();
@@ -71,7 +71,7 @@ namespace Bank.FrontEnd.Controllers
                 AccountBalance = 0,
                 AccountType = account.AccountType,
                 AccountNumber = account.AccountNumber = await Task.Run(() => _banklogic.GetNextAccountNumber(id)),
-                AccountLimiet = account.AccountLimiet,
+
                 AccountMinimum = 0 - account.AccountMinimum,
                 AccountLock = false,
                 IdentityHolder = _context.Users.FirstOrDefault(u => u.Email == User.Identity.Name)                               

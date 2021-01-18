@@ -6,8 +6,7 @@ namespace Bank.DAL.Models
 {
     public enum Choice
     {
-        Geen,
-        Actief  
-
+        Actief,
+        Geen
     }
 }

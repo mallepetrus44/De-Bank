@@ -62,19 +62,19 @@ namespace Bank.FrontEnd.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TransactionAmount,TransactionDate,IsPeriodic,PeriodicTransactionFrequentyDays,Frequenty,NextPayment")] Transaction transaction)
+        public async Task<IActionResult> Create([Bind("Id,AccountTo,TransactionAmount,TransactionDate,IsPeriodic,PeriodicTransactionFrequentyDays,Frequenty,NextPayment")] Transaction transaction)
         {
             ClaimsPrincipal currentUser = this.User;
             var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             IdentityHolder identityHolder = _context.IdentityHolders.Where(i => i.Id == currentUserID).FirstOrDefault();
 
-            var accounts = _context.Accounts.Where(u => u.IdentityHolder.Id == currentUserID);
-            var transactions = _banklogic.GetAccountTransactions();
-            var UserTo = await Task.Run(() => GetUserIDByBankAccount(transaction.AccountTo));
+            //var accounts = _context.Accounts.Where(u => u.IdentityHolder.Id == currentUserID);
+            var UserTo = await Task.Run(() => GetUserIDByBankAccount(transaction.AccountTo.ToString()));
+            transaction.IdentityHolder.Id = identityHolder.Id;
 
-            if (UserTo !="NotFound")
+            if (UserTo != "NotFound")
             {
-                transaction.AccountTo = UserTo;
+
             }
 
             if (ModelState.IsValid)
@@ -175,29 +175,27 @@ namespace Bank.FrontEnd.Controllers
         {
             var AllAccounts = await Task.Run(() => GetAllAccounts());
             var TryFindUser = await Task.Run(()=> GetAccountID(AllAccounts, accountNumber));
-            var AccountID = TryFindUser;
+            var AccountID = TryFindUser.ToString();
             if (AccountID != "NotFound")
             {
-                return AccountID;
+                return AccountID.ToString();
             }
             return "NotFound";
         }
 
-        public string GetAccountID(List<Account> accounts, string accountNumber)
+        public string GetAccountID(List<Account> AllAccounts, string accountNumber)
         {
-            var AllUsers = _context.IdentityHolders.ToList();
             string id = "";
-            int count = 0;
 
-            foreach (Account account in accounts)
+            foreach (Account account in AllAccounts)
             {
-                if (account.AccountNumber == accountNumber)
+                if(account.AccountNumber == accountNumber)
                 {
-                    id = account.IdentityHolder.Id;
+                    id = account.IdentityHolder.Id.ToString();
+                    return id;
                 }
-                return "NotFound";
             }
-            return "NotFound";
+            return "2";
         }
         public List<Account> GetAllAccounts()
         {

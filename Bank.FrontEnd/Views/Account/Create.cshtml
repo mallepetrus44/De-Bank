@@ -4,14 +4,14 @@
     ViewData["Title"] = "Create";
 }
 <script>
-        function showhide() {
-            var div = document.getElementById("AccountLimiet");
-            if (div.style.display !== "none") {
-                div.style.display = "none";
-            }
-            else {
-                div.style.display = "block";
-            }
+    function showhide() {
+        var div = document.getElementById("AccountMinimum");
+        if (div.style.display !== "none") {
+            div.style.display = "none";
+        }
+        else {
+            div.style.display = "block";
+        }
     }
 </script>
 
@@ -29,22 +29,17 @@
                     <label asp-for="AccountType" class="control-label"></label>
                     <select asp-for="AccountType" asp-items="@Html.GetEnumSelectList<AccountType>();" class="form-control" onchange="showhide()"></select>
                     <span asp-validation-for="AccountType" class="text-danger"></span>
-                </div>
-                <div id="AccountLimiet" style="display:block">
-                    <div class="form-group">
-                        <label asp-for="AccountLimiet" class="control-label"></label>
-                        <select asp-for="AccountLimiet" asp-items="@Html.GetEnumSelectList<Choice>();" class="form-control"></select>
-                        <span asp-validation-for="AccountLimiet" class="text-danger"></span>
-                </div>
+                </div>             
+                <div id="AccountMinimum" style="display:block">
                     <div class="form-group">
                         <label asp-for="AccountMinimum" class="control-label"></label>
-                        <input asp-for="AccountMinimum" class="form-control" />
+                        <input asp-for="AccountMinimum" value="0" class="form-control" />
                         <span asp-validation-for="AccountMinimum" class="text-danger"></span>
                     </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
             </form>
         </div>
     </div>

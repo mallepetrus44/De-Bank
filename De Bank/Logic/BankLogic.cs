@@ -13,9 +13,10 @@ namespace De_Bank.Logic
     public class BankLogic
     {
         private readonly object balanceLock = new object();
-        private readonly ClaimsPrincipal User;
+        //private readonly ClaimsPrincipal User;
 
         public List<Transaction> Transactions { get; set; }
+        public ClaimsPrincipal User { get; private set; }
 
 
         /// <summary>

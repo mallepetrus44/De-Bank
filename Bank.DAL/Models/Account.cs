@@ -19,9 +19,8 @@ namespace Bank.DAL.Models
         public float? AccountBalance { get; set; }
 
         [DataType(DataType.Currency)]
+        [Display(Name ="Account Limiet")]
         public float? AccountMinimum { get; set; }
-        [Required]
-        public Choice AccountLimiet { get; set; }
 
         [Required]
         public AccountType AccountType { get; set; }

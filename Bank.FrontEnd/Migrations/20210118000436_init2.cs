@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bank.FrontEnd.Migrations
 {
-    public partial class init1 : Migration
+    public partial class init2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -228,24 +228,25 @@ namespace Bank.FrontEnd.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdentityHolderId = table.Column<string>(nullable: false),
-                    AccountToId = table.Column<int>(nullable: false),
+                    AccountTo = table.Column<string>(nullable: false),
                     TransactionAmount = table.Column<float>(nullable: false),
                     TransactionDate = table.Column<DateTime>(nullable: false),
                     IsPeriodic = table.Column<bool>(nullable: false),
                     PeriodicTransactionFrequentyDays = table.Column<int>(nullable: false),
                     Frequenty = table.Column<int>(nullable: false),
-                    NextPayment = table.Column<DateTime>(nullable: false)
+                    NextPayment = table.Column<DateTime>(nullable: false),
+                    AccountId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Transactions_Accounts_AccountToId",
-                        column: x => x.AccountToId,
+                        name: "FK_Transactions_Accounts_AccountId",
+                        column: x => x.AccountId,
                         principalSchema: "Identity",
                         principalTable: "Accounts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Transactions_IdentityHolder_IdentityHolderId",
                         column: x => x.IdentityHolderId,
@@ -296,10 +297,10 @@ namespace Bank.FrontEnd.Migrations
                 column: "IdentityHolderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_AccountToId",
+                name: "IX_Transactions_AccountId",
                 schema: "Identity",
                 table: "Transactions",
-                column: "AccountToId");
+                column: "AccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_IdentityHolderId",
