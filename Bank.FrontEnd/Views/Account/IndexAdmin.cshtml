@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Bank.DAL.Models.Account>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="IndexAdmin" asp-route-sortOrder="@ViewData["AccountBalanceSort"]">@Html.DisplayNameFor(model => model.AccountBalance)</a>
+            </th>
+            <th>
+                <a asp-action="IndexAdmin" asp-route-sortOrder="@ViewData["AccountLockSort"]">@Html.DisplayNameFor(model => model.AccountLock)</a>
+            </th>
+            <th>
+                <a asp-action="IndexAdmin" asp-route-sortOrder="@ViewData["AccountMinimumSort"]">@Html.DisplayNameFor(model => model.AccountMinimum)</a>
+            </th>
+            <th>
+                <a asp-action="IndexAdmin" asp-route-sortOrder="@ViewData["AccountNumberSort"]">@Html.DisplayNameFor(model => model.AccountNumber)</a>
+            </th>
+            <th>
+                <a asp-action="IndexAdmin" asp-route-sortOrder="@ViewData["AccountTypeSort"]">@Html.DisplayNameFor(model => model.AccountType)</a>
+            </th>
+            <th>
+                <a asp-action="IndexAdmin" asp-route-sortOrder="@ViewData["IdSort"]">@Html.DisplayNameFor(model => model.Id)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentityHolder.FullName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountBalance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountLock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountMinimum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
