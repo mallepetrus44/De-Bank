@@ -29,7 +29,6 @@ namespace Bank_Test
 
 
         [TestMethod]
-        [TestCategory("Account")]
         public void StartAmountMustBeZero()
         {
             Assert.AreEqual(0, account1.AccountBalance);
@@ -37,7 +36,6 @@ namespace Bank_Test
 
 
         [TestMethod]
-        [TestCategory("Transaction")]
         public void MakeTransactionTest()
         {
 

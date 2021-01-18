@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bank.FrontEnd.Migrations
 {
-    public partial class init2 : Migration
+    public partial class init1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -65,7 +65,6 @@ namespace Bank.FrontEnd.Migrations
                     AccountLock = table.Column<bool>(nullable: false),
                     AccountBalance = table.Column<float>(nullable: true),
                     AccountMinimum = table.Column<float>(nullable: true),
-                    AccountLimiet = table.Column<int>(nullable: false),
                     AccountType = table.Column<int>(nullable: false),
                     IdentityHolderId = table.Column<string>(nullable: true)
                 },
@@ -227,7 +226,7 @@ namespace Bank.FrontEnd.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdentityHolderId = table.Column<string>(nullable: false),
+                    AccountFrom = table.Column<string>(nullable: true),
                     AccountTo = table.Column<string>(nullable: false),
                     TransactionAmount = table.Column<float>(nullable: false),
                     TransactionDate = table.Column<DateTime>(nullable: false),
@@ -235,7 +234,8 @@ namespace Bank.FrontEnd.Migrations
                     PeriodicTransactionFrequentyDays = table.Column<int>(nullable: false),
                     Frequenty = table.Column<int>(nullable: false),
                     NextPayment = table.Column<DateTime>(nullable: false),
-                    AccountId = table.Column<int>(nullable: true)
+                    AccountId = table.Column<int>(nullable: true),
+                    IdentityHolderId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -253,7 +253,7 @@ namespace Bank.FrontEnd.Migrations
                         principalSchema: "Identity",
                         principalTable: "IdentityHolder",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

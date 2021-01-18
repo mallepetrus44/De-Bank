@@ -11,8 +11,7 @@ namespace Bank.DAL.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public IdentityHolder IdentityHolder { get; set; }
+        public string AccountFrom { get; set; }
 
         [Required]
         public string AccountTo { get; set; }
@@ -24,7 +23,8 @@ namespace Bank.DAL.Models
 
 
         [Required]
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime TransactionDate { get; set; }    
         [Required]
         public bool IsPeriodic { get; set; }
