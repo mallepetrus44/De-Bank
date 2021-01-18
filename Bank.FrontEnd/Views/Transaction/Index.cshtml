@@ -3,61 +3,75 @@
 @{
     ViewData["Title"] = "Index";
 }
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TransactionAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TransactionDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsPeriodic)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PeriodicTransactionFrequentyDays)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Frequenty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NextPayment)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TransactionAmount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TransactionDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsPeriodic)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PeriodicTransactionFrequentyDays)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Frequenty)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NextPayment)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.TransactionAmount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TransactionDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsPeriodic)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PeriodicTransactionFrequentyDays)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Frequenty)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NextPayment)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsPeriodic)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PeriodicTransactionFrequentyDays)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Frequenty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NextPayment)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (!User.Identity.IsAuthenticated)
+{
+    <h2>U dient in te loggen om een transactie te kunnen maken. </h2>
+    <br />
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}

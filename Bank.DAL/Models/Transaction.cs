@@ -11,8 +11,7 @@ namespace Bank.DAL.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public IdentityHolder IdentityHolder { get; set; }
+        public string AccountFrom { get; set; }
 
         [Required]
         public string AccountTo { get; set; }
