@@ -155,6 +155,9 @@ namespace Bank.FrontEnd.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AccountFrom")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
@@ -166,7 +169,6 @@ namespace Bank.FrontEnd.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("IdentityHolderId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsPeriodic")
@@ -349,11 +351,9 @@ namespace Bank.FrontEnd.Migrations
                         .WithMany("Transactions")
                         .HasForeignKey("AccountId");
 
-                    b.HasOne("Bank.DAL.Models.IdentityHolder", "IdentityHolder")
+                    b.HasOne("Bank.DAL.Models.IdentityHolder", null)
                         .WithMany("Transactions")
-                        .HasForeignKey("IdentityHolderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdentityHolderId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

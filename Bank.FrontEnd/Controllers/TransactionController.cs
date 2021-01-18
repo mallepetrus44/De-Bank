@@ -27,10 +27,20 @@ namespace Bank.FrontEnd.Controllers
         // GET: Transaction
         public async Task<IActionResult> Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                ClaimsPrincipal currentUser = this.User;
+                var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var Transactions = await Task.Run(() => _context.Transactions.Where(u => u.AccountFrom == currentUserID).ToList());
 
-            var result = await _context.Transactions.Where(u => u.IdentityHolder.Email == User.Identity.Name).ToListAsync();
+                if(Transactions != null)
+                {
+                    return View(Transactions);
+                }
+                return Redirect("Home/Index");
+            }
+            return Redirect("Home/Index");
 
-            return View(result);
         }
 
         // GET: Transaction/Details/5
@@ -54,7 +64,11 @@ namespace Bank.FrontEnd.Controllers
         // GET: Transaction/Create
         public IActionResult Create()
         {
-            return View();
+            Transaction transaction = new Transaction
+            {
+                TransactionDate = DateTime.Now
+            };
+            return View(transaction);
         }
 
         // POST: Transaction/Create
@@ -70,20 +84,36 @@ namespace Bank.FrontEnd.Controllers
 
             //var accounts = _context.Accounts.Where(u => u.IdentityHolder.Id == currentUserID);
             var UserTo = await Task.Run(() => GetUserIDByBankAccount(transaction.AccountTo.ToString()));
-            transaction.IdentityHolder.Id = identityHolder.Id;
 
+            //var IdentityHolder = identityHolder.Id.ToString();
+            if (transaction.TransactionDate <= DateTime.Now)
+            {
+                TempData["shortMessage"] = "De transactiedatum mag niet in het verleden liggen";
+                return Redirect("Error");
+            }
             if (UserTo != "NotFound")
             {
+                var CorrectedTransaction = new Transaction
+                {
+                    AccountFrom = currentUserID,
+                    AccountTo = UserTo,
+                    PeriodicTransactionFrequentyDays = transaction.PeriodicTransactionFrequentyDays,
+                    Frequenty = transaction.Frequenty - 1, //NextPayment bepaald de eerst volgende betaling
+                    IsPeriodic = transaction.IsPeriodic,
+                    NextPayment = transaction.TransactionDate.AddDays(-transaction.PeriodicTransactionFrequentyDays), //Bereken de eerst volgende transactiedatum
+                    TransactionAmount = transaction.TransactionAmount,
+                    TransactionDate = transaction.TransactionDate
+                };
 
+                if (ModelState.IsValid)
+                {
+                    _context.Transactions.Add(CorrectedTransaction);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
-
-            if (ModelState.IsValid)
-            {
-                _context.Add(transaction);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(transaction);
+            TempData["shortMessage"] = "Model is not Valid => TransactionController(Create, POST, Error)";
+            return Redirect("Error");
 
         }
         // GET: Transaction/Edit/5
@@ -170,43 +200,39 @@ namespace Bank.FrontEnd.Controllers
         {
             return _context.Transactions.Any(e => e.Id == id);
         }
+        public ActionResult Error()
+        {
+            //now I can populate my ViewBag (if I want to) with the TempData["shortMessage"] content
+            ViewBag.Message = TempData["shortMessage"].ToString();
+            return View();
+        }
 
         public async Task<string> GetUserIDByBankAccount(string accountNumber)
         {
-            var AllAccounts = await Task.Run(() => GetAllAccounts());
-            var TryFindUser = await Task.Run(()=> GetAccountID(AllAccounts, accountNumber));
+            var GotAccount = await Task.Run(() => GetAccount(accountNumber));
+            var TryFindUser = await Task.Run(()=> GetAccountUserID(GotAccount));
             var AccountID = TryFindUser.ToString();
             if (AccountID != "NotFound")
             {
                 return AccountID.ToString();
             }
+            return accountNumber.ToString();
+        }
+
+        public string GetAccountUserID(Account account)
+        {
+            if (account != null)
+            {
+                var UserIdAccount = account.IdentityHolder.Id;
+                return UserIdAccount;
+            }
             return "NotFound";
         }
-
-        public string GetAccountID(List<Account> AllAccounts, string accountNumber)
+        public Account GetAccount(string accountNumber)
         {
-            string id = "";
+            var item = _context.Accounts.Where(a => a.AccountNumber == accountNumber).FirstOrDefault();         
 
-            foreach (Account account in AllAccounts)
-            {
-                if(account.AccountNumber == accountNumber)
-                {
-                    id = account.IdentityHolder.Id.ToString();
-                    return id;
-                }
-            }
-            return "2";
-        }
-        public List<Account> GetAllAccounts()
-        {
-            var AllAccounts = new List<Account>();
-
-            foreach (var item in _context.Accounts)
-            {
-                AllAccounts.Add(item);
-            }
-
-            return AllAccounts.ToList();
+            return item;
         }
     }
 }
