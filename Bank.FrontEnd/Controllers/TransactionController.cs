@@ -64,6 +64,7 @@ namespace Bank.FrontEnd.Controllers
         // GET: Transaction/Create
         public IActionResult Create()
         {
+            
             return View();
         }
 
@@ -82,7 +83,11 @@ namespace Bank.FrontEnd.Controllers
             var UserTo = await Task.Run(() => GetUserIDByBankAccount(transaction.AccountTo.ToString()));
 
             //var IdentityHolder = identityHolder.Id.ToString();
-            
+            if (transaction.TransactionDate <= DateTime.Now)
+            {
+                TempData["shortMessage"] = "De transactiedatum mag niet in het verleden liggen";
+                return Redirect("Error");
+            }
             if (UserTo != "NotFound")
             {
                 var CorrectedTransaction = new Transaction
@@ -90,9 +95,9 @@ namespace Bank.FrontEnd.Controllers
                     AccountFrom = currentUserID,
                     AccountTo = UserTo,
                     PeriodicTransactionFrequentyDays = transaction.PeriodicTransactionFrequentyDays,
-                    Frequenty = transaction.Frequenty,
+                    Frequenty = transaction.Frequenty - 1, //NextPayment bepaald de eerst volgende betaling
                     IsPeriodic = transaction.IsPeriodic,
-                    NextPayment = transaction.NextPayment,
+                    NextPayment = transaction.TransactionDate.AddDays(-transaction.PeriodicTransactionFrequentyDays), //Bereken de eerst volgende transactiedatum
                     TransactionAmount = transaction.TransactionAmount,
                     TransactionDate = transaction.TransactionDate
                 };
@@ -103,8 +108,9 @@ namespace Bank.FrontEnd.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
-            }                  
-            return Redirect("Transaction/Error");
+            }
+            TempData["shortMessage"] = "Model is not Valid => TransactionController(Create, POST, Error)";
+            return Redirect("Error");
 
         }
         // GET: Transaction/Edit/5
@@ -190,6 +196,12 @@ namespace Bank.FrontEnd.Controllers
         private bool TransactionExists(int id)
         {
             return _context.Transactions.Any(e => e.Id == id);
+        }
+        public ActionResult Error()
+        {
+            //now I can populate my ViewBag (if I want to) with the TempData["shortMessage"] content
+            ViewBag.Message = TempData["shortMessage"].ToString();
+            return View();
         }
 
         public async Task<string> GetUserIDByBankAccount(string accountNumber)

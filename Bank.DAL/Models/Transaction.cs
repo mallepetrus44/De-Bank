@@ -23,7 +23,8 @@ namespace Bank.DAL.Models
 
 
         [Required]
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime TransactionDate { get; set; }    
         [Required]
         public bool IsPeriodic { get; set; }
