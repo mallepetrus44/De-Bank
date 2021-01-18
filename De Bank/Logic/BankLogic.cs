@@ -108,7 +108,7 @@ namespace De_Bank.Logic
             DateTime referenceDate = DateTime.Now.AddSeconds(-seconds);
 
             //verzamel alle transacties uit de db die dit account.id bevatten
-            IEnumerable<Transaction> AllTransActions = await Task.Run(() => GetAccountTransactions()
+            IEnumerable<Transaction> AllTransActions = await Task.Run(() => GetAccountTransactions(identityHolder)
                                                                  .Where(a => a.TransactionDate >= referenceDate));
             //return voledige 'output'
             return AllTransActions.ToList();
@@ -126,7 +126,7 @@ namespace De_Bank.Logic
         public async Task<List<Transaction>> GetAccountAsync(IdentityHolder identityHolder/*, bool All, bool AllDebet, bool AllCredit*/) //radiobutton results => of checkboxes
         {
             //List<Transaction> AllTransactions = await Task.Run(() => GetAccountTransactions(identityHolder));
-            return await Task.Run(() => GetAccountTransactions());
+            return await Task.Run(() => GetAccountTransactions(identityHolder));
 
           //  if (All)
           //  {
@@ -149,16 +149,16 @@ namespace De_Bank.Logic
         /// </summary>
         /// <param name="account">      Het account waarop gezocht moet worden           </param>
         /// <returns>                   Lijst ALLE van transacties van het account       </returns>
-        public List<Transaction> GetAccountTransactions()
+        public List<Transaction> GetAccountTransactions(IdentityHolder identityHolder)
         {
-            ClaimsPrincipal currentUser = this.User;
-            var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            IdentityHolder identityHolder = new IdentityHolder
-            {
-                Id = currentUserID
-            };
-            Transactions = new List<Transaction>(identityHolder.Transactions.Where(t =>t.IdentityHolder.Id == currentUserID));
-            return Transactions.ToList();
+            //ClaimsPrincipal currentUser = this.User;
+            //var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //IdentityHolder identityHolder = new IdentityHolder
+            //{
+            //    Id = currentUserID
+            //};
+            Transactions = new List<Transaction>(identityHolder.Transactions);
+            return Transactions;
         }
 
 
@@ -171,10 +171,10 @@ namespace De_Bank.Logic
         /// <returns>                   Lijst ALLE DEBET transacties van het account     </returns>
         public List<Transaction> GetAllDebetFromAccount(IdentityHolder identityHolder)
         {
-            ClaimsPrincipal currentUser = this.User;
-            var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //ClaimsPrincipal currentUser = this.User;
+            //var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            Transactions = new List<Transaction>(identityHolder.Transactions.Where(i => i.IdentityHolder.Id != currentUserID));
+            Transactions = new List<Transaction>(identityHolder.Transactions);
             return Transactions;
         }
 
@@ -262,8 +262,8 @@ namespace De_Bank.Logic
         //            return transaction;
         //        }
 
-        //        // TODO: er bestaat al een perodieke transactie! ->> laat zien ->> vraag : toch uitvoeren?
-        //        return transaction; // <======== TODO nog niet goed          
+        //        // er bestaat al een perodieke transactie! ->> laat zien ->> vraag : toch uitvoeren?
+        //        return transaction; // <======== nog niet goed          
         //}          
 
 
