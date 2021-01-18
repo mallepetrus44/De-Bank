@@ -64,8 +64,11 @@ namespace Bank.FrontEnd.Controllers
         // GET: Transaction/Create
         public IActionResult Create()
         {
-            
-            return View();
+            Transaction transaction = new Transaction
+            {
+                TransactionDate = DateTime.Now
+            };
+            return View(transaction);
         }
 
         // POST: Transaction/Create
