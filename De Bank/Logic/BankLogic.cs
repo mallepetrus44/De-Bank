@@ -155,9 +155,9 @@ namespace De_Bank.Logic
             //var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             //IdentityHolder identityHolder = new IdentityHolder
             //{
-            //    Id = currentUserID               
+            //    Id = currentUserID
             //};
-            Transactions = new List<Transaction>(identityHolder.Transactions.ToList());
+            Transactions = new List<Transaction>(identityHolder.Transactions);
             return Transactions;
         }
 
@@ -169,14 +169,14 @@ namespace De_Bank.Logic
         /// </summary>
         /// <param name="account">      Het account waarop gezocht moet worden           </param>
         /// <returns>                   Lijst ALLE DEBET transacties van het account     </returns>
-        //public List<Transaction> GetAllDebetFromAccount(IdentityHolder identityHolder)
-        //{
-        //    ClaimsPrincipal currentUser = this.User;
-        //    var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+        public List<Transaction> GetAllDebetFromAccount(IdentityHolder identityHolder)
+        {
+            //ClaimsPrincipal currentUser = this.User;
+            //var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-        //    Transactions = new List<Transaction>(identityHolder.Transactions.Where(i => i.AccountFrom != currentUserID));
-        //    return Transactions;
-        //}
+            Transactions = new List<Transaction>(identityHolder.Transactions);
+            return Transactions;
+        }
 
 
         /// <summary>
@@ -262,8 +262,8 @@ namespace De_Bank.Logic
         //            return transaction;
         //        }
 
-        //        // TODO: er bestaat al een perodieke transactie! ->> laat zien ->> vraag : toch uitvoeren?
-        //        return transaction; // <======== TODO nog niet goed          
+        //        // er bestaat al een perodieke transactie! ->> laat zien ->> vraag : toch uitvoeren?
+        //        return transaction; // <======== nog niet goed          
         //}          
 
 

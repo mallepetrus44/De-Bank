@@ -23,6 +23,8 @@ namespace Bank.FrontEnd.Controllers
 
         BankLogic _banklogic = new BankLogic();
 
+
+
         public AccountController(ApplicationDbContext context)
         {
             _context = context;
@@ -56,10 +58,82 @@ namespace Bank.FrontEnd.Controllers
             return NoContent();
 }
 
+        [HttpGet]
+        public async Task<IActionResult> IndexAdmin(string sortOrder)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                
+                ViewData["AccountNumberSort"] = sortOrder == "AccountNumber" ? "AccountNumber desc" : "AccountNumber";
+                ViewData["IdSort"] = string.IsNullOrEmpty(sortOrder) ? "Id" : "";
+                ViewData["AccountBalanceSort"] = sortOrder == "AccountBalance" ? "AccountBalance desc" : "AccountBalance";
+                ViewData["AccountLockSort"] = sortOrder == "AccountLock" ? "AccountLock desc" : "AccountLock";
+                ViewData["AccountTypeSort"] = sortOrder == "AccounType" ? "AccountType desc" : "AccountType";
+                ViewData["AccountMinimumSort"] = sortOrder == "AccountMinimum" ? "AccountMinimum desc" : "AccountMinimum";
 
 
 
-        public ActionResult CreateNewActions(string actionid)
+                //var vm = new ListAndSearchVM
+                //{
+                //    IdentityHolders = await Task.Run(() => _context.IdentityHolders.AsQueryable().ToList()),
+                //    Accounts = await Task.Run(() => _context.Accounts.AsQueryable().ToList()), 
+                //};
+
+
+                //    vm.Selection = new List<SelectListItem>
+                //{
+                //            new SelectListItem { Value="Accounts", Text="Account overzicht"},
+                //            new SelectListItem { Value="Transactions", Text="Transactie overzicht"},
+                //            new SelectListItem { Value="Details", Text="Persoonlijke gegevens"},
+                //};
+
+                var query = from x in _context.Accounts select x;
+
+                    switch (sortOrder)
+                {
+                    case "AccountNumber":
+                        query = query.OrderBy(x => x.AccountNumber);
+                        break;
+                    case "Id":
+                        query = query.OrderBy(x => x.Id);
+                        break;
+                    case "AccountLock":
+                        query = query.OrderBy(x => x.AccountLock);
+                        break;
+                    case "AccountMinimum":
+                        query = query.OrderBy(x => x.AccountMinimum);
+                        break;
+                    case "AccountBalance":
+                        query = query.OrderBy(x => x.AccountBalance);
+                        break;
+                    case "AccountNumber desc":
+                        query = query.OrderByDescending(x => x.AccountNumber);
+                        break;
+                    case "Id desc":
+                        query = query.OrderByDescending(x => x.Id);
+                        break;
+                    case "AccountLock desc":
+                        query = query.OrderByDescending(x => x.AccountLock);
+                        break;
+                    case "AccountMinimum desc":
+                        query = query.OrderByDescending(x => x.AccountMinimum);
+                        break;
+                    case "AccountBalance desc":
+                        query = query.OrderByDescending(x => x.AccountBalance);
+                        break;
+                    default:
+                        query = query.OrderByDescending(x => x.Id);
+                        break;
+                }
+
+                return View(query.AsNoTracking().ToList());
+
+            }
+            return NoContent();
+        }
+
+
+            public ActionResult CreateNewActions(string actionid)
         {
             ViewBag.DivActionID = actionid;
             return PartialView("~/Views/Interp/_AddActions.cshtml");
