@@ -1,0 +1,65 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model  IEnumerable<Bank.FrontEnd.ViewModels.ListAndSearchVM>
+@{
+    ViewData["Title"] = "Index";
+}
+<ul class="nav navbar-nav">
+    <li class="nav-item">@Html.ActionLink("Accounts", "Accounts", new { Controller = "IdentityHolder", Area = "Accounts" })</li>
+    <li class="nav-item">@Html.ActionLink("Transacties", "Transactions", new { Controller = "IdentityHolder", Area = "Transactions" })</li>
+    <li class="nav-item">@Html.ActionLink("Cliënten", "Clients", new { Controller = "IdentityHolder", Area = "Clients" })</li>
+</ul>
+<br />
+@if (User.Identity.IsAuthenticated)
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Account.AccountNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IndentityHolder.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Account.AccountBalance)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Account.AccountNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IndentityHolder.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Account.AccountBalance)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IndentityHolder.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.IndentityHolder.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IndentityHolder.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+@if (!User.Identity.IsAuthenticated)
+{
+    <h2>U dient in te loggen om een account aan te maken. </h2>
+    <br />
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}
+

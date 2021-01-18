@@ -133,7 +133,7 @@ namespace Bank.FrontEnd.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Add(NewAccount);
+                //var context = _context.IdentityHolders.Include(x => x.Accounts.Where(i => i.IdentityHolder.Id == currentUserID).FirstOrDefault());
                 _context.Accounts.Add(NewAccount);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Dashboard");

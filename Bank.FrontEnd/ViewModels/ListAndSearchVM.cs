@@ -9,26 +9,35 @@ namespace Bank.FrontEnd.ViewModels
 {
     public class ListAndSearchVM
     {
-        public string IndentityHolderID { get; set; }
+        //public string IndentityHolderID { get; set; }
+        //public string FullName { get; set; }
+        //public string AccountNumber { get; set; }
+
+        //public float? AccountBalance { get; set; }
+
+        public List<Account> Accounts { set; get; }
+        ////public Account SelectedAccount { get; set; }
 
 
 
-        public IEnumerable<Account> Accounts { set; get; }
-        public Account SelectedAccount { get; set; }
+        public List<Transaction> Transactions { set; get; }
+        ////public string SelectedTransaction { get; set; }
 
 
 
-        public IEnumerable<Transaction> Transactions { set; get; }
-        public string SelectedTransaction { get; set; }
+        public List<IdentityHolder> IdentityHolders { set; get; }
+        ////public string SelectedIdentityHolder { get; set; }
 
 
 
-        public IEnumerable<IdentityHolder> IdentityHolders { set; get; }
-        public string SelectedIdentityHolder { get; set; }
 
 
-        // keuzes in dropdown
-        public IEnumerable<SelectListItem> Selection { set; get; }
+
+        //// keuzes in dropdown
+        public List<SelectListItem> Selection { set; get; }
         public string SelectedStatus { set; get; }
+        public IdentityHolder IndentityHolder { get; set; }
+        public Account Account { get; set; }
+        public Transaction transaction { get; set; }
     }
 }

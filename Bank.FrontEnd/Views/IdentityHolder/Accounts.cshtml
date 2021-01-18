@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Bank.DAL.Models.Account>
+
+@{
+    ViewData["Title"] = "Accounts";
+}
+
+@*<h1>Index</h1>*@
+<ul class="nav navbar-nav">
+    <li class="nav-item">@Html.ActionLink("Transacties", "Transactions", new { Controller = "IdentityHolder", Area = "Transactions" })</li>
+    <li class="nav-item">@Html.ActionLink("Cliënten", "Clients", new { Controller = "IdentityHolder", Area = "Clients" })</li>
+    <li class="nav-item">@Html.ActionLink("Lijst van Alle Accounts", "BankAccountList", new { Controller = "IdentityHolder", Area = "BankAccountList" })</li>
+</ul>
+@if (User.Identity.IsAuthenticated)
+{
+    <br />
+    <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccountNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccountLock)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccountBalance)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccountMinimum)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccountType)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccountNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccountLock)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccountBalance)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccountMinimum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccountType)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (!User.Identity.IsAuthenticated)
+{
+    <h2>U dient in te loggen om accounts te kunnen bekijken. </h2>
+    <br />
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}
