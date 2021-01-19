@@ -9,7 +9,18 @@ namespace Bank.DAL.Models
 {
     public class Account
     {
+        public Account()
+        {
+            Transactions = new HashSet<Transaction>();
+        }
+
         public int Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public Guid AccountID { get; set; }
+
+        [Required]
+        public Guid IdentityHolderID { get; set; }
 
         public string AccountNumber { get; set; }
 
@@ -25,8 +36,8 @@ namespace Bank.DAL.Models
         [Required]
         public AccountType AccountType { get; set; }
 
-        public IdentityHolder IdentityHolder { get; set; }
-        public IEnumerable<Transaction> Transactions { get; set; }
+        public virtual IdentityHolder IdentityHolder { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
 
     }
 }
