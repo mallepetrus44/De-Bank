@@ -42,6 +42,26 @@ namespace Bank.FrontEnd.Controllers
             return Redirect("Home/Index");
 
         }
+        [HttpGet]
+        public async Task<IActionResult> IndexAdmin(string search, string searchBy)
+        {
+            ViewData["Gettransactiondetails"] = search;
+
+            var query = from x in _context.Transactions select x;
+
+            //if (searchBy == "positief")
+            //{
+            //    query = query.Where(x => x.TransactionDate < (Convert.ToInt32(search)));
+            //}
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                query = query.Where(x => x.TransactionDate < (DateTime.Now.AddSeconds(-(Convert.ToInt32(search)))));
+            }
+
+            return View(query.AsNoTracking().ToList());
+
+        }
 
         // GET: Transaction/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -15,29 +15,26 @@ namespace Bank.FrontEnd.ViewModels
 
         //public float? AccountBalance { get; set; }
 
-        public List<Account> Accounts { set; get; }
+        public virtual ICollection<Account> Accounts { set; get; }
         ////public Account SelectedAccount { get; set; }
 
 
 
-        public List<Transaction> Transactions { set; get; }
+        public virtual ICollection<Transaction> Transactions { set; get; }
         ////public string SelectedTransaction { get; set; }
 
 
 
-        public List<IdentityHolder> IdentityHolders { set; get; }
+        public virtual ICollection<IdentityHolder> IdentityHolders { set; get; }
         ////public string SelectedIdentityHolder { get; set; }
 
-
-
-
-
-
+        //public string FullName { get; set; }
+        public IdentityHolder IdentityHolder { get; set; }
+        public Account Account { get; set; }
+        //public Transaction Transaction { get; set; }
         //// keuzes in dropdown
         public List<SelectListItem> Selection { set; get; }
         public string SelectedStatus { set; get; }
-        public IdentityHolder IndentityHolder { get; set; }
-        public Account Account { get; set; }
-        public Transaction transaction { get; set; }
     }
+        
 }
