@@ -227,44 +227,44 @@ namespace De_Bank.Logic
         //public async Task<Transaction> CreateTransactionAsync(Account account, Transaction transaction)
         //{
 
-        //        //var result = await Task.Run(() => CheckAutoTransaction(transaction, account));
-        //        if (result)
+        //    var result = await Task.Run(() => CheckAutoTransaction(transaction, account));
+        //    if (result)
+        //    {
+
+        //        //haal amount van account 1
+        //        if (transaction.TransactionAmount < 0)
         //        {
-
-        //            //haal amount van account 1
-        //            if (transaction.TransactionAmount < 0)
-        //            {
-        //                throw new ArgumentOutOfRangeException(nameof(transaction.TransactionAmount), "Het bedrag dient hoger dan 0 te zijn.");
-        //            }
-
-        //            float? appliedAmount = 0;
-
-        //            lock (balanceLock)
-        //            {
-        //                if (account.AccountBalance >= transaction.TransactionAmount)
-        //                {
-        //                    account.AccountBalance -= transaction.TransactionAmount;
-        //                    appliedAmount = transaction.TransactionAmount;
-        //                }
-        //            }
-                    
-        //            //stort amount op account 2
-        //            if (transaction.TransactionAmount < 0)
-        //            {
-        //                throw new ArgumentOutOfRangeException(nameof(transaction.TransactionAmount), "Het bedrag dient hoger dan 0 te zijn.");
-        //            }
-
-        //            lock (balanceLock)
-        //            {
-        //                transaction.AccountTo.Transactions.AccountBalance += transaction.TransactionAmount;
-        //            }
-
-        //            return transaction;
+        //            throw new ArgumentOutOfRangeException(nameof(transaction.TransactionAmount), "Het bedrag dient hoger dan 0 te zijn.");
         //        }
 
-        //        // er bestaat al een perodieke transactie! ->> laat zien ->> vraag : toch uitvoeren?
-        //        return transaction; // <======== nog niet goed          
-        //}          
+        //        float? appliedAmount = 0;
+
+        //        lock (balanceLock)
+        //        {
+        //            if (account.AccountBalance >= transaction.TransactionAmount)
+        //            {
+        //                account.AccountBalance -= transaction.TransactionAmount;
+        //                appliedAmount = transaction.TransactionAmount;
+        //            }
+        //        }
+
+        //        //stort amount op account 2
+        //        if (transaction.TransactionAmount < 0)
+        //        {
+        //            throw new ArgumentOutOfRangeException(nameof(transaction.TransactionAmount), "Het bedrag dient hoger dan 0 te zijn.");
+        //        }
+
+        //        lock (balanceLock)
+        //        {
+        //            transaction.AccountTo.Transactions.AccountBalance += transaction.TransactionAmount;
+        //        }
+
+        //        return transaction;
+        //    }
+
+        //    // er bestaat al een perodieke transactie! ->> laat zien ->> vraag : toch uitvoeren?
+        //    return transaction; // <======== nog niet goed          
+        //}
 
 
         /// <summary>
@@ -294,6 +294,6 @@ namespace De_Bank.Logic
         //}
 
 
-       
+
     }
 }

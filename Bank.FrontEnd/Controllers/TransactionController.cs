@@ -119,13 +119,26 @@ namespace Bank.FrontEnd.Controllers
                     PeriodicTransactionFrequentyDays = transaction.PeriodicTransactionFrequentyDays,
                     Frequenty = transaction.Frequenty - 1, //NextPayment bepaald de eerst volgende betaling
                     IsPeriodic = transaction.IsPeriodic,
-                    NextPayment = transaction.TransactionDate.AddDays(-transaction.PeriodicTransactionFrequentyDays), //Bereken de eerst volgende transactiedatum
+                    NextPayment = transaction.TransactionDate.AddDays(transaction.PeriodicTransactionFrequentyDays), //Bereken de eerst volgende transactiedatum
                     TransactionAmount = transaction.TransactionAmount,
                     TransactionDate = transaction.TransactionDate
                 };
 
+                if(transaction.IsPeriodic)
+                {
+                    transaction.NextPayment = DateTime.Now.AddDays(transaction.PeriodicTransactionFrequentyDays);
+                }
+                
                 if (ModelState.IsValid)
                 {
+                    try
+                    {
+                        
+                    }
+                    catch
+                    {
+
+                    };
                     _context.Transactions.Add(CorrectedTransaction);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
