@@ -260,7 +260,7 @@ namespace Bank.FrontEnd.Controllers
                     await _context.SaveChangesAsync();
                 }
             }
-            return View(account);
+            return RedirectToAction("Dashboard");
         }
 
         // GET: Account/Delete/5
@@ -290,7 +290,7 @@ namespace Bank.FrontEnd.Controllers
             account.AccountLock = true;
             _context.Accounts.Update(account);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Dashboard");
         }
 
         private bool AccountExists(int id)

@@ -40,14 +40,14 @@
                     <span asp-validation-for="AccountType" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <input type="submit" value="Save" class="btn btn-primary" asp-route-id="@Model.Id" />
                 </div>
             </form>
         </div>
     </div>
 
     <div>
-        <a asp-action="Index">Back to List</a>
+        @Html.ActionLink("Back to List", "Accounts", new { Controller = "IdentityHolder", Area = "Accounts" })
     </div>
 }
 @if (!User.Identity.IsAuthenticated)
