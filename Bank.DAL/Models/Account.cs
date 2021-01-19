@@ -15,12 +15,12 @@ namespace Bank.DAL.Models
         }
 
         public int Id { get; set; }
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public Guid AccountID { get; set; }
+        ////[Key]
+        ////[DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //public Guid AccountID { get; set; }
 
-        [Required]
-        public Guid IdentityHolderID { get; set; }
+        //[Required]
+        //public Guid IdentityHolderID { get; set; }
 
         public string AccountNumber { get; set; }
 

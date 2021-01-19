@@ -10,17 +10,17 @@ namespace Bank.DAL.Models
 {
     public class IdentityHolder : IdentityUser
     {
-        public IdentityHolder()
-        {
-            Accounts = new HashSet<Account>();
-            SavedAccounts = new HashSet<SavedAccount>();
-            Transactions = new HashSet<Transaction>();
-        }
+        //public IdentityHolder()
+        //{
+        //    Accounts = new HashSet<Account>();
+        //    SavedAccounts = new HashSet<SavedAccount>();
+        //    Transactions = new HashSet<Transaction>();
+        //}
 
-        [Key]
-        [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public Guid IdentityHolderID { get; set; }
+        ////[Key]
+        ////[Column(Order = 0)]
+        ////[DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //public Guid IdentityHolderID { get; set; }
 
         [Required]
         public string FirstName { get; set; }

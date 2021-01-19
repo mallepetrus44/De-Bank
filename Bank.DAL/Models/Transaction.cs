@@ -11,19 +11,19 @@ namespace Bank.DAL.Models
         public int Id { get; set; }
         public string AccountFrom { get; set; }
         public string AccountTo { get; set; }
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public Guid TransactionID { get; set; }
+        //[Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //public Guid TransactionID { get; set; }
 
-        [Required]
-        public Guid AccountToID { get; set; }
-        [Required]
-        public Guid AccountFromID { get; set; }
+        //[Required]
+        //public Guid AccountToID { get; set; }
+        //[Required]
+        //public Guid AccountFromID { get; set; }
 
-        [Required]
-        public Guid IdentityHolderToID { get; set; }
-        [Required]
-        public Guid IdentityHolderFromID { get; set; }
+        //[Required]
+        //public Guid IdentityHolderToID { get; set; }
+        //[Required]
+        //public Guid IdentityHolderFromID { get; set; }
 
         [Required]
         [DataType(DataType.Currency)]

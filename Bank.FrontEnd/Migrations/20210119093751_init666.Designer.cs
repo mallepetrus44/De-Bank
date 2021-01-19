@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bank.FrontEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210118091352_8")]
-    partial class _8
+    [Migration("20210119093751_init666")]
+    partial class init666
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -157,18 +157,19 @@ namespace Bank.FrontEnd.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AccountFrom")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
                     b.Property<string>("AccountTo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Frequenty")
                         .HasColumnType("int");
 
                     b.Property<string>("IdentityHolderId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsPeriodic")
@@ -351,11 +352,9 @@ namespace Bank.FrontEnd.Migrations
                         .WithMany("Transactions")
                         .HasForeignKey("AccountId");
 
-                    b.HasOne("Bank.DAL.Models.IdentityHolder", "IdentityHolder")
+                    b.HasOne("Bank.DAL.Models.IdentityHolder", null)
                         .WithMany("Transactions")
-                        .HasForeignKey("IdentityHolderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdentityHolderId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

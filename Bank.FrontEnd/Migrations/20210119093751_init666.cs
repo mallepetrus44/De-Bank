@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bank.FrontEnd.Migrations
 {
-    public partial class init1 : Migration
+    public partial class init666 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -227,7 +227,7 @@ namespace Bank.FrontEnd.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AccountFrom = table.Column<string>(nullable: true),
-                    AccountTo = table.Column<string>(nullable: false),
+                    AccountTo = table.Column<string>(nullable: true),
                     TransactionAmount = table.Column<float>(nullable: false),
                     TransactionDate = table.Column<DateTime>(nullable: false),
                     IsPeriodic = table.Column<bool>(nullable: false),

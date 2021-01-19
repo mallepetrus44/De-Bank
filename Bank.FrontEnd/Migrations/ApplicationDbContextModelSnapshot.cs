@@ -162,7 +162,6 @@ namespace Bank.FrontEnd.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AccountTo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Frequenty")

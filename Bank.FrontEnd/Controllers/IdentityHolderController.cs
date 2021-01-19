@@ -79,9 +79,14 @@ namespace Bank.FrontEnd.Controllers
             //var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             //IdentityHolder identityHolder = _context.IdentityHolders.Where(i => i.Id == currentUserID).FirstOrDefault();         
             ListAndSearchVM listAndSearchVM = new ListAndSearchVM();
-            listAndSearchVM.Accounts = GetAccounts();
-            listAndSearchVM.Transactions = GetTransactions();
-            listAndSearchVM.IdentityHolders = GetIdentityHolders();
+            listAndSearchVM.Accounts = await Task.Run(()=> GetAccounts());
+            listAndSearchVM.Transactions = await Task.Run(() => GetTransactions());
+            listAndSearchVM.IdentityHolders = await Task.Run(() => GetIdentityHolders());
+            //var vm = new ListAndSearchVM
+            //{
+            //    IdentityHolders = await Task.Run(() => _context.IdentityHolders.AsQueryable().ToList()),
+            //    Accounts = await Task.Run(() => _context.Accounts.AsQueryable().ToList()),
+            //};
 
             //var result = await _context.IdentityHolders.ToListAsync();
 
