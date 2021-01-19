@@ -31,7 +31,7 @@ namespace Bank.DAL.Models
 
 
         [Required]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime TransactionDate { get; set; }    
         [Required]
