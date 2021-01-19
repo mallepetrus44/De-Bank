@@ -39,7 +39,7 @@ namespace Bank.FrontEnd.Controllers
         public async Task<IActionResult> Clients()
         {
 
-            var result = await _context.IdentityHolders.ToListAsync();
+            var result = await _context.IdentityHolders.Include(a => a.Accounts).ToListAsync();
             //var result = await _context.IdentityHolders.ToListAsync();
 
 
