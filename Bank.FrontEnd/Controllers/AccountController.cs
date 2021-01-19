@@ -59,7 +59,7 @@ namespace Bank.FrontEnd.Controllers
 }
 
         [HttpGet]
-        public async Task<IActionResult> IndexAdmin(string sortOrder)
+        public async Task<IActionResult> IndexAdmin(string sortOrder, string search)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -70,7 +70,7 @@ namespace Bank.FrontEnd.Controllers
                 ViewData["AccountLockSort"] = sortOrder == "AccountLock" ? "AccountLock desc" : "AccountLock";
                 ViewData["AccountTypeSort"] = sortOrder == "AccounType" ? "AccountType desc" : "AccountType";
                 ViewData["AccountMinimumSort"] = sortOrder == "AccountMinimum" ? "AccountMinimum desc" : "AccountMinimum";
-
+                ViewData["Getaccountdetails"] = search;
 
 
                 //var vm = new ListAndSearchVM
@@ -124,6 +124,10 @@ namespace Bank.FrontEnd.Controllers
                     default:
                         query = query.OrderByDescending(x => x.Id);
                         break;
+                }
+                if (!String.IsNullOrEmpty(search))
+                {
+                    query = query.Where(x => x.AccountBalance < (Convert.ToInt32(search)));
                 }
 
                 return View(query.AsNoTracking().ToList());

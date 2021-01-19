@@ -1,11 +1,21 @@
 ﻿@model IEnumerable<Bank.DAL.Models.Account>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "IndexAdmin";
 }
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form method="get" asp-action="IndexAdmin">
+    <p>
+        <input type="search" placeholder="selectie maken van alle saldo’s die onder een X bedrag staan" value="@ViewData["Getaccountdetails"]" name="search" style="width:500px;" />
+        <input type="submit" value="Search" class="btn btn-primary"/>
+        <a asp-action="IndexAdmin">Get All</a>
+    </p>
+
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -26,9 +36,6 @@
             </th>
             <th>
                 <a asp-action="IndexAdmin" asp-route-sortOrder="@ViewData["IdSort"]">@Html.DisplayNameFor(model => model.Id)</a>
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdentityHolder.FullName)
             </th>
             <th></th>
         </tr>
