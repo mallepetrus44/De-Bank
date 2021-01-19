@@ -56,7 +56,7 @@ namespace Bank.FrontEnd.Controllers
 
             if (!String.IsNullOrEmpty(search))
             {
-                query = query.Where(x => x.TransactionDate < (DateTime.Now.AddSeconds(-(Convert.ToInt32(search)))));
+                query = query.Where(x => x.TransactionDate > (DateTime.Now.AddSeconds(- (Convert.ToInt32(search)))));
             }
 
             return View(query.AsNoTracking().ToList());
