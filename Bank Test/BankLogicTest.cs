@@ -17,7 +17,6 @@ namespace Bank_Test
         IdentityHolder identityHolder;
         Transaction transaction;
         Transaction transaction2;
-        BankLogic bankLogic;
 
         [TestInitialize]
         public void TestInitialize()
@@ -74,8 +73,6 @@ namespace Bank_Test
                 AccountTo = "NL71LYMB000000015",
                 IsPeriodic = false
             };
-
-            bankLogic = new BankLogic();
         }
 
 
