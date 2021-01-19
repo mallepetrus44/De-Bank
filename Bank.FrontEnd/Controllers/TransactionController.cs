@@ -108,8 +108,7 @@ namespace Bank.FrontEnd.Controllers
             //var IdentityHolder = identityHolder.Id.ToString();
             if (transaction.TransactionDate <= DateTime.Now)
             {
-                TempData["shortMessage"] = "De transactiedatum mag niet in het verleden liggen";
-                return Redirect("Error");
+                transaction.TransactionDate = DateTime.Now;
             }
             if (UserTo != "NotFound")
             {
