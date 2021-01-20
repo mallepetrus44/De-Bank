@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bank.FrontEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210119103717_4")]
-    partial class _4
+    [Migration("20210119150721_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -165,6 +165,9 @@ namespace Bank.FrontEnd.Migrations
 
                     b.Property<string>("AccountTo")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Frequenty")
                         .HasColumnType("int");

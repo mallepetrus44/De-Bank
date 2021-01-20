@@ -29,6 +29,11 @@ namespace Bank.DAL.Models
         [DataType(DataType.Currency)]
         public float? TransactionAmount { get; set; }
 
+        [Required]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime CreationDate { get; set; }
+
 
         [Required]
         [DataType(DataType.DateTime)]
@@ -39,5 +44,6 @@ namespace Bank.DAL.Models
         public int PeriodicTransactionFrequentyDays { get; set; }
         public int Frequenty { get; set; }
         public DateTime NextPayment { get; set; }
+        public Status Status { get; set; }
     }
 }

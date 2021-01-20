@@ -111,34 +111,30 @@ namespace Bank.FrontEnd.Controllers
                 transaction.TransactionDate = DateTime.Now;
             }
             if (UserTo != "NotFound")
-            {
+            {             
+                if(transaction.IsPeriodic)
+                {
+                    transaction.NextPayment = DateTime.Now.AddDays(transaction.PeriodicTransactionFrequentyDays);
+                    transaction.Status = Status.Periodiek;
+                }
+                transaction.Status = Status.In_Behandeling;
+
                 var CorrectedTransaction = new Transaction
                 {
                     AccountFrom = currentUserID,
                     AccountTo = UserTo,
                     PeriodicTransactionFrequentyDays = transaction.PeriodicTransactionFrequentyDays,
-                    Frequenty = transaction.Frequenty - 1, //NextPayment bepaald de eerst volgende betaling
+                    Frequenty = transaction.Frequenty,
                     IsPeriodic = transaction.IsPeriodic,
                     NextPayment = transaction.TransactionDate.AddDays(transaction.PeriodicTransactionFrequentyDays), //Bereken de eerst volgende transactiedatum
                     TransactionAmount = transaction.TransactionAmount,
-                    TransactionDate = transaction.TransactionDate
+                    TransactionDate = transaction.TransactionDate,
+                    CreationDate = DateTime.Now
                 };
 
-                if(transaction.IsPeriodic)
-                {
-                    transaction.NextPayment = DateTime.Now.AddDays(transaction.PeriodicTransactionFrequentyDays);
-                }
-                
                 if (ModelState.IsValid)
                 {
-                    try
-                    {
-                        
-                    }
-                    catch
-                    {
-
-                    };
+                    CorrectedTransaction.Status = Status.Uitgevoerd;
                     _context.Transactions.Add(CorrectedTransaction);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
