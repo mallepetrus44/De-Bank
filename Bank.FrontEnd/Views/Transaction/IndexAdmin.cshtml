@@ -1,8 +1,6 @@
-﻿@model IEnumerable<Bank.DAL.Models.Transaction>
+﻿@model Bank.FrontEnd.ViewModels.ListAndSearchVM
 
-@{
-    ViewData["Title"] = "IndexAdmin";
-}
+@{ ViewData["Title"] = "IndexAdmin"; }
 @if (User.Identity.IsAuthenticated)
 {
     <p>
@@ -12,8 +10,6 @@
     <form method="get" asp-action="IndexAdmin">
         <p>
             <input type="search" placeholder="een overzicht geven van alleen de positieve/negative transacties ( van X sec.)" value="@ViewData["Getaccountdetails"]" name="search" style="width:500px;" />
-            @Html.RadioButton("searchBy", "positief") <text>positief</text>
-            @Html.RadioButton("searchBy", "negatief")<text>negatief</text>
             <input type="submit" value="Search" class="btn btn-primary" />
             <a asp-action="IndexAdmin">Get All</a>
         </p>
@@ -24,32 +20,50 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.TransactionAmount)
+                    @Html.DisplayNameFor(model => model.Transaction.TransactionAmount)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.TransactionDate)
+                    <a asp-action="IndexAdmin" asp-route-sortOrder="@ViewData["AccountFromSort"]">@Html.DisplayNameFor(model => model.IdentityHolder.FullName)</a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.IsPeriodic)
+                    <a asp-action="IndexAdmin" asp-route-sortOrder="@ViewData["AccountToSort"]">@Html.DisplayNameFor(model => model.Transaction.AccountTo)</a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PeriodicTransactionFrequentyDays)
+                    @Html.DisplayNameFor(model => model.Transaction.CreationDate)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Frequenty)
+                    @Html.DisplayNameFor(model => model.Transaction.TransactionDate)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.NextPayment)
+                    @Html.DisplayNameFor(model => model.Transaction.IsPeriodic)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Transaction.PeriodicTransactionFrequentyDays)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Transaction.Frequenty)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Transaction.NextPayment)
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Transactions)
             {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.TransactionAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccountFrom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccountTo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreationDate)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TransactionDate)
@@ -72,7 +86,7 @@
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
-            }
+}
         </tbody>
     </table>
 }
@@ -85,5 +99,4 @@
     </li>
     <li class="nav-item">
         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+    </li>}

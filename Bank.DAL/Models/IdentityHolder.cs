@@ -23,14 +23,18 @@ namespace Bank.DAL.Models
         //public Guid IdentityHolderID { get; set; }
 
         [Required]
+        [Display(Name = "Voornaam")]
         public string FirstName { get; set; }
 
+        [Display(Name = "Tussenvoegsel(s)")]
         //[Required]
         public string MiddleName { get; set; }
 
         [Required]
+        [Display(Name = "Achternaam")]
         public string LastName { get; set; }
 
+        [Display(Name = "Volledige Naam")]
         public string FullName => MiddleName == null ? $"{FirstName} {LastName}" : $"{FirstName} {MiddleName} {LastName}";
 
         public virtual ICollection<Account> Accounts { get; set; }

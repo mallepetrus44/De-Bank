@@ -43,24 +43,43 @@ namespace Bank.FrontEnd.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> IndexAdmin(string search, string searchBy)
+        public async Task<IActionResult> IndexAdmin(string search, string sortOrder)
         {
+
             ViewData["Gettransactiondetails"] = search;
+            ViewData["AccountFromSort"] = sortOrder == "AccountFrom" ? "AccountFrom desc" : "AccountFrom";
+            ViewData["AccountToSort"] = sortOrder == "AccountTo" ? "AccountTo desc" : "AccountTo";
 
             var query = from x in _context.Transactions select x;
 
-            //if (searchBy == "positief")
-            //{
-            //    query = query.Where(x => x.TransactionDate < (Convert.ToInt32(search)));
-            //}
+            switch (sortOrder)
+            {
+                case "AccountFrom":
+                    query = query.OrderBy(x => x.AccountFrom);
+                    break;
+                case "AccountTo":
+                    query = query.OrderBy(x => x.AccountTo);
+                    break;
+                case "AccountFrom desc":
+                    query = query.OrderByDescending(x => x.AccountFrom);
+                    break;
+                case "AccountTo desc":
+                    query = query.OrderByDescending(x => x.AccountTo);
+                    break;
+                default:
+                    query = query.OrderByDescending(x => x.Id);
+                    break;
+            }
+
 
             if (!String.IsNullOrEmpty(search))
             {
-                query = query.Where(x => x.TransactionDate > (DateTime.Now.AddSeconds(- (Convert.ToInt32(search)))));
+                query = query.Where(x => x.CreationDate > (DateTime.Now.AddSeconds(-(Convert.ToInt32(search)))));
+                return View(query.AsNoTracking().ToList());
             }
 
-            return View(query.AsNoTracking().ToList());
 
+            return View(query.AsNoTracking().ToList());
         }
 
         // GET: Transaction/Details/5
@@ -84,11 +103,20 @@ namespace Bank.FrontEnd.Controllers
         // GET: Transaction/Create
         public IActionResult Create()
         {
-            Transaction transaction = new Transaction
+            //get alle accounts van gebruiker
+            var vm = new ListAndSearchVM();
+
+            vm.Accounts = new List<Account>();
+
+            vm.Accounts = _context.Accounts.Where(a => a.IdentityHolder.Email == User.Identity.Name).ToList();
+
+            vm.Transaction = new Transaction
             {
                 TransactionDate = DateTime.Now
+               
             };
-            return View(transaction);
+            ViewBag.Accounts = vm.Accounts.ToList();
+            return View(vm);
         }
 
         // POST: Transaction/Create
@@ -131,10 +159,25 @@ namespace Bank.FrontEnd.Controllers
                     TransactionDate = transaction.TransactionDate,
                     CreationDate = DateTime.Now
                 };
-
+                
                 if (ModelState.IsValid)
                 {
-                    CorrectedTransaction.Status = Status.Uitgevoerd;
+                    var x = await Task.Run(() => CanMakeTransaction(CorrectedTransaction));
+                    
+                    if (x)
+                    {
+                        //Account acFrom = _context.Accounts.Where(u => u.AccountNumber == CorrectedTransaction.AccountFrom).FirstOrDefault();
+                        //Account acTo = _context.Accounts.Where(u => u.AccountNumber == transaction.AccountTo).FirstOrDefault();
+
+                        //acFrom.AccountBalance -= CorrectedTransaction.TransactionAmount;
+                        //acTo.AccountBalance += CorrectedTransaction.TransactionAmount;
+
+                        CorrectedTransaction.Status = Status.Uitgevoerd;
+                        _context.Transactions.Add(CorrectedTransaction);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
+                    CorrectedTransaction.Status = Status.Afgekeurd_Anders;
                     _context.Transactions.Add(CorrectedTransaction);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -144,6 +187,13 @@ namespace Bank.FrontEnd.Controllers
             return Redirect("Error");
 
         }
+
+        private bool CanMakeTransaction(Transaction correctedTransaction)
+        {
+
+            return true;
+        }
+
         // GET: Transaction/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
