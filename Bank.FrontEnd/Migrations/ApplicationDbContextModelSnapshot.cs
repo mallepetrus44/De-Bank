@@ -199,50 +199,6 @@ namespace Bank.FrontEnd.Migrations
                     b.HasIndex("IdentityHolderId");
 
                     b.ToTable("Transactions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AccountFrom = "Jaap",
-                            AccountTo = "Piet",
-                            CreationDate = new DateTime(2021, 1, 21, 13, 52, 34, 154, DateTimeKind.Local).AddTicks(4411),
-                            Frequenty = 0,
-                            IsPeriodic = false,
-                            NextPayment = new DateTime(2021, 1, 21, 13, 52, 34, 154, DateTimeKind.Local).AddTicks(6070),
-                            PeriodicTransactionFrequentyDays = 0,
-                            Status = 0,
-                            TransactionAmount = 50f,
-                            TransactionDate = new DateTime(2021, 1, 21, 13, 52, 34, 151, DateTimeKind.Local).AddTicks(1841)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AccountFrom = "Klaas",
-                            AccountTo = "Henk",
-                            CreationDate = new DateTime(2021, 1, 21, 14, 2, 34, 154, DateTimeKind.Local).AddTicks(6695),
-                            Frequenty = 0,
-                            IsPeriodic = false,
-                            NextPayment = new DateTime(2021, 1, 21, 14, 2, 34, 154, DateTimeKind.Local).AddTicks(6723),
-                            PeriodicTransactionFrequentyDays = 0,
-                            Status = 0,
-                            TransactionAmount = 75f,
-                            TransactionDate = new DateTime(2021, 1, 21, 14, 2, 34, 154, DateTimeKind.Local).AddTicks(6652)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AccountFrom = "Joop",
-                            AccountTo = "Henny",
-                            CreationDate = new DateTime(2021, 1, 21, 14, 12, 34, 154, DateTimeKind.Local).AddTicks(6739),
-                            Frequenty = 0,
-                            IsPeriodic = false,
-                            NextPayment = new DateTime(2021, 1, 21, 14, 12, 34, 154, DateTimeKind.Local).AddTicks(6743),
-                            PeriodicTransactionFrequentyDays = 0,
-                            Status = 0,
-                            TransactionAmount = 100f,
-                            TransactionDate = new DateTime(2021, 1, 21, 14, 12, 34, 154, DateTimeKind.Local).AddTicks(6735)
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
