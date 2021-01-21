@@ -13,6 +13,7 @@ namespace Bank.FrontEnd.ViewModels
         public virtual ICollection<Account> Accounts { set; get; }
         public virtual ICollection<Transaction> Transactions { set; get; }
         public virtual ICollection<IdentityHolder> IdentityHolders { set; get; }
+
         public IdentityHolder IdentityHolder { get; set; }
         public Account Account { get; set; }
         public Transaction Transaction { get; set; }

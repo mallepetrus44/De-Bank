@@ -1,4 +1,4 @@
-﻿@model Bank.FrontEnd.ViewModels.ListAndSearchVM
+﻿@model IEnumerable<Bank.DAL.Models.Transaction>
 
 @{ ViewData["Title"] = "IndexAdmin"; }
 @if (User.Identity.IsAuthenticated)
@@ -20,37 +20,37 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Transaction.TransactionAmount)
+                    @Html.DisplayNameFor(model => model.TransactionAmount)
                 </th>
                 <th>
-                    <a asp-action="IndexAdmin" asp-route-sortOrder="@ViewData["AccountFromSort"]">@Html.DisplayNameFor(model => model.IdentityHolder.FullName)</a>
+                    <a asp-action="IndexAdmin" asp-route-sortOrder="@ViewData["AccountFromSort"]">@Html.DisplayNameFor(model => model.AccountFrom)</a>
                 </th>
                 <th>
-                    <a asp-action="IndexAdmin" asp-route-sortOrder="@ViewData["AccountToSort"]">@Html.DisplayNameFor(model => model.Transaction.AccountTo)</a>
+                    <a asp-action="IndexAdmin" asp-route-sortOrder="@ViewData["AccountToSort"]">@Html.DisplayNameFor(model => model.AccountTo)</a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Transaction.CreationDate)
+                    @Html.DisplayNameFor(model => model.CreationDate)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Transaction.TransactionDate)
+                    @Html.DisplayNameFor(model => model.TransactionDate)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Transaction.IsPeriodic)
+                    @Html.DisplayNameFor(model => model.IsPeriodic)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Transaction.PeriodicTransactionFrequentyDays)
+                    @Html.DisplayNameFor(model => model.PeriodicTransactionFrequentyDays)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Transaction.Frequenty)
+                    @Html.DisplayNameFor(model => model.Frequenty)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Transaction.NextPayment)
+                    @Html.DisplayNameFor(model => model.NextPayment)
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Transactions)
+            @foreach (var item in Model)
             {
                 <tr>
                     <td>
@@ -86,7 +86,7 @@
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
-}
+            }
         </tbody>
     </table>
 }

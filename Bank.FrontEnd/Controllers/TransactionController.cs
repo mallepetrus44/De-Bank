@@ -52,6 +52,7 @@ namespace Bank.FrontEnd.Controllers
 
             var query = from x in _context.Transactions select x;
 
+
             switch (sortOrder)
             {
                 case "AccountFrom":
@@ -77,7 +78,6 @@ namespace Bank.FrontEnd.Controllers
                 query = query.Where(x => x.CreationDate > (DateTime.Now.AddSeconds(-(Convert.ToInt32(search)))));
                 return View(query.AsNoTracking().ToList());
             }
-
 
             return View(query.AsNoTracking().ToList());
         }
