@@ -96,7 +96,7 @@ namespace Bank.FrontEnd.Controllers
                 TransactionDate = DateTime.Now
                
             };
-            ViewBag.Accounts = vm.Accounts;
+            ViewBag.Accounts = vm.Accounts.ToList();
             return View(vm);
         }
 
