@@ -4,14 +4,16 @@ using Bank.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bank.FrontEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210119150721_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,9 +184,6 @@ namespace Bank.FrontEnd.Migrations
                     b.Property<int>("PeriodicTransactionFrequentyDays")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
                     b.Property<float?>("TransactionAmount")
                         .IsRequired()
                         .HasColumnType("real");
@@ -199,50 +198,6 @@ namespace Bank.FrontEnd.Migrations
                     b.HasIndex("IdentityHolderId");
 
                     b.ToTable("Transactions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AccountFrom = "Jaap",
-                            AccountTo = "Piet",
-                            CreationDate = new DateTime(2021, 1, 21, 14, 17, 37, 453, DateTimeKind.Local).AddTicks(458),
-                            Frequenty = 0,
-                            IsPeriodic = false,
-                            NextPayment = new DateTime(2021, 1, 21, 14, 17, 37, 453, DateTimeKind.Local).AddTicks(1772),
-                            PeriodicTransactionFrequentyDays = 0,
-                            Status = 0,
-                            TransactionAmount = 50f,
-                            TransactionDate = new DateTime(2021, 1, 21, 14, 17, 37, 450, DateTimeKind.Local).AddTicks(7590)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AccountFrom = "Klaas",
-                            AccountTo = "Henk",
-                            CreationDate = new DateTime(2021, 1, 21, 14, 27, 37, 453, DateTimeKind.Local).AddTicks(2262),
-                            Frequenty = 0,
-                            IsPeriodic = false,
-                            NextPayment = new DateTime(2021, 1, 21, 14, 27, 37, 453, DateTimeKind.Local).AddTicks(2294),
-                            PeriodicTransactionFrequentyDays = 0,
-                            Status = 0,
-                            TransactionAmount = 75f,
-                            TransactionDate = new DateTime(2021, 1, 21, 14, 27, 37, 453, DateTimeKind.Local).AddTicks(2212)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AccountFrom = "Joop",
-                            AccountTo = "Henny",
-                            CreationDate = new DateTime(2021, 1, 21, 14, 37, 37, 453, DateTimeKind.Local).AddTicks(2311),
-                            Frequenty = 0,
-                            IsPeriodic = false,
-                            NextPayment = new DateTime(2021, 1, 21, 14, 37, 37, 453, DateTimeKind.Local).AddTicks(2315),
-                            PeriodicTransactionFrequentyDays = 0,
-                            Status = 0,
-                            TransactionAmount = 100f,
-                            TransactionDate = new DateTime(2021, 1, 21, 14, 37, 37, 453, DateTimeKind.Local).AddTicks(2307)
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
