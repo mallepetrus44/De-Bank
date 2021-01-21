@@ -22,10 +22,12 @@ namespace Bank.DAL.Models
         //[Required]
         //public Guid IdentityHolderID { get; set; }
 
+        [Display(Name = "Accountnummer")]
         public string AccountNumber { get; set; }
-
+        [Display(Name = "Accountblokkade")]
         public bool AccountLock { get; set; }
 
+        [Display(Name = "Saldo")]
         [DataType(DataType.Currency)]
         public float? AccountBalance { get; set; }
 
@@ -34,6 +36,7 @@ namespace Bank.DAL.Models
         public float? AccountMinimum { get; set; }
 
         [Required]
+        [Display(Name = "Soort rekening")]
         public AccountType AccountType { get; set; }
 
         public virtual IdentityHolder IdentityHolder { get; set; }
