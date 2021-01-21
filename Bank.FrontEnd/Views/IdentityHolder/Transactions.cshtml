@@ -58,9 +58,9 @@
                         @Html.DisplayFor(modelItem => item.NextPayment)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        @Html.ActionLink("Edit", "Edit", new { Controller = "Transaction", Area = "Edit", id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { Controller = "Transaction", Area = "Details", id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { Controller = "Transaction", Area = "Delete", id = item.Id })
                     </td>
                 </tr>
             }
