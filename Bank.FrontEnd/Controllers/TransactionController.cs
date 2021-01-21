@@ -43,24 +43,43 @@ namespace Bank.FrontEnd.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> IndexAdmin(string search, string searchBy)
+        public async Task<IActionResult> IndexAdmin(string search, string sortOrder)
         {
+
             ViewData["Gettransactiondetails"] = search;
+            ViewData["AccountFromSort"] = sortOrder == "AccountFrom" ? "AccountFrom desc" : "AccountFrom";
+            ViewData["AccountToSort"] = sortOrder == "AccountTo" ? "AccountTo desc" : "AccountTo";
 
             var query = from x in _context.Transactions select x;
 
-            //if (searchBy == "positief")
-            //{
-            //    query = query.Where(x => x.TransactionDate < (Convert.ToInt32(search)));
-            //}
+            switch (sortOrder)
+            {
+                case "AccountFrom":
+                    query = query.OrderBy(x => x.AccountFrom);
+                    break;
+                case "AccountTo":
+                    query = query.OrderBy(x => x.AccountTo);
+                    break;
+                case "AccountFrom desc":
+                    query = query.OrderByDescending(x => x.AccountFrom);
+                    break;
+                case "AccountTo desc":
+                    query = query.OrderByDescending(x => x.AccountTo);
+                    break;
+                default:
+                    query = query.OrderByDescending(x => x.Id);
+                    break;
+            }
+
 
             if (!String.IsNullOrEmpty(search))
             {
-                query = query.Where(x => x.TransactionDate > (DateTime.Now.AddSeconds(- (Convert.ToInt32(search)))));
+                query = query.Where(x => x.CreationDate > (DateTime.Now.AddSeconds(-(Convert.ToInt32(search)))));
+                return View(query.AsNoTracking().ToList());
             }
 
-            return View(query.AsNoTracking().ToList());
 
+            return View(query.AsNoTracking().ToList());
         }
 
         // GET: Transaction/Details/5
