@@ -114,6 +114,8 @@ namespace De_Bank.Logic
             return AllTransActions.ToList();
         }
 
+        
+
 
         /// <summary>
         ///                                             Probeerseltje!!!

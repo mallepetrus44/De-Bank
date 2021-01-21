@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bank.FrontEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210119150721_init")]
-    partial class init
+    [Migration("20210121091318_ini4")]
+    partial class ini4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -182,6 +182,9 @@ namespace Bank.FrontEnd.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("PeriodicTransactionFrequentyDays")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<float?>("TransactionAmount")

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bank.FrontEnd.Migrations
 {
-    public partial class init : Migration
+    public partial class ini4 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -235,6 +235,7 @@ namespace Bank.FrontEnd.Migrations
                     PeriodicTransactionFrequentyDays = table.Column<int>(nullable: false),
                     Frequenty = table.Column<int>(nullable: false),
                     NextPayment = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
                     AccountId = table.Column<int>(nullable: true),
                     IdentityHolderId = table.Column<string>(nullable: true)
                 },

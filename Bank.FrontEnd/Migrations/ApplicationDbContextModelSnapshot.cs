@@ -182,6 +182,9 @@ namespace Bank.FrontEnd.Migrations
                     b.Property<int>("PeriodicTransactionFrequentyDays")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<float?>("TransactionAmount")
                         .IsRequired()
                         .HasColumnType("real");

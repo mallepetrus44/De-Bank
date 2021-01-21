@@ -84,11 +84,20 @@ namespace Bank.FrontEnd.Controllers
         // GET: Transaction/Create
         public IActionResult Create()
         {
-            Transaction transaction = new Transaction
+            //get alle accounts van gebruiker
+            var vm = new ListAndSearchVM();
+
+            vm.Accounts = new List<Account>();
+
+            vm.Accounts = _context.Accounts.Where(a => a.IdentityHolder.Email == User.Identity.Name).ToList();
+
+            vm.Transaction = new Transaction
             {
                 TransactionDate = DateTime.Now
+               
             };
-            return View(transaction);
+            ViewBag.Accounts = vm.Accounts;
+            return View(vm);
         }
 
         // POST: Transaction/Create
@@ -131,10 +140,25 @@ namespace Bank.FrontEnd.Controllers
                     TransactionDate = transaction.TransactionDate,
                     CreationDate = DateTime.Now
                 };
-
+                
                 if (ModelState.IsValid)
                 {
-                    CorrectedTransaction.Status = Status.Uitgevoerd;
+                    var x = await Task.Run(() => CanMakeTransaction(CorrectedTransaction));
+                    
+                    if (x)
+                    {
+                        //Account acFrom = _context.Accounts.Where(u => u.AccountNumber == CorrectedTransaction.AccountFrom).FirstOrDefault();
+                        //Account acTo = _context.Accounts.Where(u => u.AccountNumber == transaction.AccountTo).FirstOrDefault();
+
+                        //acFrom.AccountBalance -= CorrectedTransaction.TransactionAmount;
+                        //acTo.AccountBalance += CorrectedTransaction.TransactionAmount;
+
+                        CorrectedTransaction.Status = Status.Uitgevoerd;
+                        _context.Transactions.Add(CorrectedTransaction);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
+                    CorrectedTransaction.Status = Status.Afgekeurd_Anders;
                     _context.Transactions.Add(CorrectedTransaction);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -144,6 +168,13 @@ namespace Bank.FrontEnd.Controllers
             return Redirect("Error");
 
         }
+
+        private bool CanMakeTransaction(Transaction correctedTransaction)
+        {
+
+            return true;
+        }
+
         // GET: Transaction/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
